@@ -77,9 +77,6 @@ identify_ouuids <- function(username, password,
 
   check_internet()
 
-  package_check('httr')
-  package_check('jsonlite')
-
   if(missing(username))
     username <- datim_user()
 
@@ -148,9 +145,6 @@ identify_levels <- function(username, password,
                             baseurl = "https://final.datim.org/"){
 
   check_internet()
-
-  package_check('httr')
-  package_check('jsonlite')
 
   if(missing(username))
     username <- datim_user()
@@ -269,9 +263,6 @@ get_orguids <-
            username = NULL,
            password = NULL,
            baseurl = "https://final.datim.org/"){
-
-    package_check('httr')
-    package_check('jsonlite')
 
     # Params
     lvl <- {{level}}

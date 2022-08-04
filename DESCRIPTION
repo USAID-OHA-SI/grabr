@@ -1,55 +1,53 @@
-Package: glamr
+Package: grabr
 Type: Package
-Title: SI Utilities Package
-Version: 1.0.5
+Title: OHA/SI APIs Package
+Version: 1.0.0
 Authors@R: c(
     person("Aaron", "Chafetz", ,"achafetz@usaid.gov", c("aut", "cre")),
     person("Tim", "Essam", ,"tessam@usaid.gov", c("aut")),
-    person("Baboyma", "Kagniniwa", , "bkagniniwa@usaid.gov", c("aut")),
-   person("Benjamin", "Kasdan", , "bkasdan@usaid.gov", c("aut"))
+    person("Baboyma", "Kagniniwa", , "bkagniniwa@usaid.gov", c("aut"))
    )
-Description: Provides a series of base functions useful to the GH OHA SI team. This
-    includes project setup, pulling from DATIM, and key functions for working with the MSD.
+Description: Provides a series of base functions useful to the GH OHA SI team. 
+  These function extend the utility functions in glamr, focusing primarily on 
+  API utility functions.
 License: MIT + file LICENSE
-URL: https://github.com/USAID-OHA-SI/glamr
-BugReports: https://github.com/USAID-OHA-SI/glamr/issues
+URL: https://github.com/USAID-OHA-SI/grabr
+BugReports: https://github.com/USAID-OHA-SI/grabr/issues
 Encoding: UTF-8
 LazyData: true
 RoxygenNote: 7.1.2
 Imports: 
     aws.s3,
     crayon,
+    curl,
     dplyr,
     glue,
     googledrive,
+    httr,
+    jsonlite,
     lubridate,
     magrittr,
     purrr,
+    readxl,
+    rvest,
     stringr,
     tools,
     tidyr,
     usethis,
-    utils
+    utils,
+    xml2
 Suggests: 
-    curl,
     fs,
     zip,
-    httr,
     googlesheets4,
     janitor,
-    jsonlite,
     keyring,
-    keyringr,
     knitr,
     plyr,
     rmarkdown,
-    readxl,
-    rvest,
     testthat (>= 2.1.0),
     tibble,
-    xml2,
-    vroom,
-    countrycode
+    vroom
 VignetteBuilder: knitr
 Depends: 
     R (>= 2.10)
