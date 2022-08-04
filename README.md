@@ -1,9 +1,7 @@
 <!-- badges: start -->
 <!-- badges: end -->
 
-<img src='man/figures/logo.png' align="right" height="120" />
-
-# grabr
+# grabr <img src="man/figures/logo.png" align="right" height="120" />
 OHA/SI API package
 
 ## Overview
