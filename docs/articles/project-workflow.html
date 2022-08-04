@@ -5,7 +5,7 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Project Workflow • glamr</title>
+<title>Project Workflow • grabr</title>
 <!-- favicons --><link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
 <link rel="icon" type="image/png" sizes="32x32" href="../favicon-32x32.png">
 <link rel="apple-touch-icon" type="image/png" sizes="180x180" href="../apple-touch-icon.png">
@@ -40,8 +40,8 @@
         <span class="icon-bar"></span>
       </button>
       <span class="navbar-brand">
-        <a class="navbar-link" href="../index.html">glamr</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.0.5</span>
+        <a class="navbar-link" href="../index.html">grabr</a>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.0.0</span>
       </span>
     </div>
 
@@ -57,7 +57,7 @@
   <a href="../reference/index.html">Reference</a>
 </li>
 <li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Articles
      
     <span class="caret"></span>
@@ -80,7 +80,7 @@
       </ul>
 <ul class="nav navbar-nav navbar-right">
 <li>
-  <a href="https://github.com/USAID-OHA-SI/glamr/" class="external-link">
+  <a href="https://github.com/USAID-OHA-SI/grabr/" class="external-link">
     <span class="fab fa-github fa-lg"></span>
      
   </a>
@@ -101,7 +101,7 @@
       <h1 data-toc-skip>Project Workflow</h1>
             
       
-      <small class="dont-index">Source: <a href="https://github.com/USAID-OHA-SI/glamr/blob/HEAD/vignettes/project-workflow.Rmd" class="external-link"><code>vignettes/project-workflow.Rmd</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/USAID-OHA-SI/grabr/blob/HEAD/vignettes/project-workflow.Rmd" class="external-link"><code>vignettes/project-workflow.Rmd</code></a></small>
       <div class="hidden name"><code>project-workflow.Rmd</code></div>
 
     </div>
@@ -171,14 +171,15 @@ us with.</p>
 sub-function.</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">si_setup</span>
-<span class="co">#&gt; function(){</span>
-<span class="co">#&gt;   folder_setup()</span>
-<span class="co">#&gt;   setup_gitignore()</span>
-<span class="co">#&gt;   setup_readme()</span>
+<span class="co">#&gt; function () </span>
+<span class="co">#&gt; {</span>
+<span class="co">#&gt;     folder_setup()</span>
+<span class="co">#&gt;     setup_gitignore()</span>
+<span class="co">#&gt;     setup_readme()</span>
 <span class="co">#&gt; }</span>
-<span class="co">#&gt; &lt;bytecode: 0x0000000021c30e60&gt;</span>
+<span class="co">#&gt; &lt;bytecode: 0x0000000021be7fe0&gt;</span>
 <span class="co">#&gt; &lt;environment: namespace:glamr&gt;</span></code></pre></div>
-<p>The first one, <code><a href="../reference/folder_setup.html">folder_setup()</a></code> initiates the main folders
+<p>The first one, <code><a href="https://rdrr.io/pkg/glamr/man/folder_setup.html" class="external-link">folder_setup()</a></code> initiates the main folders
 we use for our work:</p>
 <ul>
 <li>Data - where any raw/input data (<strong>xlsx/csv/rds</strong>)
@@ -203,16 +204,16 @@ relate to the process or are final outputs</li>
 report</li>
 </ul>
 <p>If you clone from GitHub not all the folders may exist there, so we
-recommend running <code><a href="../reference/folder_setup.html">folder_setup()</a></code> on its own to establish
+recommend running <code><a href="https://rdrr.io/pkg/glamr/man/folder_setup.html" class="external-link">folder_setup()</a></code> on its own to establish
 the same organization on your local machine. The reason we have created
 this into a function is to ensure uniformity across our projects and
 know what to expect when we pick up someone else’s work (or our own work
 from the distant past).</p>
-<p>The next function that is run is <code><a href="../reference/setup_gitignore.html">setup_gitignore()</a></code>,
+<p>The next function that is run is <code><a href="https://rdrr.io/pkg/glamr/man/setup_gitignore.html" class="external-link">setup_gitignore()</a></code>,
 which creates a <code>.gitignore</code> file in your project. The
 primary purpose of this file is to ensure that our data and outputs are
 not being published to the web. By default after running
-<code><a href="../reference/si_setup.html">si_setup()</a></code> most data formats/folders will be kept from
+<code><a href="https://rdrr.io/pkg/glamr/man/si_setup.html" class="external-link">si_setup()</a></code> most data formats/folders will be kept from
 being published. Below is what the <code>.gitignore</code> file will
 look like.</p>
 <div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>  <span class="co">#R basics</span></span>
@@ -237,7 +238,7 @@ look like.</p>
 <span id="cb6-20"><a href="#cb6-20" aria-hidden="true" tabindex="-1"></a>  GIS<span class="sc">/</span><span class="er">*</span></span>
 <span id="cb6-21"><a href="#cb6-21" aria-hidden="true" tabindex="-1"></a>  Images<span class="sc">/</span><span class="er">*</span></span>
 <span id="cb6-22"><a href="#cb6-22" aria-hidden="true" tabindex="-1"></a>  Graphics<span class="sc">/</span><span class="er">*</span></span></code></pre></div>
-<p>And the last component from <code><a href="../reference/si_setup.html">si_setup()</a></code> is to add a
+<p>And the last component from <code><a href="https://rdrr.io/pkg/glamr/man/si_setup.html" class="external-link">si_setup()</a></code> is to add a
 standard USAID disclaimer to your project’s <code>README.md</code> file
 (and creates this file if its missing).</p>
 <p>From a project standpoint, now you’re good to go.</p>
@@ -263,22 +264,22 @@ the file paths, it just works.</p>
 store all the relevant paths (you can ignore any that aren’t relevant to
 you).</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="../reference/set_paths.html">set_paths</a></span><span class="op">(</span>folderpath_msd <span class="op">=</span> <span class="st">"~/Documents/Data"</span>,
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/pkg/glamr/man/set_paths.html" class="external-link">set_paths</a></span><span class="op">(</span>folderpath_msd <span class="op">=</span> <span class="st">"~/Documents/Data"</span>,
   folderpath_datim <span class="op">=</span>  <span class="st">"~/Documents/DATIM"</span>,
   folderpath_downloads <span class="op">=</span>  <span class="st">"~/Downloads"</span><span class="op">)</span></code></pre></div>
 <p>Running this will open your <code>.Rprofile</code> and you’ll be
 prompted to paste the pre-copied code into the <code>.Rprofile</code>
 save and restart your session.</p>
-<p>With that stored, you can use <code><a href="../reference/si_path.html">si_path()</a></code> to return the
+<p>With that stored, you can use <code><a href="https://rdrr.io/pkg/glamr/man/si_path.html" class="external-link">si_path()</a></code> to return the
 path to your MSD folder (as the default) and then use another
-<code>glamr</code> function, <code><a href="../reference/return_latest.html">return_latest()</a></code>, which looks
+<code>glamr</code> function, <code><a href="https://rdrr.io/pkg/glamr/man/return_latest.html" class="external-link">return_latest()</a></code>, which looks
 in the provide folder path for the lastest version of a file that
 matches the pattern you provided. In this case, we can pass in that we
 want the last OUxIM MSD and it will return the file path which we can
 pass into <code><a href="https://readr.tidyverse.org/reference/read_rds.html" class="external-link">readr::read_rds()</a></code></p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">df</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/si_path.html">si_path</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span>
-  <span class="fu"><a href="../reference/return_latest.html">return_latest</a></span><span class="op">(</span><span class="st">"OU_IM_FY19"</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> 
+<code class="sourceCode R"><span class="va">df</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/glamr/man/si_path.html" class="external-link">si_path</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span>
+  <span class="fu"><a href="https://rdrr.io/pkg/glamr/man/return_latest.html" class="external-link">return_latest</a></span><span class="op">(</span><span class="st">"OU_IM_FY19"</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> 
   <span class="fu">readr</span><span class="fu">::</span><span class="fu"><a href="https://readr.tidyverse.org/reference/read_rds.html" class="external-link">read_rds</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
 </div>
   </div>
@@ -293,7 +294,7 @@ pass into <code><a href="https://readr.tidyverse.org/reference/read_rds.html" cl
 
       <footer><div class="copyright">
   <p></p>
-<p>Developed by Aaron Chafetz, Tim Essam, Baboyma Kagniniwa, Benjamin Kasdan.</p>
+<p>Developed by Aaron Chafetz, Tim Essam, Baboyma Kagniniwa.</p>
 </div>
 
 <div class="pkgdown">
