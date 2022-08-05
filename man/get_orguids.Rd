@@ -6,8 +6,8 @@
 \usage{
 get_orguids(
   level = 3,
-  username = NULL,
-  password = NULL,
+  username,
+  password,
   baseurl = "https://final.datim.org/"
 )
 }

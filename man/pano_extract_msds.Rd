@@ -9,9 +9,9 @@ pano_extract_msds(
   items = "mer",
   archive = FALSE,
   dest_path = NULL,
-  username = NULL,
-  password = NULL,
-  base_url = NULL
+  username,
+  password,
+  base_url = "https://pepfar-panorama.org"
 )
 }
 \arguments{

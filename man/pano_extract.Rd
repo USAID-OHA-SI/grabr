@@ -10,9 +10,9 @@ pano_extract(
   fiscal_year = 2021,
   quarter = 3,
   unpack = FALSE,
-  username = NULL,
-  password = NULL,
-  base_url = NULL
+  username,
+  password,
+  base_url = "https://pepfar-panorama.org"
 )
 }
 \arguments{

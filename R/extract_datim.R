@@ -16,16 +16,12 @@
 #' }
 #'
 datim_dimensions <- function(url = "https://final.datim.org/api/dimensions",
-                             username = NULL,
-                             password = NULL,
+                             username,
+                             password,
                              var = NULL) {
 
   # datim credentials
-  if (missing(username))
-    username <-glamr::datim_user()
-
-  if (missing(password))
-    password <-glamr::datim_pwd()
+  accnt <- lazy_secrets("datim", username, password)
 
   # paging
   if (!stringr::str_detect(url, "paging"))
@@ -33,7 +29,7 @@ datim_dimensions <- function(url = "https://final.datim.org/api/dimensions",
 
   # Query datim
   dims <- url %>%
-    datim_execute_query(username, password, flatten = TRUE) %>%
+    datim_execute_query(accnt$username, accnt$password, flatten = TRUE) %>%
     purrr::pluck("dimensions") %>%
     tibble::as_tibble() %>%
     janitor::clean_names() %>%
@@ -64,22 +60,18 @@ datim_dimensions <- function(url = "https://final.datim.org/api/dimensions",
 #'
 datim_dimension <- function(name,
                             url = "https://final.datim.org/api/dimensions",
-                            username = NULL,
-                            password = NULL) {
+                            username,
+                            password) {
 
   dim_id <- NULL
 
   # datim credentials
-  if (missing(username))
-    username <-glamr::datim_user()
-
-  if (missing(password))
-    password <-glamr::datim_pwd()
+  accnt <- lazy_secrets("datim", username, password)
 
   # Query dimensions
   df_dims <- datim_dimensions(url = url,
-                              username = username,
-                              password = password)
+                              username = accnt$username,
+                              password = accnt$password)
 
   if (base::is.null(df_dims) | base::nrow(df_dims) == 0 | name %ni% df_dims$dimension) {
     base::message(crayon::red(glue::glue("There is no '{name}' dimension. Check spelling.")))
@@ -118,15 +110,11 @@ datim_dim_items <- function(dimension,
                             var = NULL,
                             fields = NULL,
                             url = "https://final.datim.org/api/dimensions",
-                            username = NULL,
-                            password = NULL){
+                            username,
+                            password){
 
   # datim credentials
-  if (missing(username))
-    username <-glamr::datim_user()
-
-  if (missing(password))
-    password <-glamr::datim_pwd()
+  accnt <- lazy_secrets("datim", username, password)
 
   # clean up url / paging
   url <- stringr::str_remove(url, "\\?.*")
@@ -134,8 +122,8 @@ datim_dim_items <- function(dimension,
   # Get dimension id
   dim_id <- datim_dimension(url = url,
                             name = dimension,
-                            username = username,
-                            password = password)
+                            username = accnt$username,
+                            password = accnt$password)
 
   # Update url with id and paging
   url_dims <- glue::glue("{url}/{dim_id}/items?paging=false")
@@ -149,7 +137,7 @@ datim_dim_items <- function(dimension,
 
   # Get items
   items <- url_dims %>%
-    datim_execute_query(username, password, flatten = TRUE)
+    datim_execute_query(accnt$username, accnt$password, flatten = TRUE)
 
   items <- items %>%
     purrr::pluck("items") %>%
@@ -204,17 +192,13 @@ datim_dim_item <- function(dimension, name,
   item_id <- NULL
 
   # datim credentials
-  if (missing(username))
-    username <-glamr::datim_user()
-
-  if (missing(password))
-    password <-glamr::datim_pwd()
+  accnt <- lazy_secrets("datim", username, password)
 
   # Get dimension's items
   items <- datim_dim_items(dimension = dimension,
                            url = url,
-                           username = username,
-                           password = password)
+                           username = accnt$username,
+                           password = accnt$password)
 
   if (is.null(items) || nrow(items) == 0) {
     base::message(glue::glue("Dimension: {dimension}, response is null or empty"))
@@ -269,15 +253,11 @@ datim_dim_item <- function(dimension, name,
 datim_dim_url <- function(dimension,
                           items = NULL,
                           url = "https://final.datim.org/api/dimensions",
-                          username = NULL,
-                          password = NULL) {
+                          username,
+                          password) {
 
   # datim credentials
-  if (missing(username))
-    username <-glamr::datim_user()
-
-  if (missing(password))
-    password <-glamr::datim_pwd()
+  accnt <- lazy_secrets("datim", username, password)
 
   # Query params
   dim_query <- NULL
@@ -286,18 +266,18 @@ datim_dim_url <- function(dimension,
   if (!base::is.null(items)) {
 
     dim_id <- datim_dimension(name = dimension,
-                              url = "https://final.datim.org/api/dimensions",
-                              username = username,
-                              password = password)
+                              url = url,
+                              username = accnt$username,
+                              password = accnt$password)
 
     dim_query <- items %>%
       purrr::map(function(item) {
 
         dim <- datim_dim_item(dimension = dimension,
                               name = item,
-                              url = "https://final.datim.org/api/dimensions",
-                              username = username,
-                              password = password) %>%
+                              url = url,
+                              username = accnt$username,
+                              password = accnt$password) %>%
           base::unlist() %>%
           base::paste(collapse = ';') %>%
           base::paste0("dimension=", dim_id, ":", .)
@@ -316,17 +296,17 @@ datim_dim_url <- function(dimension,
     purrr::map(function(dim) {
 
       dim_id <- datim_dimension(name = dim,
-                                url = "https://final.datim.org/api/dimensions",
-                                username = username,
-                                password = password)
+                                url = url,
+                                username = accnt$username,
+                                password = accnt$password)
 
       dim_items <- datim_dim_items(dim) %>%
         dplyr::pull(item) %>%
         purrr::map(~datim_dim_item(dimension = dim,
                                    name = .x,
-                                   url = "https://final.datim.org/api/dimensions",
-                                   username = username,
-                                   password = password)) %>%
+                                   url = url,
+                                   username = accnt$username,
+                                   password = accnt$password)) %>%
         base::unlist() %>%
         base::paste(collapse = ';') %>%
         base::paste0("dimension=", dim_id, ":", .)
@@ -367,16 +347,12 @@ datim_execute_query <- function(url,
                                 password = NULL,
                                 flatten = FALSE) {
   # datim credentials
-  if (missing(username))
-    username <-glamr::datim_user()
-
-  if (missing(password))
-    password <-glamr::datim_pwd()
+  accnt <- lazy_secrets("datim", username, password)
 
   # Run query
   json <- base::tryCatch({
     url %>%
-      httr::GET(httr::authenticate(username, password)) %>%
+      httr::GET(httr::authenticate(accnt$username, accnt$password)) %>%
       httr::content("text") %>%
       jsonlite::fromJSON(flatten = flatten)
   },
@@ -414,14 +390,10 @@ datim_process_query <- function(url,
                                 password = NULL) {
 
   # datim credentials
-  if (missing(username))
-    username <-glamr::datim_user()
-
-  if (missing(password))
-    password <-glamr::datim_pwd()
+  accnt <- lazy_secrets("datim", username, password)
 
   # run the query
-  res_json <- datim_execute_query(url, username, password)
+  res_json <- datim_execute_query(url, accnt$username, accnt$password)
 
   # check for valid json result
   if ( base::is.null(res_json)) {
@@ -528,11 +500,7 @@ datim_query <-
            verbose = FALSE){
 
     # datim credentials
-    if (missing(username))
-      username <-glamr::datim_user()
-
-    if (missing(password))
-      password <-glamr::datim_pwd()
+    accnt <- lazy_secrets("datim", username, password)
 
     # Notifications
     if (verbose) {
@@ -547,7 +515,7 @@ datim_query <-
     }
 
     # Org OU
-    ou_uid <- get_ouuid(ou, username = username, password = password)
+    ou_uid <- get_ouuid(ou, username = accnt$username, password = accnt$password)
 
     if (base::is.null(ou_uid)) {
       base::message(crayon::red("OU/Country [{ou}] is invalid or unavailable"))
@@ -556,8 +524,8 @@ datim_query <-
 
     # Org Level
     org_lvl <- get_ouorglevel(ou, org_type = level,
-                              username = username,
-                              password = password)
+                              username = accnt$username,
+                              password = accnt$password)
 
     if (base::is.null(org_lvl)) {
       base::message(crayon::red("Org level [{level}] is invalid or unavailable"))
@@ -711,15 +679,11 @@ datim_pops <- function(ou,
                        level = "country",
                        fy = NULL,
                        hierarchy = FALSE,
-                       username = NULL,
-                       password = NULL) {
+                       username,
+                       password) {
 
   # datim credentials
-  if (missing(username))
-    username <-glamr::datim_user()
-
-  if (missing(password))
-    password <-glamr::datim_pwd()
+  accnt <- lazy_secrets("datim", username, password)
 
   # level
   lvl <- level %>% stringr::str_to_lower()
@@ -758,8 +722,8 @@ datim_pops <- function(ou,
                 disaggs = "Age/Sex/HIVStatus",
                 dimensions = c("Sex", "Age: Semi-fine age"),
                 hierarchy = hierarchy,
-                username = username,
-                password = password)
+                username = accnt$username,
+                password = accnt$password)
 
   if (base::is.null(df_plhiv)) {
     df_plhiv <- tibble::tibble()
@@ -869,14 +833,10 @@ extract_datim <- function(url, username, password) {
   check_internet()
 
   # datim credentials
-  if (missing(username))
-    username <-glamr::datim_user()
-
-  if (missing(password))
-    password <-glamr::datim_pwd()
+  accnt <- lazy_secrets("datim", username, password)
 
   json <- url %>%
-    httr::GET(httr::authenticate(username,password)) %>%
+    httr::GET(httr::authenticate(accnt$username,accnt$password)) %>%
     httr::content("text") %>%
     jsonlite::fromJSON()
 

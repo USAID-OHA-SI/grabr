@@ -25,6 +25,7 @@ Imports:
     httr,
     janitor,
     jsonlite,
+    keyring,
     lubridate,
     magrittr,
     plyr,

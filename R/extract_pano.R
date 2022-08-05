@@ -14,30 +14,21 @@
 #'   s <- pano_session("<my-pano-user>", "<my-password>")
 #' }
 #'
-pano_session <- function(username = NULL,
-                         password = NULL,
-                         base_url = NULL) {
+pano_session <- function(username,
+                         password,
+                         base_url = "https://pepfar-panorama.org") {
 
-  if (base::is.null(base_url)) {
-    base_url <- "https://pepfar-panorama.org"
-  }
 
   login_url <- base::paste0(base_url, "/forms/mstrauth/")
 
   # Check user's credentials
-  if (base::is.null(username)) {
-    username <- pano_user()
-  }
-
-  if (base::is.null(password)) {
-    password <- pano_pwd()
-  }
+  accnt <- lazy_secrets("pano", username, password)
 
   # Data for post submission
   login_body <- base::list(
     "project" = "PEPFAR",
-    "username" = username,
-    "pw" = password
+    "username" = accnt$username,
+    "pw" = accnt$password
   )
 
   login_req <- httr::POST(url = login_url, body = login_body)
@@ -324,14 +315,9 @@ pano_extract <- function(item = "mer",
                          fiscal_year = 2021,
                          quarter = 3,
                          unpack = FALSE,
-                         username = NULL,
-                         password = NULL,
-                         base_url = NULL) {
-
-  # validation
-  if (base::is.null(base_url)) {
-    base_url <- "https://pepfar-panorama.org"
-  }
+                         username,
+                         password,
+                         base_url = "https://pepfar-panorama.org") {
 
   # Links
   data_path <- "/forms/downloads"
@@ -357,9 +343,11 @@ pano_extract <- function(item = "mer",
     base::stop("INPUT - Invalid input for version")
   }
 
+  accnt <- lazy_secrets("pano", username, password)
+
   # Session
-  sess <- pano_session(username = username,
-                       password = password,
+  sess <- pano_session(username = accnt$username,
+                       password = accnt$password,
                        base_url = base_url)
 
   # Extract Main directories
@@ -591,26 +579,15 @@ pano_extract_msds <- function(operatingunit,
                               items = "mer",
                               archive = FALSE,
                               dest_path = NULL,
-                              username = NULL,
-                              password = NULL,
-                              base_url = NULL) {
+                              username,
+                              password,
+                              base_url = "https://pepfar-panorama.org") {
 
   # URL
-  if (is.null(base_url))
-    base_url <- "https://pepfar-panorama.org"
-
   url <- base::file.path(base_url, "forms/downloads")
 
   # Pano Access
-  user <- username
-
-  if (is.null(user))
-    user <- pano_user()
-
-  pass <- password
-
-  if (is.null(pass))
-    pass <- pano_pwd()
+  accnt <- lazy_secrets("pano", username, password)
 
   # Destination Path
   path_msd <- si_path("path_msd")
@@ -619,8 +596,8 @@ pano_extract_msds <- function(operatingunit,
     path_msd <- dest_path
   }
 
-  sess <- pano_session(username = user,
-                       password = pass,
+  sess <- pano_session(username = accnt$username,
+                       password = accnt$password,
                        base_url = base_url)
 
   # IDENTIFY CURRENT PERIOD

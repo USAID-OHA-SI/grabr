@@ -9,8 +9,8 @@ datim_dim_items(
   var = NULL,
   fields = NULL,
   url = "https://final.datim.org/api/dimensions",
-  username = NULL,
-  password = NULL
+  username,
+  password
 )
 }
 \arguments{

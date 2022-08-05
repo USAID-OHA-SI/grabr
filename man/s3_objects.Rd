@@ -9,8 +9,8 @@ s3_objects(
   prefix = "ddc/uat",
   n = 1000,
   unpack_keys = FALSE,
-  access_key = NULL,
-  secret_key = NULL,
+  access_key,
+  secret_key,
   ...
 )
 }

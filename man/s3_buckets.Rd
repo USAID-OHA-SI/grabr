@@ -4,7 +4,7 @@
 \alias{s3_buckets}
 \title{Get S3 Buckets list}
 \usage{
-s3_buckets(access_key = NULL, secret_key = NULL, ...)
+s3_buckets(access_key, secret_key, ...)
 }
 \arguments{
 \item{access_key}{S3 Access Key ID}

@@ -4,7 +4,7 @@
 \alias{s3_remove}
 \title{Remove objects from S3 bucket}
 \usage{
-s3_remove(objects, bucket, access_key = NULL, secret_key = NULL, ...)
+s3_remove(objects, bucket, access_key, secret_key, ...)
 }
 \arguments{
 \item{objects}{S3 object keys (full path)}

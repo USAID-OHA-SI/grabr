@@ -4,7 +4,7 @@
 \alias{s3_excel_sheets}
 \title{Read sheets from S3 Objects / Excel}
 \usage{
-s3_excel_sheets(bucket, object_key, access_key = NULL, secret_key = NULL)
+s3_excel_sheets(bucket, object_key, access_key, secret_key)
 }
 \arguments{
 \item{bucket}{S3 Bucket}

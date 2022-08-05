@@ -75,17 +75,11 @@ get_outable <- function(username, password, baseurl = "https://final.datim.org/"
 identify_ouuids <- function(username, password,
                             baseurl = "https://final.datim.org/"){
 
-  check_internet()
-
-  if(missing(username))
-    username <-glamr::datim_user()
-
-  if(missing(password))
-    password <-glamr::datim_pwd()
+  accnt <- lazy_secrets("datim", username , password)
 
   ous <- baseurl %>%
     paste0("api/organisationUnits?filter=level:eq:3") %>%
-    httr::GET(httr::authenticate(username,password)) %>%
+    httr::GET(httr::authenticate(accnt$username, accnt$password)) %>%
     httr::content("text") %>%
     jsonlite::fromJSON(flatten=TRUE) %>%
     purrr::pluck("organisationUnits")
@@ -97,7 +91,7 @@ identify_ouuids <- function(username, password,
   ctrys <- purrr::map_dfr(.x = region_uids,
                           .f = ~ baseurl %>%
                             paste0("api/organisationUnits?filter=level:eq:4&filter=path:like:", .x) %>%
-                            httr::GET(httr::authenticate(username,password)) %>%
+                            httr::GET(httr::authenticate(accnt$username, accnt$password)) %>%
                             httr::content("text") %>%
                             jsonlite::fromJSON(flatten=TRUE) %>%
                             purrr::pluck("organisationUnits") %>%
@@ -144,17 +138,11 @@ identify_ouuids <- function(username, password,
 identify_levels <- function(username, password,
                             baseurl = "https://final.datim.org/"){
 
-  check_internet()
-
-  if(missing(username))
-    username <-glamr::datim_user()
-
-  if(missing(password))
-    password <-glamr::datim_pwd()
+  accnt <- lazy_secrets("datim", username , password)
 
   df_levels <- baseurl %>%
     paste0(.,"api/dataStore/dataSetAssignments/orgUnitLevels") %>%
-    httr::GET(httr::authenticate(username,password)) %>%
+    httr::GET(httr::authenticate(accnt$username, accnt$password)) %>%
     httr::content("text") %>%
     jsonlite::fromJSON(flatten=TRUE) %>%
     purrr::map_dfr(dplyr::bind_rows) %>%
@@ -201,24 +189,18 @@ identify_levels <- function(username, password,
 #'
 get_orguids <-
   function(level = 3,
-           username = NULL,
-           password = NULL,
-           baseurl = "https://final.datim.org/"){
+           username, password, baseurl = "https://final.datim.org/"){
 
     # Params
     lvl <- {{level}}
 
-    user <- base::ifelse(base::is.null({{username}}),
-                         glamr::datim_user(), {{username}})
-
-    pass <- base::ifelse(base::is.null({{password}}),
-                         glamr::datim_pwd(), {{password}})
+    accnt <- lazy_secrets("datim", username , password)
 
     # Query ou
     orgs <- baseurl %>%
       paste0("api/organisationUnits",
              "?filter=level:eq:", lvl) %>%
-      httr::GET(httr::authenticate(user, pass)) %>%
+      httr::GET(httr::authenticate(accnt$username, accnt$pasword)) %>%
       httr::content("text") %>%
       jsonlite::fromJSON(flatten = TRUE) %>%
       purrr::pluck("organisationUnits") %>%
@@ -258,8 +240,8 @@ get_orguids <-
 get_ouorgs <-
   function(ouuid,
            level = 4,
-           username = NULL,
-           password = NULL,
+           username,
+           password,
            baseurl = "https://final.datim.org/"){
 
     # Params
@@ -267,11 +249,7 @@ get_ouorgs <-
 
     lvl <- {{level}}
 
-    user <- base::ifelse(base::is.null({{username}}),
-                         glamr::datim_user(), {{username}})
-
-    pass <- base::ifelse(base::is.null({{password}}),
-                         glamr::datim_pwd(), {{password}})
+    accnt <- lazy_secrets("datim", username , password)
 
     # Query ou
     orgs <- baseurl %>%
@@ -279,7 +257,7 @@ get_ouorgs <-
              "?filter=level:eq:", lvl,
              "&filter=path:like:", uid,
              "&paging=false&format=json") %>%
-      httr::GET(httr::authenticate(user, pass)) %>%
+      httr::GET(httr::authenticate(accnt$username, accnt$password)) %>%
       httr::content("text") %>%
       jsonlite::fromJSON(flatten = TRUE) %>%
       purrr::pluck("organisationUnits")
@@ -323,22 +301,18 @@ get_ouorgs <-
 #'
 get_ouuids <-
   function(add_details = FALSE,
-           username = NULL,
-           password = NULL,
+           username,
+           password,
            baseurl = "https://final.datim.org/"){
 
 
     # Params
-    user <- base::ifelse(base::is.null({{username}}),
-                         glamr::datim_user(), {{username}})
-
-    pass <- base::ifelse(base::is.null({{password}}),
-                         glamr::datim_pwd(), {{password}})
+    accnt <- lazy_secrets("datim", username , password)
 
     # Query ou
     ous <- get_orguids(level = 3,
-                       username = user,
-                       password = pass,
+                       username = accnt$username,
+                       password = accnt$password,
                        baseurl = baseurl) %>%
       dplyr::rename(operatingunit = orgunit)
 
@@ -392,26 +366,20 @@ get_ouuids <-
 #'
 get_ouuid <-
   function(operatingunit,
-           username = NULL,
-           password = NULL,
+           username,
+           password,
            baseurl = "https://final.datim.org/") {
 
     # Params
     ou <- stringr::str_to_upper({{operatingunit}})
 
-    user <- base::ifelse(base::is.null(username),
-                         glamr::datim_user(),
-                         {{username}})
-
-    pass <- base::ifelse(base::is.null(password),
-                         glamr::datim_pwd(),
-                         {{password}})
+    accnt <- lazy_secrets("datim", username , password)
 
     # Get all ou uids
     ous <- get_ouuids(
       add_details = TRUE,
-      username = user,
-      password = pass,
+      username = accnt$username,
+      password = accnt$password,
       baseurl = baseurl) %>%
       dplyr::filter(
         stringr::str_to_upper(operatingunit) == ou |
@@ -463,18 +431,13 @@ get_levels <-
            baseurl = "https://final.datim.org/"){
 
     # Params
-    user <- base::ifelse(base::is.null(username),
-                         glamr::datim_user(),
-                         {{username}})
+    accnt <- lazy_secrets("datim", username , password)
 
-    pass <- base::ifelse(base::is.null(password),
-                         glamr::datim_pwd(),
-                         {{password}})
 
     # Query data
     df_levels <- baseurl %>%
       paste0(.,"api/dataStore/dataSetAssignments/orgUnitLevels") %>%
-      httr::GET(httr::authenticate(user, pass)) %>%
+      httr::GET(httr::authenticate(accnt$username, accnt$password)) %>%
       httr::content("text") %>%
       jsonlite::fromJSON(flatten = TRUE) %>%
       purrr::map_dfr(dplyr::bind_rows) %>%
@@ -525,8 +488,8 @@ get_ouorglevel <-
   function(operatingunit,
            country = NULL,
            org_type = "prioritization",
-           username = NULL,
-           password = NULL,
+           username,
+           p,
            baseurl = "https://final.datim.org/") {
 
     # params
@@ -536,16 +499,10 @@ get_ouorglevel <-
 
     type <- {{org_type}}
 
-    user <- base::ifelse(base::is.null(username),
-                         glamr::datim_user(),
-                         {{username}})
-
-    pass <- base::ifelse(base::is.null(password),
-                         glamr::datim_pwd(),
-                         {{password}})
+    accnt <- lazy_secrets("datim", username , password)
 
     # Levels
-    df_lvls <- get_levels(user, pass, baseurl)
+    df_lvls <- get_levels(accnt$username, accnt$password, baseurl)
 
     # level name
     if (!stringr::str_to_lower(type) %in% base::names(df_lvls)) {
@@ -596,9 +553,12 @@ get_ouorglevel <-
 get_ouorglabel <- function(operatingunit,
                            country = NULL,
                            org_level = 4,
-                           username = NULL,
-                           password = NULL,
+                           username,
+                           password,
                            baseurl = "https://final.datim.org/") {
+
+  accnt <- lazy_secrets("datim", username , password)
+
   # Label
   lbl <- NULL
 
@@ -619,7 +579,7 @@ get_ouorglabel <- function(operatingunit,
   }
 
   # Levels
-  df_lvls <- get_levels(username, password, baseurl) %>%
+  df_lvls <- get_levels(accnt$username, accnt$password, baseurl) %>%
     tidyr::pivot_longer(country:tidyselect::last_col(),
                  names_to = "label",
                  values_to = "level")
@@ -672,8 +632,8 @@ get_ouorglabel <- function(operatingunit,
 #'
 get_ouorguids <-
   function(ouuid, level,
-           username = NULL,
-           password = NULL,
+           username,
+           password,
            baseurl = "https://final.datim.org/") {
 
     # params
@@ -681,19 +641,13 @@ get_ouorguids <-
 
     lvl <- {{level}}
 
-    user <- base::ifelse(base::is.null(username),
-                         glamr::datim_user(),
-                         {{username}})
-
-    pass <- base::ifelse(base::is.null(password),
-                         glamr::datim_pwd(),
-                         {{password}})
+    accnt <- lazy_secrets("datim", username , password)
 
     # Query orgunits
     orgs <- get_ouorgs(ouuid = uid,
                        level = lvl,
-                       username = user,
-                       password = pass,
+                       username = accnt$username,
+                       password = accnt$password,
                        baseurl = baseurl)
 
     # Check data

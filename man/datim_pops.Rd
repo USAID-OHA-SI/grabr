@@ -9,8 +9,8 @@ datim_pops(
   level = "country",
   fy = NULL,
   hierarchy = FALSE,
-  username = NULL,
-  password = NULL
+  username,
+  password
 )
 }
 \arguments{

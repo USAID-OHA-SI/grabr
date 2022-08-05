@@ -7,8 +7,8 @@
 get_ouorgs(
   ouuid,
   level = 4,
-  username = NULL,
-  password = NULL,
+  username,
+  password,
   baseurl = "https://final.datim.org/"
 )
 }

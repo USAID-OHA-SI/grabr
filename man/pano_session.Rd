@@ -4,7 +4,7 @@
 \alias{pano_session}
 \title{Create an active session for PEPFAR Panorama}
 \usage{
-pano_session(username = NULL, password = NULL, base_url = NULL)
+pano_session(username, password, base_url = "https://pepfar-panorama.org")
 }
 \arguments{
 \item{username}{Username for PEPFAR Panorama Account. Recommend using `pano_user()`}

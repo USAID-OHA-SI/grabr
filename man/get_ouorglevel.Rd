@@ -8,8 +8,8 @@ get_ouorglevel(
   operatingunit,
   country = NULL,
   org_type = "prioritization",
-  username = NULL,
-  password = NULL,
+  username,
+  p,
   baseurl = "https://final.datim.org/"
 )
 }

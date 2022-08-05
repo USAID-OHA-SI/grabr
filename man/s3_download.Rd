@@ -4,14 +4,7 @@
 \alias{s3_download}
 \title{Download S3 Objects}
 \usage{
-s3_download(
-  bucket,
-  object,
-  filepath = NULL,
-  access_key = NULL,
-  secret_key = NULL,
-  ...
-)
+s3_download(bucket, object, filepath = NULL, access_key, secret_key, ...)
 }
 \arguments{
 \item{bucket}{S3 Bucket name}

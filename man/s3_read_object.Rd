@@ -4,14 +4,7 @@
 \alias{s3_read_object}
 \title{Read content of S3 Objects}
 \usage{
-s3_read_object(
-  bucket,
-  object,
-  sheet = NULL,
-  access_key = NULL,
-  secret_key = NULL,
-  ...
-)
+s3_read_object(bucket, object, sheet = NULL, access_key, secret_key, ...)
 }
 \arguments{
 \item{bucket}{S3 Bucket name}

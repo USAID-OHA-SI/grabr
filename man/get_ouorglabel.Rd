@@ -8,8 +8,8 @@ get_ouorglabel(
   operatingunit,
   country = NULL,
   org_level = 4,
-  username = NULL,
-  password = NULL,
+  username,
+  password,
   baseurl = "https://final.datim.org/"
 )
 }

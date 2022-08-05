@@ -11,21 +11,17 @@
 #' \dontrun{
 #' s3_buckets() }
 #'
-s3_buckets <- function(access_key = NULL,
-                       secret_key = NULL,
+s3_buckets <- function(access_key,
+                       secret_key,
                        ...) {
 
   # Check keys
-  if (is.null(access_key))
-    access_key = get_s3key("access")
-
-  if (is.null(secret_key))
-    secret_key = get_s3key("secret")
+  accnt <- lazy_secrets("s3", access_key, secret_key)
 
   # Get S3 Buckets as tibble
   aws.s3::bucket_list_df(
-      key = access_key,
-      secret = secret_key,
+      key = accnt$access_key,
+      secret = accnt$secret_key,
       ...
     ) %>%
     dplyr::as_tibble() %>%
@@ -55,24 +51,20 @@ s3_objects <- function(bucket,
                        prefix = "ddc/uat",
                        n = 1000,
                        unpack_keys = FALSE,
-                       access_key = NULL,
-                       secret_key = NULL,
+                       access_key,
+                       secret_key,
                        ...) {
 
   # Check keys
-  if (is.null(access_key))
-    access_key = get_s3key("access")
-
-  if (is.null(secret_key))
-    secret_key = get_s3key("secret")
+  accnt <- lazy_secrets("s3", access_key, secret_key)
 
   # Get & clean objects
   objects <- aws.s3::get_bucket_df(
       bucket = bucket,
       prefix = prefix,
       max = n,
-      key = access_key,
-      secret = secret_key,
+      key = accnt$access_key,
+      secret = accnt$secret_key,
       ...
     ) %>%
     dplyr::as_tibble() %>%
@@ -232,18 +224,14 @@ s3_object_type <- function(object) {
 #'
 s3_excel_sheets <-
   function(bucket, object_key,
-           access_key = NULL,
-           secret_key = NULL) {
+           access_key,
+           secret_key) {
 
     # Notification
     base::print(base::basename(object_key))
 
     # Check keys
-    if (base::is.null(access_key))
-      access_key = get_s3key("access")
-
-    if (base::is.null(secret_key))
-      secret_key = get_s3key("secret")
+    accnt <- lazy_secrets("s3", access_key, secret_key)
 
     # Create excel temp file
     tmpfile <- base::tempfile(fileext = ".xlsx")
@@ -253,8 +241,8 @@ s3_excel_sheets <-
       bucket = bucket,
       object = object_key,
       file = tmpfile,
-      key = access_key,
-      secret = secret_key
+      key = accnt$access_key,
+      secret = accnt$secret_key
     )
 
     # Read sheets from file
@@ -289,16 +277,12 @@ s3_excel_sheets <-
 #'
 s3_read_object <- function(bucket, object,
                            sheet = NULL,
-                           access_key = NULL,
-                           secret_key = NULL,
+                           access_key,
+                           secret_key,
                            ...) {
 
   # Check keys
-  if (is.null(access_key))
-    access_key = get_s3key("access")
-
-  if (is.null(secret_key))
-    secret_key = get_s3key("secret")
+  accnt <- lazy_secrets("s3", access_key, secret_key)
 
   # Object type
   object_type = s3_object_type(object)
@@ -310,8 +294,8 @@ s3_read_object <- function(bucket, object,
   object_raw <- aws.s3::get_object(
     bucket = bucket,
     object = object,
-    key = access_key,
-    secret = secret_key
+    key = accnt$access_key,
+    secret = accnt$secret_key
   )
 
   # Create connection to raw data
@@ -336,8 +320,8 @@ s3_read_object <- function(bucket, object,
       bucket = bucket,
       object = object_key,
       file = tmpfile,
-      key = access_key,
-      secret = secret_key
+      key = accnt$access_key,
+      secret = accnt$secret_key
     )
 
     # Destination file
@@ -411,16 +395,12 @@ s3_read_object <- function(bucket, object,
 s3_download <-
   function(bucket, object,
            filepath = NULL,
-           access_key = NULL,
-           secret_key = NULL,
+           access_key,
+           secret_key,
            ...) {
 
     # Check keys
-    if (is.null(access_key))
-      access_key = get_s3key("access")
-
-    if (is.null(secret_key))
-      secret_key = get_s3key("secret")
+    accnt <- lazy_secrets("s3", access_key, secret_key)
 
     # Notification
     usethis::ui_info("PROCESS - Downloading S3 Object ...")
@@ -437,8 +417,8 @@ s3_download <-
       bucket = bucket,
       object = object,
       file = filepath,
-      key = access_key,
-      secret = secret_key,
+      key = accnt$access_key,
+      secret = accnt$secret_key,
       ...
     )
 
@@ -471,16 +451,12 @@ s3_download <-
 s3_upload <- function(filepath, bucket,
                       prefix = "",
                       object = NULL,
-                      access_key = NULL,
-                      secret_key = NULL,
+                      access_key,
+                      secret_key,
                       ...) {
 
   # Check S3 keys
-  if (is.null(access_key))
-    access_key = get_s3key("access")
-
-  if (is.null(secret_key))
-    secret_key = get_s3key("secret")
+  accnt <- lazy_secrets("s3", access_key, secret_key)
 
   # s3 object: append prefix to file basename
   s3_object <- ifelse(is.null(object),
@@ -493,8 +469,8 @@ s3_upload <- function(filepath, bucket,
     object = s3_object,
     bucket = bucket,
     multipart = TRUE,
-    key = access_key,
-    secret = secret_key,
+    key = accnt$access_key,
+    secret = accnt$secret_key,
     ...
   )
 
@@ -522,23 +498,19 @@ s3_upload <- function(filepath, bucket,
 #'             bucket = "test-bkt")}
 #'
 s3_remove <- function(objects, bucket,
-                      access_key = NULL,
-                      secret_key = NULL,
+                      access_key,
+                      secret_key,
                       ...) {
 
   # Check S3 keys
-  if (is.null(access_key))
-    access_key = get_s3key("access")
-
-  if (is.null(secret_key))
-    secret_key = get_s3key("secret")
+  accnt <- lazy_secrets("s3", access_key, secret_key)
 
   # delete objects from bucket
   aws.s3::delete_object(
     object = objects,
     bucket = bucket,
-    key = get_s3key("access"),
-    secret = get_s3key("secret"),
+    key = accnt$access_key,
+    secret = accnt$secret_key,
     ...
   )
 }

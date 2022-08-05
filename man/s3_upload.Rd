@@ -9,8 +9,8 @@ s3_upload(
   bucket,
   prefix = "",
   object = NULL,
-  access_key = NULL,
-  secret_key = NULL,
+  access_key,
+  secret_key,
   ...
 )
 }

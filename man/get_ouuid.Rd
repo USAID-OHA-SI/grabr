@@ -6,8 +6,8 @@
 \usage{
 get_ouuid(
   operatingunit,
-  username = NULL,
-  password = NULL,
+  username,
+  password,
   baseurl = "https://final.datim.org/"
 )
 }
