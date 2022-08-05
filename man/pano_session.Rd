@@ -21,7 +21,7 @@ Create an active session for PEPFAR Panorama
 }
 \examples{
 \dontrun{
-  library(glamr)
+  library(grabr)
 
   s <- pano_session("<my-pano-user>", "<my-password>")
 }

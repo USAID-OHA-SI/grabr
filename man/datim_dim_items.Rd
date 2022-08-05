@@ -34,7 +34,7 @@ Get PEPFAR/DATIM Dimension Items
 }
 \examples{
 \dontrun{
-  library(glamr)
+  library(grabr)
 
   datim_dim_items(dimension = "Funding Agency")
   datim_dim_items(dimension = "Funding Agency", var = "item")

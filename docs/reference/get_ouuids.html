@@ -38,12 +38,6 @@
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu"><li>
-      <a href="../articles/credential-management.html">Credential Management</a>
-    </li>
-    <li>
-      <a href="../articles/project-workflow.html">Project Workflow</a>
-    </li>
-    <li>
       <a href="../articles/data-extraction-from-panorama.html">Data Extraction from Panorama</a>
     </li>
   </ul></li>
@@ -88,9 +82,9 @@
     <dl><dt>add_details</dt>
 <dd><p>Add countries for regional ou, default is false</p></dd>
 <dt>username</dt>
-<dd><p>DATIM Username, recommend using `datim_user()`</p></dd>
+<dd><p>DATIM Username, recommend using glamr::datim_user()`</p></dd>
 <dt>password</dt>
-<dd><p>DATIM password, recommend using `datim_pwd()`</p></dd>
+<dd><p>DATIM password, recommend using glamr::datim_pwd()`</p></dd>
 <dt>baseurl</dt>
 <dd><p>base url for the API, default = https://final.datim.org/</p></dd>
 </dl></div>
@@ -102,7 +96,7 @@
     <div id="ref-examples">
     <h2>Examples</h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span>
-<span class="r-in"> <span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/USAID-OHA-SI/glamr" class="external-link">glamr</a></span><span class="op">)</span></span>
+<span class="r-in"> <span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/USAID-OHA-SI/grabr" class="external-link">grabr</a></span><span class="op">)</span></span>
 <span class="r-in"></span>
 <span class="r-in"> <span class="co"># OU Org UIDs</span></span>
 <span class="r-in"> <span class="va">ous</span> <span class="op">&lt;-</span> <span class="fu">get_ouuids</span><span class="op">(</span><span class="op">)</span></span>

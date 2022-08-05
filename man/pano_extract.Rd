@@ -44,7 +44,7 @@ This function combines `pano_session()`, `pano_content()`, `pano_elements()`, an
 \examples{
 \dontrun{
   library(tidyverse)
-  library(glamr)
+  library(grabr)
 
   pano_extract(item = "mer")
 }

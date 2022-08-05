@@ -14,9 +14,9 @@ get_ouuid(
 \arguments{
 \item{operatingunit}{Operatingunit name}
 
-\item{username}{Datim Account username, recommend using `datim_user()`}
+\item{username}{Datim Account username, recommend using glamr::datim_user()`}
 
-\item{password}{Datim Account Password, recommend using `datim_pwd()`}
+\item{password}{Datim Account Password, recommend using glamr::datim_pwd()`}
 }
 \value{
 uid
@@ -26,7 +26,7 @@ Get Operatingunit / Country Org UID
 }
 \examples{
 \dontrun{
-  library(glamr)
+  library(grabr)
 
   # get orgunit for specific OU/Country: kenya
   get_ouuid(operatingunit = "Kenya")

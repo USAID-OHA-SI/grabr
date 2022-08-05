@@ -11,9 +11,9 @@ get_levels(
 )
 }
 \arguments{
-\item{username}{DATIM username, recommed using `datim_user()`}
+\item{username}{DATIM username, recommed using glamr::datim_user()`}
 
-\item{password}{DATIM password, recommend using `datim_pwd()`}
+\item{password}{DATIM password, recommend using glamr::datim_pwd()`}
 
 \item{baseurl}{base API url, default = https://final.datim.org/}
 }
@@ -24,11 +24,11 @@ df
 Get all orgunits levels in org hierarchy
 }
 \note{
-Similar to `glamr::identify_levels()` and `glamr::get_outable()`
+Similar to `grabr::identify_levels()` and `grabr::get_outable()`
 }
 \examples{
 \dontrun{
-  library(glamr)
+  library(grabr)
 
   # Get PEPFAR Org Levels
   get_levels()

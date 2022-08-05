@@ -14,9 +14,9 @@ get_ouuids(
 \arguments{
 \item{add_details}{Add countries for regional ou, default is false}
 
-\item{username}{DATIM Username, recommend using `datim_user()`}
+\item{username}{DATIM Username, recommend using glamr::datim_user()`}
 
-\item{password}{DATIM password, recommend using `datim_pwd()`}
+\item{password}{DATIM password, recommend using glamr::datim_pwd()`}
 
 \item{baseurl}{base url for the API, default = https://final.datim.org/}
 }
@@ -28,7 +28,7 @@ Get OU Org UIDS
 }
 \examples{
 \dontrun{
- library(glamr)
+ library(grabr)
 
  # OU Org UIDs
  ous <- get_ouuids()

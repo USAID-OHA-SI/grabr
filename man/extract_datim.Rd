@@ -9,9 +9,9 @@ extract_datim(url, username, password)
 \arguments{
 \item{url}{supply url for API call}
 
-\item{username}{DATIM Username, defaults to using `datim_user()` if blank}
+\item{username}{DATIM Username, defaults to using glamr::datim_user()` if blank}
 
-\item{password}{DATIM password, defaults to using `datim_pwd()` if blank}
+\item{password}{DATIM password, defaults to using glamr::datim_pwd()` if blank}
 }
 \value{
 API pull of data from DATIM
@@ -20,7 +20,7 @@ API pull of data from DATIM
 DATIM Analytics API
 }
 \note{
-Consider using `datim_process_query()` and/or `datim_execute_query()`
+Consider using glamr::datim_process_query()` and/or glamr::datim_execute_query()`
 }
 \examples{
 \dontrun{
@@ -30,7 +30,7 @@ Consider using `datim_process_query()` and/or `datim_execute_query()`
                  filter=pe:2018Oct&
                  displayProperty=SHORTNAME&outputIdScheme=CODE")
 
- df_targets <- extract_datim(myurl, datim_user(), datim_pwd())
+ df_targets <- extract_datim(myurl,glamr::datim_user(),glamr::datim_pwd())
 
  }
 

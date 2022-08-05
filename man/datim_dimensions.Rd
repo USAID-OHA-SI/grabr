@@ -28,7 +28,7 @@ Get PEPFAR/DATIM dimensions
 }
 \examples{
 \dontrun{
-  library(glamr)
+  library(grabr)
 
   datim_dimensions()
 }

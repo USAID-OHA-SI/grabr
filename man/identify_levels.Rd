@@ -7,9 +7,9 @@
 identify_levels(username, password, baseurl = "https://final.datim.org/")
 }
 \arguments{
-\item{username}{DATIM Username, defaults to using `datim_user()` if blank}
+\item{username}{DATIM Username, defaults to using glamr::datim_user()` if blank}
 
-\item{password}{DATIM password, defaults to using `datim_pwd()` if blank}
+\item{password}{DATIM password, defaults to using glamr::datim_pwd()` if blank}
 
 \item{baseurl}{base url for the API, default = https://final.datim.org/}
 }

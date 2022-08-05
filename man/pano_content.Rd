@@ -19,7 +19,7 @@ Read html content from web page
 }
 \examples{
 \dontrun{
-  library(glamr)
+  library(grabr)
 
   s <- pano_session("<my-pano-user>", "<my-password>")
   url <- "https://pepfar-panorama.org/forms/downloads"

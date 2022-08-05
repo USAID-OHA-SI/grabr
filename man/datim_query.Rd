@@ -30,7 +30,7 @@ datim_query(
 Eg.: "THIS_FINANCIAL_YEAR", "2020Oct", "QUARTERS_THIS_YEAR", "2021Q2"
 default is "THIS_FINANCIAL_YEAR"}
 
-\item{ta}{Technical Area, valid option can be obtain from `datim_dim_items("Technical Area")`}
+\item{ta}{Technical Area, valid option can be obtain from glamr::datim_dim_items("Technical Area")`}
 
 \item{value}{Type of value to return, MER Targets or Results or both}
 
@@ -60,7 +60,7 @@ Query PEPFAR/DATIM targets/results data
 }
 \examples{
 \dontrun{
- library(glamr)
+ library(grabr)
 
  datim_query(ou = "Nigeria", ta = "PLHIV")
 

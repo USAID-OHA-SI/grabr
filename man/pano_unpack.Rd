@@ -21,7 +21,7 @@ Unpack Pano files directories
 
 \dontrun{
   library(tidyverse)
-  library(glamr)
+  library(grabr)
 
   s <- pano_session("<my-pano-user>", "<my-password>")
   url <- "https://pepfar-panorama.org/forms/downloads"

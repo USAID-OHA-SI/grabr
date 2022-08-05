@@ -24,103 +24,25 @@ navbar:
     articles:
       text: Articles
       menu:
-      - text: Credential Management
-        href: articles/credential-management.html
-      - text: Project Workflow
-        href: articles/project-workflow.html
       - text: Data Extraction from Panorama
         href: articles/data-extraction-from-panorama.html
 
 reference:
-- title: Workflow
-  contents:
-  - folder_setup
-  - gdrive_folder
-  - import_drivefile
-  - export_drivefile
-  - return_latest
-  - set_paths
-  - setup_gitignore
-  - setup_readme
-  - si_path
-  - si_setup
-  - source_info
-  - gdrive_metadata
-  - gdrive_folder
-  - extract_excel_data
-  - extract_tbl_data
-
-- title: Authentication
-  contents:
-  - datim_pwd
-  - datim_user
-  - pano_pwd
-  - pano_user
-  - pano_session
-  - get_s3key
-  - load_secrets
-  - is_stored
-
-- title: Authentication Setup
-  contents:
-  - set_datim
-  - set_email
-  - set_pano
-  - set_s3keys
-
-- title: Tidying
-  contents:
-  - clean_agency
-  - clean_column
-  - clean_countries
-  - clean_filename
-  - clean_indicator
-  - clean_psnu
-  - connect_text
-  - extract_text
-  - lookup_country
-  - pluck_totals
-
-- title: Date Conversion
-  contents:
-  - curr_date
-  - convert_date_to_qtr
-  - convert_datim_pd_to_qtr
-  - convert_qtr_to_date
-  - convert_fy_qtr_to_pd
-
-- title: Utilities
-  contents:
-  - '`%ni%`'
-  - '%<>%'
-  - prinf
-  - package_check
-  - mypwd
-  - temp_folder
-  - open_path
 
 - title: DATIM
   contents:
   - get_levels
   - get_orguids
-  - get_ouorglevel
   - get_ouorgs
+  - get_ouorglevel
+  - get_ouorglabel
   - get_ouorguids
   - get_outable
   - get_ouuid
   - get_ouuids
   - identify_levels
   - identify_ouuids
-  - identify_pd
   - extract_datim
-  - get_orguids
-  - get_ouorgs
-  - get_ouuids
-  - get_ouuid
-  - get_ouorglevel
-  - get_ouorglabel
-  - get_ouorguids
-  - get_levels
   - datim_dimensions
   - datim_dimension
   - datim_dim_items
@@ -133,6 +55,7 @@ reference:
 
 - title: Panorama
   contents:
+  - pano_session
   - pano_content
   - pano_elements
   - pano_items
@@ -141,18 +64,6 @@ reference:
   - pano_extract_msd
   - pano_extract_msds
   - pano_download
-
-- title: Mechanism Handling
-  contents:
-  - apply_partner_type
-  - browse_knownissues
-  - resolve_knownissues
-  - remove_centralsupport
-
-- title: Financial
-  contents:
-  - remove_mo
-  - remove_sch
 
 - title: s3 Utilities
   contents:
@@ -165,9 +76,3 @@ reference:
   - s3_remove
   - s3_unpack_keys
   - s3_upload
-
-- title: Data Sets
-  contents:
-  - pepfar_country_list
-  - pepfar_country_xwalk
-  - pepfar_data_calendar

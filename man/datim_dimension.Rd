@@ -16,9 +16,9 @@ datim_dimension(
 
 \item{url}{DATIM API End point, default value is `https://final.datim.org/api/dimensions`}
 
-\item{username}{DATIM Account Username, recommended using `datim_user()`}
+\item{username}{DATIM Account Username, recommended using glamr::datim_user()`}
 
-\item{password}{DATIM Account passward, recommended using `datim_pwd()`}
+\item{password}{DATIM Account passward, recommended using glamr::datim_pwd()`}
 }
 \value{
 dimension uid
@@ -28,7 +28,7 @@ Get PEPFAR/DATIM Dimension ID
 }
 \examples{
 \dontrun{
-  library(glamr)
+  library(grabr)
   datim_dimension("OU Level")
 }
 

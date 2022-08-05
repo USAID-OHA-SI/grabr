@@ -35,7 +35,7 @@ Use `get_orguids()` for levels above 4
 \examples{
 \dontrun{
 
- library(glamr)
+ library(grabr)
 
  cntry <- "Zambia"
 

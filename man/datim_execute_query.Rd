@@ -23,12 +23,12 @@ Execute Datim Query
 }
 \examples{
 \dontrun{
-  library(glamr)
+  library(grabr)
 
   execute_datim_query(
     url = 'https://www.datim.org/api/sqlViews/<uid>?format=json',
-    username = datim_user(),
-    password = datim_pwd(),
+    username =glamr::datim_user(),
+    password =glamr::datim_pwd(),
     flatten = TRUE
   )
 }

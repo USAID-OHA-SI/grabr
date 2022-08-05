@@ -34,7 +34,7 @@ Get OU Org level
 }
 \examples{
 \dontrun{
- library(glamr)
+ library(grabr)
 
  cntry <- "Zambia"
 

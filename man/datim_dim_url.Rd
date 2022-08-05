@@ -31,7 +31,7 @@ Build PEPFAR/DATIM Query dimension
 }
 \examples{
 \dontrun{
-  library(glamr)
+  library(grabr)
 
   datim_dim_url(dimension = "Sex")
 

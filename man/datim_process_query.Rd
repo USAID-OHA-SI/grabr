@@ -21,7 +21,7 @@ Process Datim Query results
 }
 \examples{
 \dontrun{
- library(glamr)
+ library(grabr)
  datim_process_query("<full-api-call-url>")
 }
 

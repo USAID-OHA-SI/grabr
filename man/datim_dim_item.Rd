@@ -31,7 +31,7 @@ Get dimension / item id
 }
 \examples{
 \dontrun{
-  library(glamr)
+  library(grabr)
 
   datim_dim_item(dimension = "Funding Agency", name = "USAID")
 

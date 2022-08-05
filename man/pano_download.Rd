@@ -24,7 +24,7 @@ Download file from PEPFAR Panorama
 \examples{
 \dontrun{
   library(tidyverse)
-  library(glamr)
+  library(grabr)
 
   s <- pano_session("<my-pano-user>", "<my-password>")
   url <- "https://pepfar-panorama.org/forms/downloads"

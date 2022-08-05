@@ -38,12 +38,6 @@
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu"><li>
-      <a href="../articles/credential-management.html">Credential Management</a>
-    </li>
-    <li>
-      <a href="../articles/project-workflow.html">Project Workflow</a>
-    </li>
-    <li>
       <a href="../articles/data-extraction-from-panorama.html">Data Extraction from Panorama</a>
     </li>
   </ul></li>
@@ -69,113 +63,6 @@
     </div>
 
     <table class="ref-index"><colgroup><col class="alias"><col class="title"></colgroup><tbody><tr><th colspan="2">
-          <h2 id="workflow">Workflow <a href="#workflow" class="anchor" aria-hidden="true"></a></h2>
-          <p class="section-desc"></p>
-        </th>
-      </tr></tbody><tbody><tr><td>
-          <p><code><a href="gdrive_folder.html">gdrive_folder()</a></code> </p>
-        </td>
-        <td><p>Get id of googledrive folder</p></td>
-      </tr><tr><td>
-          <p><code><a href="import_drivefile.html">import_drivefile()</a></code> </p>
-        </td>
-        <td><p>Import file from a Google Drive folder</p></td>
-      </tr><tr><td>
-          <p><code><a href="export_drivefile.html">export_drivefile()</a></code> </p>
-        </td>
-        <td><p>Export local files for googledrive folder</p></td>
-      </tr><tr><td>
-          <p><code><a href="gdrive_metadata.html">gdrive_metadata()</a></code> </p>
-        </td>
-        <td><p>Unpack Google Drive Metadata
-
-Google API provides extra metadata stored as a list in the dribble
-returned, eg modified time, permissions, owner, etc.</p></td>
-      </tr><tr><td>
-          <p><code><a href="extract_excel_data.html">extract_excel_data()</a></code> </p>
-        </td>
-        <td><p>Extract data from excel link</p></td>
-      </tr><tr><td>
-          <p><code><a href="extract_tbl_data.html">extract_tbl_data()</a></code> </p>
-        </td>
-        <td><p>Extract table data from web page</p></td>
-      </tr></tbody><tbody><tr><th colspan="2">
-          <h2 id="authentication">Authentication <a href="#authentication" class="anchor" aria-hidden="true"></a></h2>
-          <p class="section-desc"></p>
-        </th>
-      </tr></tbody><tbody><tr><td>
-          <p><code><a href="datim_pwd.html">datim_pwd()</a></code> </p>
-        </td>
-        <td><p>Return DATIM password</p></td>
-      </tr><tr><td>
-          <p><code><a href="datim_user.html">datim_user()</a></code> </p>
-        </td>
-        <td><p>Return DATIM username</p></td>
-      </tr><tr><td>
-          <p><code><a href="pano_pwd.html">pano_pwd()</a></code> </p>
-        </td>
-        <td><p>Return PEPFAR Panorama password</p></td>
-      </tr><tr><td>
-          <p><code><a href="pano_user.html">pano_user()</a></code> </p>
-        </td>
-        <td><p>Return PEPFAR Panorama username</p></td>
-      </tr><tr><td>
-          <p><code><a href="pano_session.html">pano_session()</a></code> </p>
-        </td>
-        <td><p>Create an active session for PEPFAR Panorama</p></td>
-      </tr><tr><td>
-          <p><code><a href="get_s3key.html">get_s3key()</a></code> </p>
-        </td>
-        <td><p>Get S3 Credentials - Access or Secret Access Key</p></td>
-      </tr><tr><td>
-          <p><code><a href="load_secrets.html">load_secrets()</a></code> </p>
-        </td>
-        <td><p>Load credentials</p></td>
-      </tr><tr><td>
-          <p><code><a href="is_stored.html">is_stored()</a></code> </p>
-        </td>
-        <td><p>Test if service is stored in credential manager</p></td>
-      </tr></tbody><tbody><tr><th colspan="2">
-          <h2 id="authentication-setup">Authentication Setup <a href="#authentication-setup" class="anchor" aria-hidden="true"></a></h2>
-          <p class="section-desc"></p>
-        </th>
-      </tr></tbody><tbody><tr><td>
-          <p><code><a href="set_datim.html">set_datim()</a></code> </p>
-        </td>
-        <td><p>Store DATIM credentials</p></td>
-      </tr><tr><td>
-          <p><code><a href="set_email.html">set_email()</a></code> </p>
-        </td>
-        <td><p>Store USAID email</p></td>
-      </tr><tr><td>
-          <p><code><a href="set_pano.html">set_pano()</a></code> </p>
-        </td>
-        <td><p>Store PEPFAR Panorama credentials</p></td>
-      </tr><tr><td>
-          <p><code><a href="set_s3keys.html">set_s3keys()</a></code> </p>
-        </td>
-        <td><p>Store S3 Credentials
-
-`set_s3keys` stores your s3 keys using the `keyring` package.
-This will only need to done once. After running `set_s3keys(access, secret)`,
-RStudio API which will then store the keys in your OS credential store using `keyring`.</p></td>
-      </tr></tbody><tbody><tr><th colspan="2">
-          <h2 id="tidying">Tidying <a href="#tidying" class="anchor" aria-hidden="true"></a></h2>
-          <p class="section-desc"></p>
-        </th>
-      </tr></tbody><tbody></tbody><tbody><tr><th colspan="2">
-          <h2 id="date-conversion">Date Conversion <a href="#date-conversion" class="anchor" aria-hidden="true"></a></h2>
-          <p class="section-desc"></p>
-        </th>
-      </tr></tbody><tbody></tbody><tbody><tr><th colspan="2">
-          <h2 id="utilities">Utilities <a href="#utilities" class="anchor" aria-hidden="true"></a></h2>
-          <p class="section-desc"></p>
-        </th>
-      </tr></tbody><tbody><tr><td>
-          <p><code><a href="package_check.html">package_check()</a></code> </p>
-        </td>
-        <td><p>Check if package exists</p></td>
-      </tr></tbody><tbody><tr><th colspan="2">
           <h2 id="datim">DATIM <a href="#datim" class="anchor" aria-hidden="true"></a></h2>
           <p class="section-desc"></p>
         </th>
@@ -188,13 +75,17 @@ RStudio API which will then store the keys in your OS credential store using `ke
         </td>
         <td><p>Get Org UIDS</p></td>
       </tr><tr><td>
+          <p><code><a href="get_ouorgs.html">get_ouorgs()</a></code> </p>
+        </td>
+        <td><p>Get list of OU Orgs at specific level</p></td>
+      </tr><tr><td>
           <p><code><a href="get_ouorglevel.html">get_ouorglevel()</a></code> </p>
         </td>
         <td><p>Get OU Org level</p></td>
       </tr><tr><td>
-          <p><code><a href="get_ouorgs.html">get_ouorgs()</a></code> </p>
+          <p><code><a href="get_ouorglabel.html">get_ouorglabel()</a></code> </p>
         </td>
-        <td><p>Get list of OU Orgs at specific level</p></td>
+        <td><p>Identify OU/Org Label</p></td>
       </tr><tr><td>
           <p><code><a href="get_ouorguids.html">get_ouorguids()</a></code> </p>
         </td>
@@ -220,17 +111,9 @@ RStudio API which will then store the keys in your OS credential store using `ke
         </td>
         <td><p>Pull OU UIDS</p></td>
       </tr><tr><td>
-          <p><code><a href="identify_pd.html">identify_pd()</a></code> </p>
-        </td>
-        <td><p>Identify Reporting Period from MSD File</p></td>
-      </tr><tr><td>
           <p><code><a href="extract_datim.html">extract_datim()</a></code> </p>
         </td>
         <td><p>DATIM Analytics API</p></td>
-      </tr><tr><td>
-          <p><code><a href="get_ouorglabel.html">get_ouorglabel()</a></code> </p>
-        </td>
-        <td><p>Identify OU/Org Label</p></td>
       </tr><tr><td>
           <p><code><a href="datim_dimensions.html">datim_dimensions()</a></code> </p>
         </td>
@@ -272,6 +155,10 @@ RStudio API which will then store the keys in your OS credential store using `ke
           <p class="section-desc"></p>
         </th>
       </tr></tbody><tbody><tr><td>
+          <p><code><a href="pano_session.html">pano_session()</a></code> </p>
+        </td>
+        <td><p>Create an active session for PEPFAR Panorama</p></td>
+      </tr><tr><td>
           <p><code><a href="pano_content.html">pano_content()</a></code> </p>
         </td>
         <td><p>Read html content from web page</p></td>
@@ -304,14 +191,6 @@ RStudio API which will then store the keys in your OS credential store using `ke
         </td>
         <td><p>Download file from PEPFAR Panorama</p></td>
       </tr></tbody><tbody><tr><th colspan="2">
-          <h2 id="mechanism-handling">Mechanism Handling <a href="#mechanism-handling" class="anchor" aria-hidden="true"></a></h2>
-          <p class="section-desc"></p>
-        </th>
-      </tr></tbody><tbody></tbody><tbody><tr><th colspan="2">
-          <h2 id="financial">Financial <a href="#financial" class="anchor" aria-hidden="true"></a></h2>
-          <p class="section-desc"></p>
-        </th>
-      </tr></tbody><tbody></tbody><tbody><tr><th colspan="2">
           <h2 id="s-utilities">s3 Utilities <a href="#s-utilities" class="anchor" aria-hidden="true"></a></h2>
           <p class="section-desc"></p>
         </th>
@@ -351,11 +230,7 @@ RStudio API which will then store the keys in your OS credential store using `ke
           <p><code><a href="s3_upload.html">s3_upload()</a></code> </p>
         </td>
         <td><p>Upload file to S3 Bucket</p></td>
-      </tr></tbody><tbody><tr><th colspan="2">
-          <h2 id="data-sets">Data Sets <a href="#data-sets" class="anchor" aria-hidden="true"></a></h2>
-          <p class="section-desc"></p>
-        </th>
-      </tr></tbody><tbody></tbody></table></div>
+      </tr></tbody></table></div>
 
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top"><h2 data-toc-skip>Contents</h2>

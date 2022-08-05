@@ -38,12 +38,6 @@
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu"><li>
-      <a href="../articles/credential-management.html">Credential Management</a>
-    </li>
-    <li>
-      <a href="../articles/project-workflow.html">Project Workflow</a>
-    </li>
-    <li>
       <a href="../articles/data-extraction-from-panorama.html">Data Extraction from Panorama</a>
     </li>
   </ul></li>
@@ -83,9 +77,9 @@
     <dl><dt>url</dt>
 <dd><p>supply url for API call</p></dd>
 <dt>username</dt>
-<dd><p>DATIM Username, defaults to using `datim_user()` if blank</p></dd>
+<dd><p>DATIM Username, defaults to using glamr::datim_user()` if blank</p></dd>
 <dt>password</dt>
-<dd><p>DATIM password, defaults to using `datim_pwd()` if blank</p></dd>
+<dd><p>DATIM password, defaults to using glamr::datim_pwd()` if blank</p></dd>
 </dl></div>
     <div id="value">
     <h2>Value</h2>
@@ -93,7 +87,7 @@
     </div>
     <div id="note">
     <h2>Note</h2>
-    <p>Consider using `datim_process_query()` and/or `datim_execute_query()`</p>
+    <p>Consider using glamr::datim_process_query()` and/or glamr::datim_execute_query()`</p>
     </div>
 
     <div id="ref-examples">
@@ -105,7 +99,7 @@
 <span class="r-in">                 filter=pe:2018Oct&amp;</span>
 <span class="r-in">                 displayProperty=SHORTNAME&amp;outputIdScheme=CODE"</span><span class="op">)</span></span>
 <span class="r-in"></span>
-<span class="r-in"> <span class="va">df_targets</span> <span class="op">&lt;-</span> <span class="fu">extract_datim</span><span class="op">(</span><span class="va">myurl</span>, <span class="fu"><a href="datim_user.html">datim_user</a></span><span class="op">(</span><span class="op">)</span>, <span class="fu"><a href="datim_pwd.html">datim_pwd</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span>
+<span class="r-in"> <span class="va">df_targets</span> <span class="op">&lt;-</span> <span class="fu">extract_datim</span><span class="op">(</span><span class="va">myurl</span>,<span class="fu">glamr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/glamr/man/datim_user.html" class="external-link">datim_user</a></span><span class="op">(</span><span class="op">)</span>,<span class="fu">glamr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/glamr/man/datim_pwd.html" class="external-link">datim_pwd</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span>
 <span class="r-in"></span>
 <span class="r-in"> <span class="op">}</span></span>
 <span class="r-in"></span>

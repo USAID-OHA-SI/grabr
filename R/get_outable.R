@@ -9,8 +9,8 @@
 #' a DATIM account to access this data. You can take advantage of storing you
 #' credentials locally in a secure way using `set_datim`.
 #'
-#' @param username DATIM Username, defaults to using `datim_user()` if blank
-#' @param password DATIM password, defaults to using `datim_pwd()` if blank
+#' @param username DATIM Username, defaults to using glamr::datim_user()` if blank
+#' @param password DATIM password, defaults to using glamr::datim_pwd()` if blank
 #' @param baseurl base url for the API, default = https://final.datim.org/
 #'
 #' @export
@@ -58,8 +58,8 @@ get_outable <- function(username, password, baseurl = "https://final.datim.org/"
 #' take advantage of storing you credentials locally in a secure way
 #' using `set_datim`.
 #'
-#' @param username DATIM Username, defaults to using `datim_user()` if blank
-#' @param password DATIM password, defaults to using `datim_pwd()` if blank
+#' @param username DATIM Username, defaults to using glamr::datim_user()` if blank
+#' @param password DATIM password, defaults to using glamr::datim_pwd()` if blank
 #' @param baseurl base url for the API, default = https://final.datim.org/
 #'
 #' @export
@@ -78,10 +78,10 @@ identify_ouuids <- function(username, password,
   check_internet()
 
   if(missing(username))
-    username <- datim_user()
+    username <-glamr::datim_user()
 
   if(missing(password))
-    password <- datim_pwd()
+    password <-glamr::datim_pwd()
 
   ous <- baseurl %>%
     paste0("api/organisationUnits?filter=level:eq:3") %>%
@@ -128,8 +128,8 @@ identify_ouuids <- function(username, password,
 #' take advantage of storing you credentials locally in a secure way
 #' using `set_datim`.
 #'
-#' @param username DATIM Username, defaults to using `datim_user()` if blank
-#' @param password DATIM password, defaults to using `datim_pwd()` if blank
+#' @param username DATIM Username, defaults to using glamr::datim_user()` if blank
+#' @param password DATIM password, defaults to using glamr::datim_pwd()` if blank
 #' @param baseurl base url for the API, default = https://final.datim.org/
 #'
 #' @export
@@ -147,10 +147,10 @@ identify_levels <- function(username, password,
   check_internet()
 
   if(missing(username))
-    username <- datim_user()
+    username <-glamr::datim_user()
 
   if(missing(password))
-    password <- datim_pwd()
+    password <-glamr::datim_pwd()
 
   df_levels <- baseurl %>%
     paste0(.,"api/dataStore/dataSetAssignments/orgUnitLevels") %>%
@@ -180,71 +180,12 @@ identify_levels <- function(username, password,
 }
 
 
-#' @title Identify Reporting Period from MSD File
-#'
-#' @param msd_file MSD File, should include publication date
-#' @param clean    Should be period be clean? default is true
-#'
-#' @return reporting period
-#' @export
-#'
-#' @examples
-#' \dontrun{
-#'
-#'  library(glamr)
-#'
-#'  pd = return_latest(si_path(), "OU_IM") %>% identify_pd()
-#' }
-#'
-identify_pd <- function(msd_file, clean = TRUE) {
-
-  # Extract release date from msd file
-  release_date <- msd_file %>%
-    stringr::str_extract("\\d{8}") %>%
-    lubridate::ymd() %>%
-    base::as.character()
-
-  # Pepfar data calendar
-  release_dates <- pepfar_data_calendar %>%
-    dplyr::pull(entry_close)
-
-  # Check validity
-  if (!release_date %in% release_dates) {
-    base::message(crayon::red("Invalid and / or non-pepfar release date"))
-    return(NULL)
-  }
-
-  # Identify reporting period
-  pd <- pepfar_data_calendar %>%
-    rowwise() %>%
-    mutate(period = base::paste0("FY", fiscal_year, "Q", quarter)) %>%
-    ungroup() %>%
-    filter(entry_close == release_date) %>%
-    pull(period)
-
-  # Reformat period
-  if (clean) {
-    pd <- pd %>%
-      stringr::str_sub(start = 3, end = 4) %>%
-      stringr::str_replace(string = pd, pattern = ., replacement = "") %>%
-      stringr::str_to_upper()
-  }
-  else {
-    pd <- pd %>%
-      stringr::str_replace("Q", "qtr") %>%
-      stringr::str_to_lower()
-  }
-
-  return(pd)
-}
-
-
 #' @title Get Org UIDS
 #' @note Use with caution. Use `get_ouorguids()` for levels below 3
 #'
 #' @param level    Org level
-#' @param username DATIM Username, recommend using `datim_user()`
-#' @param password DATIM password, recommend using `datim_pwd()`
+#' @param username DATIM Username, recommend using glamr::datim_user()`
+#' @param password DATIM password, recommend using glamr::datim_pwd()`
 #' @param baseurl base url for the API, default = https://final.datim.org/
 #'
 #' @return ORG UIDS as tibble
@@ -252,7 +193,7 @@ identify_pd <- function(msd_file, clean = TRUE) {
 #'
 #' @examples
 #' \dontrun{
-#'  library(glamr)
+#'  library(grabr)
 #'
 #'  # All orgunit level 3 uids + names
 #'  orgs <- get_orguids(level = 3)
@@ -303,7 +244,7 @@ get_orguids <-
 #' @examples
 #' \dontrun{
 #'
-#'  library(glamr)
+#'  library(grabr)
 #'
 #'  cntry <- "Zambia"
 #'
@@ -320,9 +261,6 @@ get_ouorgs <-
            username = NULL,
            password = NULL,
            baseurl = "https://final.datim.org/"){
-
-    package_check('httr')
-    package_check('jsonlite')
 
     # Params
     uid <- {{ouuid}}
@@ -368,8 +306,8 @@ get_ouorgs <-
 #' @title Get OU Org UIDS
 #'
 #' @param add_details Add countries for regional ou, default is false
-#' @param username    DATIM Username, recommend using `datim_user()`
-#' @param password    DATIM password, recommend using `datim_pwd()`
+#' @param username    DATIM Username, recommend using glamr::datim_user()`
+#' @param password    DATIM password, recommend using glamr::datim_pwd()`
 #' @param baseurl     base url for the API, default = https://final.datim.org/
 #'
 #' @return OU UIDS as tibble
@@ -377,7 +315,7 @@ get_ouorgs <-
 #'
 #' @examples
 #' \dontrun{
-#'  library(glamr)
+#'  library(grabr)
 #'
 #'  # OU Org UIDs
 #'  ous <- get_ouuids()
@@ -438,15 +376,15 @@ get_ouuids <-
 #' @title Get Operatingunit / Country Org UID
 #'
 #' @param operatingunit Operatingunit name
-#' @param username      Datim Account username, recommend using `datim_user()`
-#' @param password      Datim Account Password, recommend using `datim_pwd()`
+#' @param username      Datim Account username, recommend using glamr::datim_user()`
+#' @param password      Datim Account Password, recommend using glamr::datim_pwd()`
 #'
 #' @return uid
 #' @export
 #'
 #' @examples
 #' \dontrun{
-#'   library(glamr)
+#'   library(grabr)
 #'
 #'   # get orgunit for specific OU/Country: kenya
 #'   get_ouuid(operatingunit = "Kenya")
@@ -502,10 +440,10 @@ get_ouuid <-
 
 
 #' @title Get all orgunits levels in org hierarchy
-#' @note  Similar to `glamr::identify_levels()` and `glamr::get_outable()`
+#' @note  Similar to `grabr::identify_levels()` and `grabr::get_outable()`
 #'
-#' @param username DATIM username, recommed using `datim_user()`
-#' @param password DATIM password, recommend using `datim_pwd()`
+#' @param username DATIM username, recommed using glamr::datim_user()`
+#' @param password DATIM password, recommend using glamr::datim_pwd()`
 #' @param baseurl  base API url, default = https://final.datim.org/
 #'
 #' @return df
@@ -513,7 +451,7 @@ get_ouuid <-
 #'
 #' @examples
 #' \dontrun{
-#'   library(glamr)
+#'   library(grabr)
 #'
 #'   # Get PEPFAR Org Levels
 #'   get_levels()
@@ -572,7 +510,7 @@ get_levels <-
 #'
 #' @examples
 #' \dontrun{
-#'  library(glamr)
+#'  library(grabr)
 #'
 #'  cntry <- "Zambia"
 #'
@@ -650,7 +588,7 @@ get_ouorglevel <-
 #'
 #' @examples
 #' \dontrun{
-#'   library(glamr)
+#'   library(grabr)
 #'
 #'   get_ouorglabel(operatingunit = "Zambia", org_level = 5)
 #' }
@@ -665,7 +603,7 @@ get_ouorglabel <- function(operatingunit,
   lbl <- NULL
 
   if (org_level <= 3) {
-    lbl <- case_when(
+    lbl <- dplyr::case_when(
       org_level == 3 ~ "country",
       org_level == 2 ~ "region",
       org_level == 1 ~ "global",
@@ -698,7 +636,7 @@ get_ouorglabel <- function(operatingunit,
   lbl <- df_lvls %>%
     dplyr::pull(label) %>%
     base::sort() %>%
-    last()
+    dplyr::last()
 
   return(lbl)
 }
@@ -717,7 +655,7 @@ get_ouorglabel <- function(operatingunit,
 #'
 #' @examples
 #' \dontrun{
-#'  library(glamr)
+#'  library(grabr)
 #'
 #'  # Set country of interest
 #'  cntry <- "Zambia"

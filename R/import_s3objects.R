@@ -15,15 +15,12 @@ s3_buckets <- function(access_key = NULL,
                        secret_key = NULL,
                        ...) {
 
-  package_check('janitor')
-  package_check('tibble')
-
   # Check keys
   if (is.null(access_key))
-    access_key = glamr::get_s3key("access")
+    access_key = get_s3key("access")
 
   if (is.null(secret_key))
-    secret_key = glamr::get_s3key("secret")
+    secret_key = get_s3key("secret")
 
   # Get S3 Buckets as tibble
   aws.s3::bucket_list_df(
@@ -62,15 +59,12 @@ s3_objects <- function(bucket,
                        secret_key = NULL,
                        ...) {
 
-  package_check('janitor')
-  package_check('tibble')
-
   # Check keys
   if (is.null(access_key))
-    access_key = glamr::get_s3key("access")
+    access_key = get_s3key("access")
 
   if (is.null(secret_key))
-    secret_key = glamr::get_s3key("secret")
+    secret_key = get_s3key("secret")
 
   # Get & clean objects
   objects <- aws.s3::get_bucket_df(
@@ -93,7 +87,7 @@ s3_objects <- function(bucket,
 
   # Unpack keys
   if (unpack_keys == TRUE) {
-    objects <- objects %>% s3_unpack_keys()
+    objects <- s3_unpack_keys(objects)
   }
 
   return(objects)
@@ -241,17 +235,15 @@ s3_excel_sheets <-
            access_key = NULL,
            secret_key = NULL) {
 
-    package_check('readxl')
-
     # Notification
     base::print(base::basename(object_key))
 
     # Check keys
     if (base::is.null(access_key))
-      access_key = glamr::get_s3key("access")
+      access_key = get_s3key("access")
 
     if (base::is.null(secret_key))
-      secret_key = glamr::get_s3key("secret")
+      secret_key = get_s3key("secret")
 
     # Create excel temp file
     tmpfile <- base::tempfile(fileext = ".xlsx")
@@ -301,14 +293,12 @@ s3_read_object <- function(bucket, object,
                            secret_key = NULL,
                            ...) {
 
-  package_check('readxl')
-
   # Check keys
   if (is.null(access_key))
-    access_key = glamr::get_s3key("access")
+    access_key = get_s3key("access")
 
   if (is.null(secret_key))
-    secret_key = glamr::get_s3key("secret")
+    secret_key = get_s3key("secret")
 
   # Object type
   object_type = s3_object_type(object)
@@ -388,7 +378,6 @@ s3_read_object <- function(bucket, object,
     usethis::ui_info("PROCESS - Reading data with {usethis::ui_code('vroom::vroom()')}")
 
     # Read other file type with vroom
-    package_check('vroom')
     df <- vroom::vroom(conn, col_types = c(.default = "c"))
   }
 
@@ -428,10 +417,10 @@ s3_download <-
 
     # Check keys
     if (is.null(access_key))
-      access_key = glamr::get_s3key("access")
+      access_key = get_s3key("access")
 
     if (is.null(secret_key))
-      secret_key = glamr::get_s3key("secret")
+      secret_key = get_s3key("secret")
 
     # Notification
     usethis::ui_info("PROCESS - Downloading S3 Object ...")
@@ -488,10 +477,10 @@ s3_upload <- function(filepath, bucket,
 
   # Check S3 keys
   if (is.null(access_key))
-    access_key = glamr::get_s3key("access")
+    access_key = get_s3key("access")
 
   if (is.null(secret_key))
-    secret_key = glamr::get_s3key("secret")
+    secret_key = get_s3key("secret")
 
   # s3 object: append prefix to file basename
   s3_object <- ifelse(is.null(object),
@@ -539,10 +528,10 @@ s3_remove <- function(objects, bucket,
 
   # Check S3 keys
   if (is.null(access_key))
-    access_key = glamr::get_s3key("access")
+    access_key = get_s3key("access")
 
   if (is.null(secret_key))
-    secret_key = glamr::get_s3key("secret")
+    secret_key = get_s3key("secret")
 
   # delete objects from bucket
   aws.s3::delete_object(

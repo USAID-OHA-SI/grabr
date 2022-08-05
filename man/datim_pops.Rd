@@ -34,7 +34,7 @@ Extract PLHIV and General POP Estimates from datim
 }
 \examples{
 \dontrun{
-  library(glamr)
+  library(grabr)
 
   datim_pops(ou = "Nigeria")
 

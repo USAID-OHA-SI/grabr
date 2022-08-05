@@ -2,8 +2,6 @@ pandoc: '2.18'
 pkgdown: 2.0.3
 pkgdown_sha: ~
 articles:
-  credential-management: credential-management.html
   data-extraction-from-panorama: data-extraction-from-panorama.html
-  project-workflow: project-workflow.html
-last_built: 2022-08-04T21:33Z
+last_built: 2022-08-05T14:44Z
 

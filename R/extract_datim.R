@@ -10,7 +10,7 @@
 #'
 #' @examples
 #' \dontrun{
-#'   library(glamr)
+#'   library(grabr)
 #'
 #'   datim_dimensions()
 #' }
@@ -22,10 +22,10 @@ datim_dimensions <- function(url = "https://final.datim.org/api/dimensions",
 
   # datim credentials
   if (missing(username))
-    username <- datim_user()
+    username <-glamr::datim_user()
 
   if (missing(password))
-    password <- datim_pwd()
+    password <-glamr::datim_pwd()
 
   # paging
   if (!stringr::str_detect(url, "paging"))
@@ -50,15 +50,15 @@ datim_dimensions <- function(url = "https://final.datim.org/api/dimensions",
 #'
 #' @param name      Dimension name
 #' @param url       DATIM API End point, default value is `https://final.datim.org/api/dimensions`
-#' @param username  DATIM Account Username, recommended using `datim_user()`
-#' @param password  DATIM Account passward, recommended using `datim_pwd()`
+#' @param username  DATIM Account Username, recommended using glamr::datim_user()`
+#' @param password  DATIM Account passward, recommended using glamr::datim_pwd()`
 #'
 #' @return dimension uid
 #' @export
 #'
 #' @examples
 #' \dontrun{
-#'   library(glamr)
+#'   library(grabr)
 #'   datim_dimension("OU Level")
 #' }
 #'
@@ -71,10 +71,10 @@ datim_dimension <- function(name,
 
   # datim credentials
   if (missing(username))
-    username <- datim_user()
+    username <-glamr::datim_user()
 
   if (missing(password))
-    password <- datim_pwd()
+    password <-glamr::datim_pwd()
 
   # Query dimensions
   df_dims <- datim_dimensions(url = url,
@@ -108,7 +108,7 @@ datim_dimension <- function(name,
 #'
 #' @examples
 #' \dontrun{
-#'   library(glamr)
+#'   library(grabr)
 #'
 #'   datim_dim_items(dimension = "Funding Agency")
 #'   datim_dim_items(dimension = "Funding Agency", var = "item")
@@ -123,10 +123,10 @@ datim_dim_items <- function(dimension,
 
   # datim credentials
   if (missing(username))
-    username <- datim_user()
+    username <-glamr::datim_user()
 
   if (missing(password))
-    password <- datim_pwd()
+    password <-glamr::datim_pwd()
 
   # clean up url / paging
   url <- stringr::str_remove(url, "\\?.*")
@@ -188,7 +188,7 @@ datim_dim_items <- function(dimension,
 #'
 #' @examples
 #' \dontrun{
-#'   library(glamr)
+#'   library(grabr)
 #'
 #'   datim_dim_item(dimension = "Funding Agency", name = "USAID")
 #'
@@ -205,10 +205,10 @@ datim_dim_item <- function(dimension, name,
 
   # datim credentials
   if (missing(username))
-    username <- datim_user()
+    username <-glamr::datim_user()
 
   if (missing(password))
-    password <- datim_pwd()
+    password <-glamr::datim_pwd()
 
   # Get dimension's items
   items <- datim_dim_items(dimension = dimension,
@@ -249,7 +249,7 @@ datim_dim_item <- function(dimension, name,
 #'
 #' @examples
 #' \dontrun{
-#'   library(glamr)
+#'   library(grabr)
 #'
 #'   datim_dim_url(dimension = "Sex")
 #'
@@ -274,10 +274,10 @@ datim_dim_url <- function(dimension,
 
   # datim credentials
   if (missing(username))
-    username <- datim_user()
+    username <-glamr::datim_user()
 
   if (missing(password))
-    password <- datim_pwd()
+    password <-glamr::datim_pwd()
 
   # Query params
   dim_query <- NULL
@@ -352,12 +352,12 @@ datim_dim_url <- function(dimension,
 #'
 #' @examples
 #' \dontrun{
-#'   library(glamr)
+#'   library(grabr)
 #'
 #'   execute_datim_query(
 #'     url = 'https://www.datim.org/api/sqlViews/<uid>?format=json',
-#'     username = datim_user(),
-#'     password = datim_pwd(),
+#'     username =glamr::datim_user(),
+#'     password =glamr::datim_pwd(),
 #'     flatten = TRUE
 #'   )
 #' }
@@ -368,10 +368,10 @@ datim_execute_query <- function(url,
                                 flatten = FALSE) {
   # datim credentials
   if (missing(username))
-    username <- datim_user()
+    username <-glamr::datim_user()
 
   if (missing(password))
-    password <- datim_pwd()
+    password <-glamr::datim_pwd()
 
   # Run query
   json <- base::tryCatch({
@@ -405,7 +405,7 @@ datim_execute_query <- function(url,
 #'
 #' @examples
 #' \dontrun{
-#'  library(glamr)
+#'  library(grabr)
 #'  datim_process_query("<full-api-call-url>")
 #' }
 #'
@@ -415,10 +415,10 @@ datim_process_query <- function(url,
 
   # datim credentials
   if (missing(username))
-    username <- datim_user()
+    username <-glamr::datim_user()
 
   if (missing(password))
-    password <- datim_pwd()
+    password <-glamr::datim_pwd()
 
   # run the query
   res_json <- datim_execute_query(url, username, password)
@@ -481,7 +481,7 @@ datim_process_query <- function(url,
 #' @param pe          Reporting period. This can be expressed as relative or fixed periods
 #'                    Eg.: "THIS_FINANCIAL_YEAR", "2020Oct", "QUARTERS_THIS_YEAR", "2021Q2"
 #'                    default is "THIS_FINANCIAL_YEAR"
-#' @param ta          Technical Area, valid option can be obtain from `datim_dim_items("Technical Area")`
+#' @param ta          Technical Area, valid option can be obtain from glamr::datim_dim_items("Technical Area")`
 #' @param value       Type of value to return, MER Targets or Results or both
 #' @param disaggs     Disaggregation Types. This depends on the value of ta
 #' @param dimensions  Additional dimensions and/or columns. This depends on values of ta and disaggs
@@ -498,7 +498,7 @@ datim_process_query <- function(url,
 #'
 #' @examples
 #' \dontrun{
-#'  library(glamr)
+#'  library(grabr)
 #'
 #'  datim_query(ou = "Nigeria", ta = "PLHIV")
 #'
@@ -529,10 +529,10 @@ datim_query <-
 
     # datim credentials
     if (missing(username))
-      username <- datim_user()
+      username <-glamr::datim_user()
 
     if (missing(password))
-      password <- datim_pwd()
+      password <-glamr::datim_pwd()
 
     # Notifications
     if (verbose) {
@@ -699,7 +699,7 @@ datim_query <-
 #'
 #' @examples
 #' \dontrun{
-#'   library(glamr)
+#'   library(grabr)
 #'
 #'   datim_pops(ou = "Nigeria")
 #'
@@ -716,10 +716,10 @@ datim_pops <- function(ou,
 
   # datim credentials
   if (missing(username))
-    username <- datim_user()
+    username <-glamr::datim_user()
 
   if (missing(password))
-    password <- datim_pwd()
+    password <-glamr::datim_pwd()
 
   # level
   lvl <- level %>% stringr::str_to_lower()
@@ -844,11 +844,11 @@ datim_pops <- function(ou,
 
 #' @title DATIM Analytics API
 #'
-#' @note Consider using `datim_process_query()` and/or `datim_execute_query()`
+#' @note Consider using glamr::datim_process_query()` and/or glamr::datim_execute_query()`
 #'
 #' @param url supply url for API call
-#' @param username DATIM Username, defaults to using `datim_user()` if blank
-#' @param password DATIM password, defaults to using `datim_pwd()` if blank
+#' @param username DATIM Username, defaults to using glamr::datim_user()` if blank
+#' @param password DATIM password, defaults to using glamr::datim_pwd()` if blank
 #'
 # #@export
 #' @return  API pull of data from DATIM
@@ -860,7 +860,7 @@ datim_pops <- function(ou,
 #'                  filter=pe:2018Oct&
 #'                  displayProperty=SHORTNAME&outputIdScheme=CODE")
 #'
-#'  df_targets <- extract_datim(myurl, datim_user(), datim_pwd())
+#'  df_targets <- extract_datim(myurl,glamr::datim_user(),glamr::datim_pwd())
 #'
 #'  }
 #'
@@ -868,17 +868,12 @@ extract_datim <- function(url, username, password) {
 
   check_internet()
 
-  package_check('httr')
-  package_check('jsonlite')
-  package_check('plyr')
-  package_check('tibble')
-
   # datim credentials
   if (missing(username))
-    username <- datim_user()
+    username <-glamr::datim_user()
 
   if (missing(password))
-    password <- datim_pwd()
+    password <-glamr::datim_pwd()
 
   json <- url %>%
     httr::GET(httr::authenticate(username,password)) %>%

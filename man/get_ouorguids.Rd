@@ -31,7 +31,7 @@ Get Orgs uids by level
 }
 \examples{
 \dontrun{
- library(glamr)
+ library(grabr)
 
  # Set country of interest
  cntry <- "Zambia"

@@ -14,9 +14,9 @@ get_orguids(
 \arguments{
 \item{level}{Org level}
 
-\item{username}{DATIM Username, recommend using `datim_user()`}
+\item{username}{DATIM Username, recommend using glamr::datim_user()`}
 
-\item{password}{DATIM password, recommend using `datim_pwd()`}
+\item{password}{DATIM password, recommend using glamr::datim_pwd()`}
 
 \item{baseurl}{base url for the API, default = https://final.datim.org/}
 }
@@ -31,7 +31,7 @@ Use with caution. Use `get_ouorguids()` for levels below 3
 }
 \examples{
 \dontrun{
- library(glamr)
+ library(grabr)
 
  # All orgunit level 3 uids + names
  orgs <- get_orguids(level = 3)

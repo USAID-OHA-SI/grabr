@@ -31,9 +31,8 @@ PEPFAR/Panorama releases, on the quarterly basis, global programs' Monitoring, E
 
 ```{r setup, echo = T, eval = T}
 library(tidyverse)
-library(rvest)
-library(httr)
-library(zip)
+library(glamr)
+library(grabr)
 ```
 
 ### Create an active session 
@@ -41,6 +40,8 @@ library(zip)
 Panorama is a protected site and all user will need to authenticate in order to order to explore the dashboards. Same is true for data extraction. To create an active and valid session for all the http requests, we will use `pano_session()`
 
 ```{r echo = T, eval = F}
+load_secrets()
+
 user <- pano_user()
 pass <- pano_pwd()
 

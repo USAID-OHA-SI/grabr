@@ -34,7 +34,7 @@ Identify OU/Org Label
 }
 \examples{
 \dontrun{
-  library(glamr)
+  library(grabr)
 
   get_ouorglabel(operatingunit = "Zambia", org_level = 5)
 }

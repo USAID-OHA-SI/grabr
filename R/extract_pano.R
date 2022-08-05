@@ -9,7 +9,7 @@
 #'
 #' @examples
 #' \dontrun{
-#'   library(glamr)
+#'   library(grabr)
 #'
 #'   s <- pano_session("<my-pano-user>", "<my-password>")
 #' }
@@ -63,7 +63,7 @@ pano_session <- function(username = NULL,
 #'
 #' @examples
 #' \dontrun{
-#'   library(glamr)
+#'   library(grabr)
 #'
 #'   s <- pano_session("<my-pano-user>", "<my-password>")
 #'   url <- "https://pepfar-panorama.org/forms/downloads"
@@ -97,7 +97,7 @@ pano_content <- function(page_url, session) {
 #'
 #' @examples
 #' \dontrun{
-#'   library(glamr)
+#'   library(grabr)
 #'
 #'   s <- pano_session("<my-pano-user>", "<my-password>")
 #'   url <- "https://pepfar-panorama.org/forms/downloads"
@@ -157,7 +157,7 @@ pano_elements <- function(page_html,
 #'
 #' @examples
 #' \dontrun{
-#'   library(glamr)
+#'   library(grabr)
 #'
 #'   s <- pano_session("<my-pano-user>", "<my-password>")
 #'   url <- "https://pepfar-panorama.org/forms/downloads"
@@ -195,7 +195,7 @@ pano_items <- function(page_url, session = NULL) {
 #' @examples
 #' \dontrun{
 #'   library(tidyverse)
-#'   library(glamr)
+#'   library(grabr)
 #'
 #'   s <- pano_session("<my-pano-user>", "<my-password>")
 #'   url <- "https://pepfar-panorama.org/forms/downloads"
@@ -247,7 +247,7 @@ pano_download <- function(item_url, session,
 #' @examples
 #' \dontrun{
 #'   library(tidyverse)
-#'   library(glamr)
+#'   library(grabr)
 #'
 #'   s <- pano_session("<my-pano-user>", "<my-password>")
 #'   url <- "https://pepfar-panorama.org/forms/downloads"
@@ -314,7 +314,7 @@ pano_unpack <- function(df_pano, session) {
 #' @examples
 #' \dontrun{
 #'   library(tidyverse)
-#'   library(glamr)
+#'   library(grabr)
 #'
 #'   pano_extract(item = "mer")
 #' }
