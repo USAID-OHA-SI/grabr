@@ -489,7 +489,7 @@ get_ouorglevel <-
            country = NULL,
            org_type = "prioritization",
            username,
-           p,
+           password,
            baseurl = "https://final.datim.org/") {
 
     # params
