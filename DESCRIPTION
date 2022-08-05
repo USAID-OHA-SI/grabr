@@ -39,8 +39,11 @@ Imports:
     usethis,
     vroom,
     zip
+Suggests:
+    knitr
 Remotes:
-  USAID-OHA-SI/glamr
+    USAID-OHA-SI/glamr
+BuildVignettes: false
 VignetteBuilder: knitr
 Depends: 
     R (>= 2.10)
