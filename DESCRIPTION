@@ -51,7 +51,7 @@ Suggests:
     vroom,
     countrycode
 Remotes:
-    USAID-OHA-SI/glamr
+    USAID-OHA-SI/glamr,
     USAID-OHA-SI/gagglr
 VignetteBuilder: knitr
 Depends: 

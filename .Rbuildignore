@@ -5,3 +5,4 @@
 ^doc$
 ^\.github$
 ^data-raw$
+pkgdown/
