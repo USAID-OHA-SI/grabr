@@ -14,6 +14,7 @@ Provides a series of base functions useful to the GH OHA SI team. These function
 Useful links:
 \itemize{
   \item \url{https://github.com/USAID-OHA-SI/grabr}
+  \item \url{https://usaid-oha-si.github.io/grabr/}
   \item Report bugs at \url{https://github.com/USAID-OHA-SI/grabr/issues}
 }
 
