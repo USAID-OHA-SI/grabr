@@ -1,4 +1,6 @@
 <!-- badges: start -->
+[![Lifecycle: stable](https://img.shields.io/badge/lifecycle-stable-brightgreen.svg)](https://lifecycle.r-lib.org/articles/stages.html#stable)
+[![R-CMD-check](https://github.com/USAID-OHA-SI/grabr/workflows/R-CMD-check/badge.svg)](https://github.com/USAID-OHA-SI/grabr/actions)
 <!-- badges: end -->
 
 # grabr <img src="man/figures/logo.png" align="right" height="120" />
