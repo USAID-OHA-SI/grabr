@@ -11,7 +11,8 @@ Description: Provides a series of base functions useful to the GH OHA SI team.
   These function extend the utility functions in glamr, focusing primarily on 
   API utility functions.
 License: MIT + file LICENSE
-URL: https://github.com/USAID-OHA-SI/grabr
+URL: https://github.com/USAID-OHA-SI/grabr,
+    https://usaid-oha-si.github.io/grabr/
 BugReports: https://github.com/USAID-OHA-SI/grabr/issues
 Encoding: UTF-8
 LazyData: true
