@@ -28,7 +28,7 @@ If you do not have `remotes` installed, you will have to run the `install.packag
     library(grabr)
 
 ## LIST TYPES OF STYLES INCLUDED WITH PACKAGE
-  ls(package:grabr)
+  ls("package:grabr")
 ```
 
 
