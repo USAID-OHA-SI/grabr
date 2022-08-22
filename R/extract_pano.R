@@ -347,14 +347,13 @@ pano_extract <- function(item = "mer",
   archive <- NULL
 
   # Current releases
-  if(!stringr::str_to_lower(version) %in% c("intial", "clean")){
+  if(!stringr::str_to_lower(version) %in% c("initial", "clean")){
     version <- df_pd_info$type
-    usethis::ui_warn("INPUT - Invalid input for version. Enter either 'Initial' or 'Clean'. Defaulting to {df_pd_info$type}.")
-
+    # usethis::ui_warn("INPUT - Invalid input for version. Enter either 'Initial' or 'Clean'. Defaulting to {df_pd_info$type}.")
   }
 
   # Search key
-  s_dir <- base::paste0(s_item, " FY", fiscal_year, " Q", quarter, stringr::str_to_sentence(version))
+  s_dir <- base::paste0(s_item, " FY", fiscal_year, " Q", quarter, " ", stringr::str_to_sentence(version))
 
   accnt <- lazy_secrets("pano", username, password)
 
