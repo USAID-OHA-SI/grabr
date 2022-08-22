@@ -233,7 +233,6 @@ pano_download <- function(item_url, session,
 #' @param session  Valid and active login session
 #'
 #' @return unnested data frame containing output files
-#' @examples
 #'
 #' @examples
 #' \dontrun{
@@ -292,12 +291,13 @@ pano_unpack <- function(df_pano, session) {
 #' @note This function combines `pano_session()`, `pano_content()`, `pano_elements()`, and in some cases `pano_unpack()`
 #'
 #' @param item         Panorama data type. Eg: mer, financial, sims, narratives
-#' @param version      Data release version: initial or clean
-#' @param fiscal_year  Reporting Fiscal year
-#' @param quarter      Reporting Quarter
-#' @param unpack       If yes, unpack nested directories
-#' @param username     Panorama username, recommend using `pano_user()`
-#' @param password     Panorama password, recommend using `pano_pwd()`
+#' @param version      Data release version: Initial or Clean, defaults to
+#'  current version if blank
+#' @param fiscal_year  Reporting Fiscal year, defaults to current FY if blank
+#' @param quarter      Reporting Quarter, defaults to current quarter if blank
+#' @param unpack       If TRUE, unpack nested directories
+#' @param username     Panorama username, recommend using `glamr::pano_user()`
+#' @param password     Panorama password, recommend using `glamr::pano_pwd()`
 #' @param base_url     Panorama base url
 #'
 #' @return list of output files as data frame
@@ -311,9 +311,9 @@ pano_unpack <- function(df_pano, session) {
 #' }
 #'
 pano_extract <- function(item = "mer",
-                         version = "initial",
-                         fiscal_year = 2021,
-                         quarter = 3,
+                         version,
+                         fiscal_year,
+                         quarter,
                          unpack = FALSE,
                          username,
                          password,
@@ -326,17 +326,35 @@ pano_extract <- function(item = "mer",
   # Search Item
   s_item <- stringr::str_to_lower(item)
 
+  #current periods information (to provide if missing)
+  df_pd_info <- glamr::pepfar_data_calendar %>%
+    dplyr::filter(msd_release <= Sys.Date()) %>%
+    dplyr::slice_tail()
+
+  if(missing(fiscal_year)){
+    fiscal_year <- df_pd_info$fiscal_year
+  }
+
+  if(missing(quarter)){
+    quarter <- df_pd_info$quarter
+  }
+
+  if(missing(version)){
+    version <- df_pd_info$type
+  }
+
   # archived files: update based on fy & qtr
   archive <- NULL
 
   # Current releases
-  if(version %in% c("intial", "clean"))
-    base::stop("INPUT - Invalid input for version. Enter either 'initial' or 'clean'")
+  if(!stringr::str_to_lower(version) %in% c("intial", "clean")){
+    version <- df_pd_info$type
+    usethis::ui_warn("INPUT - Invalid input for version. Enter either 'Initial' or 'Clean'. Defaulting to {df_pd_info$type}.")
 
-  v <- ifelse(version == "initial", " Initial", " Clean") #"Pre-Cleaning", "Post-Cleaning"
+  }
 
   # Search key
-  s_dir <- base::paste0(s_item, " FY", fiscal_year, " Q", quarter, v)
+  s_dir <- base::paste0(s_item, " FY", fiscal_year, " Q", quarter, stringr::str_to_sentence(version))
 
   accnt <- lazy_secrets("pano", username, password)
 
