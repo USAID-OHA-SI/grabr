@@ -1,4 +1,6 @@
 # grabr 1.0.0
+* Update `pano_extract` to provide current period information if missing in parameters [2022-08-22]
+* Resolve Pano folder name change affecting `pano_extract` [2022-08-22]
 * Add dependencies to `glamr` and `gagglr` [2022-08-15]
 * Implement new internal function to handle authentication in decision tree - check for user provided, then check if stored via glamr, and lastly prompt for creds [2022-08-05]
 * Clean up package/site [2022-08-04]

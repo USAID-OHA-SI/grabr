@@ -121,9 +121,9 @@ Narratives.</p>
 <h3 id="pre-requisites">Pre-requisites<a class="anchor" aria-label="anchor" href="#pre-requisites"></a>
 </h3>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://tidyverse.tidyverse.org" class="external-link">tidyverse</a></span><span class="op">)</span>
-<span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/USAID-OHA-SI/glamr" class="external-link">glamr</a></span><span class="op">)</span>
-<span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/USAID-OHA-SI/grabr" class="external-link">grabr</a></span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://tidyverse.tidyverse.org" class="external-link">tidyverse</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/USAID-OHA-SI/glamr" class="external-link">glamr</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/USAID-OHA-SI/grabr" class="external-link">grabr</a></span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level3">
 <h3 id="create-an-active-session">Create an active session<a class="anchor" aria-label="anchor" href="#create-an-active-session"></a>
@@ -133,12 +133,12 @@ in order to order to explore the dashboards. Same is true for data
 extraction. To create an active and valid session for all the http
 requests, we will use <code><a href="../reference/pano_session.html">pano_session()</a></code></p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/pkg/glamr/man/load_secrets.html" class="external-link">load_secrets</a></span><span class="op">(</span><span class="op">)</span>
-
-<span class="va">user</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/glamr/man/pano_user.html" class="external-link">pano_user</a></span><span class="op">(</span><span class="op">)</span>
-<span class="va">pass</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/glamr/man/pano_pwd.html" class="external-link">pano_pwd</a></span><span class="op">(</span><span class="op">)</span>
-
-<span class="va">sess</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/pano_session.html">pano_session</a></span><span class="op">(</span>username <span class="op">=</span> <span class="va">user</span>, password <span class="op">=</span> <span class="va">pass</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/pkg/glamr/man/load_secrets.html" class="external-link">load_secrets</a></span><span class="op">(</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">user</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/glamr/man/pano_user.html" class="external-link">pano_user</a></span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="va">pass</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/glamr/man/pano_pwd.html" class="external-link">pano_pwd</a></span><span class="op">(</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">sess</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/pano_session.html">pano_session</a></span><span class="op">(</span>username <span class="op">=</span> <span class="va">user</span>, password <span class="op">=</span> <span class="va">pass</span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level3">
 <h3 id="extract-content-from-download-page">Extract content from download page<a class="anchor" aria-label="anchor" href="#extract-content-from-download-page"></a>
@@ -146,11 +146,11 @@ requests, we will use <code><a href="../reference/pano_session.html">pano_sessio
 <p>In order to extract the list of data items on the download page, we
 will need to get the html content of the page first.</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">url</span> <span class="op">&lt;-</span> <span class="st">"https://pepfar-panorama.org/forms/downloads/"</span>
-
-<span class="va">cont</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/pano_content.html">pano_content</a></span><span class="op">(</span>page_url <span class="op">=</span> <span class="va">url</span>, session <span class="op">=</span> <span class="va">sess</span><span class="op">)</span>
-
-<span class="va">cont</span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">url</span> <span class="op">&lt;-</span> <span class="st">"https://pepfar-panorama.org/forms/downloads/"</span></span>
+<span></span>
+<span><span class="va">cont</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/pano_content.html">pano_content</a></span><span class="op">(</span>page_url <span class="op">=</span> <span class="va">url</span>, session <span class="op">=</span> <span class="va">sess</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">cont</span></span></code></pre></div>
 </div>
 <div class="section level3">
 <h3 id="extract-data-items-details">Extract data items details<a class="anchor" aria-label="anchor" href="#extract-data-items-details"></a>
@@ -160,25 +160,25 @@ of them are listed as a hyperlink within a <code>&lt;li&gt;</code>
 element. The function <code><a href="../reference/pano_elements.html">pano_elements()</a></code> allows us to extract
 all those items as a tibble.</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">dirs</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/pano_elements.html">pano_elements</a></span><span class="op">(</span>page_html <span class="op">=</span> <span class="va">cont</span><span class="op">)</span>
-
-<span class="va">dirs</span>
-
-<span class="va">dir_mer_path</span> <span class="op">&lt;-</span> <span class="va">dirs</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> 
-  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="fu"><a href="https://stringr.tidyverse.org/reference/str_detect.html" class="external-link">str_detect</a></span><span class="op">(</span><span class="va">item</span>, <span class="st">"^MER"</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> 
-  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/pull.html" class="external-link">pull</a></span><span class="op">(</span><span class="va">path</span><span class="op">)</span>
-
-<span class="va">mer_items</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/pano_content.html">pano_content</a></span><span class="op">(</span>page_url <span class="op">=</span> <span class="va">dir_mer_path</span>, session <span class="op">=</span> <span class="va">sess</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> 
-  <span class="fu"><a href="../reference/pano_elements.html">pano_elements</a></span><span class="op">(</span>page_url <span class="op">=</span> <span class="va">dir_mer_path</span><span class="op">)</span>
-
-<span class="va">mer_items</span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">dirs</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/pano_elements.html">pano_elements</a></span><span class="op">(</span>page_html <span class="op">=</span> <span class="va">cont</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">dirs</span></span>
+<span></span>
+<span><span class="va">dir_mer_path</span> <span class="op">&lt;-</span> <span class="va">dirs</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> </span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="fu"><a href="https://stringr.tidyverse.org/reference/str_detect.html" class="external-link">str_detect</a></span><span class="op">(</span><span class="va">item</span>, <span class="st">"^MER"</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> </span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/pull.html" class="external-link">pull</a></span><span class="op">(</span><span class="va">path</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">mer_items</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/pano_content.html">pano_content</a></span><span class="op">(</span>page_url <span class="op">=</span> <span class="va">dir_mer_path</span>, session <span class="op">=</span> <span class="va">sess</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> </span>
+<span>  <span class="fu"><a href="../reference/pano_elements.html">pano_elements</a></span><span class="op">(</span>page_url <span class="op">=</span> <span class="va">dir_mer_path</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">mer_items</span></span></code></pre></div>
 <p><code><a href="../reference/pano_items.html">pano_items()</a></code> combines <code><a href="../reference/pano_content.html">pano_content()</a></code> and
 <code><a href="../reference/pano_elements.html">pano_elements()</a></code> into 1 function for a quick access to data
 items list on a specific page.</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">mer_items</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/pano_items.html">pano_items</a></span><span class="op">(</span>page_url <span class="op">=</span> <span class="va">dir_mer_path</span>, session <span class="op">=</span> <span class="va">sess</span><span class="op">)</span> 
-
-<span class="va">mer_items</span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">mer_items</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/pano_items.html">pano_items</a></span><span class="op">(</span>page_url <span class="op">=</span> <span class="va">dir_mer_path</span>, session <span class="op">=</span> <span class="va">sess</span><span class="op">)</span> </span>
+<span></span>
+<span><span class="va">mer_items</span></span></code></pre></div>
 </div>
 <div class="section level3">
 <h3 id="download-specific-items-from-panorama">Download specific items from Panorama<a class="anchor" aria-label="anchor" href="#download-specific-items-from-panorama"></a>
@@ -189,17 +189,17 @@ the <code><a href="../reference/pano_download.html">pano_download()</a></code> f
 for <code><a href="https://httr.r-lib.org/reference/GET.html" class="external-link">httr::GET()</a></code> function write option set to a local
 directory.</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">dest_path</span> <span class="op">&lt;-</span> <span class="st">"../../../Temp/"</span>
-
-<span class="va">url</span> <span class="op">&lt;-</span> <span class="va">mer_items</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> 
-  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">type</span> <span class="op">==</span> <span class="st">"file zip_file"</span>,
-         <span class="fu"><a href="https://stringr.tidyverse.org/reference/str_detect.html" class="external-link">str_detect</a></span><span class="op">(</span><span class="va">item</span>, <span class="st">".*_PSNU_IM_FY19-21_.*.zip$"</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> 
-  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/pull.html" class="external-link">pull</a></span><span class="op">(</span><span class="va">path</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> 
-  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/nth.html" class="external-link">first</a></span><span class="op">(</span><span class="op">)</span> 
-
-<span class="va">url</span>
-
-<span class="fu"><a href="../reference/pano_download.html">pano_download</a></span><span class="op">(</span>item_url <span class="op">=</span> <span class="va">url</span>, session <span class="op">=</span> <span class="va">sess</span>, dest <span class="op">=</span> <span class="va">dest_path</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">dest_path</span> <span class="op">&lt;-</span> <span class="st">"../../../Temp/"</span></span>
+<span></span>
+<span><span class="va">url</span> <span class="op">&lt;-</span> <span class="va">mer_items</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> </span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">type</span> <span class="op">==</span> <span class="st">"file zip_file"</span>,</span>
+<span>         <span class="fu"><a href="https://stringr.tidyverse.org/reference/str_detect.html" class="external-link">str_detect</a></span><span class="op">(</span><span class="va">item</span>, <span class="st">".*_PSNU_IM_FY19-21_.*.zip$"</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> </span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/pull.html" class="external-link">pull</a></span><span class="op">(</span><span class="va">path</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> </span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/nth.html" class="external-link">first</a></span><span class="op">(</span><span class="op">)</span> </span>
+<span></span>
+<span><span class="va">url</span></span>
+<span></span>
+<span><span class="fu"><a href="../reference/pano_download.html">pano_download</a></span><span class="op">(</span>item_url <span class="op">=</span> <span class="va">url</span>, session <span class="op">=</span> <span class="va">sess</span>, dest <span class="op">=</span> <span class="va">dest_path</span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level3">
 <h3 id="download-mutiple-items-from-panorama">Download mutiple items from Panorama<a class="anchor" aria-label="anchor" href="#download-mutiple-items-from-panorama"></a>
@@ -208,23 +208,23 @@ directory.</p>
 download all MER data sets from Panorama. This function combine all the
 above steps into one.</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">items</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/pano_extract.html">pano_extract</a></span><span class="op">(</span>item <span class="op">=</span> <span class="st">"mer"</span>, 
-                      version <span class="op">=</span> <span class="st">"clean"</span>, 
-                      fiscal_year <span class="op">=</span> <span class="fl">2021</span>, 
-                      quarter <span class="op">=</span> <span class="fl">2</span>,
-                      username <span class="op">=</span> <span class="va">user</span>,
-                      password <span class="op">=</span> <span class="va">pass</span>,
-                      unpack <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>
-
-<span class="va">items</span>
-
-<span class="va">url_items</span> <span class="op">&lt;-</span> <span class="va">items</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span>
-  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">type</span> <span class="op">==</span> <span class="st">"file zip_file"</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span>
-  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/pull.html" class="external-link">pull</a></span><span class="op">(</span><span class="va">path</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span>
-  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/nth.html" class="external-link">first</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> <span class="co"># remove this to downlaod all zipped files</span>
-  <span class="fu"><a href="https://purrr.tidyverse.org/reference/map.html" class="external-link">walk</a></span><span class="op">(</span><span class="op">~</span><span class="fu"><a href="../reference/pano_download.html">pano_download</a></span><span class="op">(</span>item_url <span class="op">=</span> <span class="va">.x</span>, 
-                      session <span class="op">=</span> <span class="va">sess</span>, 
-                      dest <span class="op">=</span> <span class="va">dest_path</span><span class="op">)</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">items</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/pano_extract.html">pano_extract</a></span><span class="op">(</span>item <span class="op">=</span> <span class="st">"mer"</span>, </span>
+<span>                      version <span class="op">=</span> <span class="st">"clean"</span>, </span>
+<span>                      fiscal_year <span class="op">=</span> <span class="fl">2021</span>, </span>
+<span>                      quarter <span class="op">=</span> <span class="fl">2</span>,</span>
+<span>                      username <span class="op">=</span> <span class="va">user</span>,</span>
+<span>                      password <span class="op">=</span> <span class="va">pass</span>,</span>
+<span>                      unpack <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">items</span></span>
+<span></span>
+<span><span class="va">url_items</span> <span class="op">&lt;-</span> <span class="va">items</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">type</span> <span class="op">==</span> <span class="st">"file zip_file"</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/pull.html" class="external-link">pull</a></span><span class="op">(</span><span class="va">path</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/nth.html" class="external-link">first</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> <span class="co"># remove this to downlaod all zipped files</span></span>
+<span>  <span class="fu"><a href="https://purrr.tidyverse.org/reference/map.html" class="external-link">walk</a></span><span class="op">(</span><span class="op">~</span><span class="fu"><a href="../reference/pano_download.html">pano_download</a></span><span class="op">(</span>item_url <span class="op">=</span> <span class="va">.x</span>, </span>
+<span>                      session <span class="op">=</span> <span class="va">sess</span>, </span>
+<span>                      dest <span class="op">=</span> <span class="va">dest_path</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level3">
 <h3 id="download-msd-ou-specific-items-from-panorama">Download MSD / OU Specific items from Panorama<a class="anchor" aria-label="anchor" href="#download-msd-ou-specific-items-from-panorama"></a>
@@ -234,12 +234,12 @@ download of MSD files for specific operating units and at a specific org
 hierarchy level. Eg: download Zambia’s Site x IM data sets from
 Panorama.</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
-<code class="sourceCode R">  <span class="fu"><a href="../reference/pano_extract_msd.html">pano_extract_msd</a></span><span class="op">(</span>operatingunit <span class="op">=</span> <span class="st">"Zambia"</span>,
-                version <span class="op">=</span> <span class="st">"clean"</span>,
-                fiscal_year <span class="op">=</span> <span class="fl">2021</span>,
-                quarter <span class="op">=</span> <span class="fl">3</span>,
-                level <span class="op">=</span> <span class="st">"site"</span>,
-                dest_path <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span>  <span class="fu"><a href="../reference/pano_extract_msd.html">pano_extract_msd</a></span><span class="op">(</span>operatingunit <span class="op">=</span> <span class="st">"Zambia"</span>,</span>
+<span>                version <span class="op">=</span> <span class="st">"clean"</span>,</span>
+<span>                fiscal_year <span class="op">=</span> <span class="fl">2021</span>,</span>
+<span>                quarter <span class="op">=</span> <span class="fl">3</span>,</span>
+<span>                level <span class="op">=</span> <span class="st">"site"</span>,</span>
+<span>                dest_path <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level3">
 <h3 id="download-latest-msd-ou-specific-items-from-panorama">Download latest MSD / OU Specific items from Panorama<a class="anchor" aria-label="anchor" href="#download-latest-msd-ou-specific-items-from-panorama"></a>
@@ -249,9 +249,9 @@ download and management of latest MSD files for global and/or specific
 operating units. The function will move existing files to an
 <code>archive</code> folder before downloading current files.</p>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
-<code class="sourceCode R">  <span class="fu"><a href="../reference/pano_extract_msds.html">pano_extract_msds</a></span><span class="op">(</span>operatingunit <span class="op">=</span> <span class="st">"Zambia"</span>,
-                    archive <span class="op">=</span> <span class="cn">TRUE</span>,
-                    dest_path <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/glamr/man/si_path.html" class="external-link">si_path</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span>  <span class="fu"><a href="../reference/pano_extract_msds.html">pano_extract_msds</a></span><span class="op">(</span>operatingunit <span class="op">=</span> <span class="st">"Zambia"</span>,</span>
+<span>                    archive <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>                    dest_path <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/glamr/man/si_path.html" class="external-link">si_path</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 </div>
   </div>
 
@@ -270,7 +270,7 @@ operating units. The function will move existing files to an
 
 <div class="pkgdown">
   <p></p>
-<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
       </footer>

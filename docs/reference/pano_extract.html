@@ -69,40 +69,58 @@
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">pano_extract</span><span class="op">(</span>
-  item <span class="op">=</span> <span class="st">"mer"</span>,
-  version <span class="op">=</span> <span class="st">"initial"</span>,
-  fiscal_year <span class="op">=</span> <span class="fl">2021</span>,
-  quarter <span class="op">=</span> <span class="fl">3</span>,
-  unpack <span class="op">=</span> <span class="cn">FALSE</span>,
-  <span class="va">username</span>,
-  <span class="va">password</span>,
-  base_url <span class="op">=</span> <span class="st">"https://pepfar-panorama.org"</span>
-<span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">pano_extract</span><span class="op">(</span></span>
+<span>  item <span class="op">=</span> <span class="st">"mer"</span>,</span>
+<span>  <span class="va">version</span>,</span>
+<span>  <span class="va">fiscal_year</span>,</span>
+<span>  <span class="va">quarter</span>,</span>
+<span>  unpack <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  <span class="va">username</span>,</span>
+<span>  <span class="va">password</span>,</span>
+<span>  base_url <span class="op">=</span> <span class="st">"https://pepfar-panorama.org"</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>item</dt>
 <dd><p>Panorama data type. Eg: mer, financial, sims, narratives</p></dd>
+
+
 <dt>version</dt>
-<dd><p>Data release version: initial or clean</p></dd>
+<dd><p>Data release version: Initial or Clean, defaults to
+current version if blank</p></dd>
+
+
 <dt>fiscal_year</dt>
-<dd><p>Reporting Fiscal year</p></dd>
+<dd><p>Reporting Fiscal year, defaults to current FY if blank</p></dd>
+
+
 <dt>quarter</dt>
-<dd><p>Reporting Quarter</p></dd>
+<dd><p>Reporting Quarter, defaults to current quarter if blank</p></dd>
+
+
 <dt>unpack</dt>
-<dd><p>If yes, unpack nested directories</p></dd>
+<dd><p>If TRUE, unpack nested directories</p></dd>
+
+
 <dt>username</dt>
-<dd><p>Panorama username, recommend using `pano_user()`</p></dd>
+<dd><p>Panorama username, recommend using `glamr::pano_user()`</p></dd>
+
+
 <dt>password</dt>
-<dd><p>Panorama password, recommend using `pano_pwd()`</p></dd>
+<dd><p>Panorama password, recommend using `glamr::pano_pwd()`</p></dd>
+
+
 <dt>base_url</dt>
 <dd><p>Panorama base url</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>list of output files as data frame</p>
+    
+
+<p>list of output files as data frame</p>
     </div>
     <div id="note">
     <h2>Note</h2>
@@ -111,13 +129,13 @@
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span>
-<span class="r-in">  <span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://tidyverse.tidyverse.org" class="external-link">tidyverse</a></span><span class="op">)</span></span>
-<span class="r-in">  <span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/USAID-OHA-SI/grabr" class="external-link">grabr</a></span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in">  <span class="fu">pano_extract</span><span class="op">(</span>item <span class="op">=</span> <span class="st">"mer"</span><span class="op">)</span></span>
-<span class="r-in"><span class="op">}</span></span>
-<span class="r-in"></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span></span>
+<span class="r-in"><span>  <span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://tidyverse.tidyverse.org" class="external-link">tidyverse</a></span><span class="op">)</span></span></span>
+<span class="r-in"><span>  <span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/USAID-OHA-SI/grabr" class="external-link">grabr</a></span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span>  <span class="fu">pano_extract</span><span class="op">(</span>item <span class="op">=</span> <span class="st">"mer"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="op">}</span></span></span>
+<span class="r-in"><span></span></span>
 </code></pre></div>
     </div>
   </div>
@@ -132,7 +150,7 @@
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
       </footer></div>

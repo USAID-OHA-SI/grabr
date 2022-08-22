@@ -73,21 +73,28 @@ that feeds into `get_outable`.</p>
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">identify_ouuids</span><span class="op">(</span><span class="va">username</span>, <span class="va">password</span>, baseurl <span class="op">=</span> <span class="st">"https://final.datim.org/"</span><span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">identify_ouuids</span><span class="op">(</span><span class="va">username</span>, <span class="va">password</span>, baseurl <span class="op">=</span> <span class="st">"https://final.datim.org/"</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>username</dt>
 <dd><p>DATIM Username, defaults to using glamr::datim_user()` if blank</p></dd>
+
+
 <dt>password</dt>
 <dd><p>DATIM password, defaults to using glamr::datim_pwd()` if blank</p></dd>
+
+
 <dt>baseurl</dt>
 <dd><p>base url for the API, default = https://final.datim.org/</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>Datim country names</p>
+    
+
+<p>Datim country names</p>
     </div>
     <div id="details">
     <h2>Details</h2>
@@ -103,9 +110,9 @@ using `set_datim`.</p>
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span>
-<span class="r-in"> <span class="fu">load_secrets</span><span class="op">(</span><span class="op">)</span></span>
-<span class="r-in"> <span class="va">ous</span> <span class="op">&lt;-</span> <span class="fu">identify_ouuids</span><span class="op">(</span><span class="op">)</span> <span class="op">}</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span></span>
+<span class="r-in"><span> <span class="fu">load_secrets</span><span class="op">(</span><span class="op">)</span></span></span>
+<span class="r-in"><span> <span class="va">ous</span> <span class="op">&lt;-</span> <span class="fu">identify_ouuids</span><span class="op">(</span><span class="op">)</span> <span class="op">}</span></span></span>
 </code></pre></div>
     </div>
   </div>
@@ -120,7 +127,7 @@ using `set_datim`.</p>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
       </footer></div>

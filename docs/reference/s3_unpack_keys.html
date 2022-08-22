@@ -69,28 +69,35 @@
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">s3_unpack_keys</span><span class="op">(</span><span class="va">df_objects</span>, rmv_sysfiles <span class="op">=</span> <span class="cn">TRUE</span>, rmv_hidden <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">s3_unpack_keys</span><span class="op">(</span><span class="va">df_objects</span>, rmv_sysfiles <span class="op">=</span> <span class="cn">TRUE</span>, rmv_hidden <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>df_objects</dt>
 <dd><p>S3 objects as df</p></dd>
+
+
 <dt>rmv_sysfiles</dt>
 <dd><p>Remove System object (logs, git folders, etc.)?</p></dd>
+
+
 <dt>rmv_hidden</dt>
 <dd><p>Remove Hidden objects (folders/files starting with dot) ?</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>S3 Cleaned Objects list as tibble</p>
+    
+
+<p>S3 Cleaned Objects list as tibble</p>
     </div>
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span>
-<span class="r-in"><span class="fu"><a href="s3_objects.html">s3_objects</a></span><span class="op">(</span><span class="st">"sample-bucket"</span><span class="op">)</span> <span class="op"><a href="pipe.html">%&gt;%</a></span> <span class="fu">s3_unpack_keys</span><span class="op">(</span><span class="op">)</span><span class="op">}</span></span>
-<span class="r-in"></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="s3_objects.html">s3_objects</a></span><span class="op">(</span><span class="st">"sample-bucket"</span><span class="op">)</span> <span class="op"><a href="pipe.html">%&gt;%</a></span> <span class="fu">s3_unpack_keys</span><span class="op">(</span><span class="op">)</span><span class="op">}</span></span></span>
+<span class="r-in"><span></span></span>
 </code></pre></div>
     </div>
   </div>
@@ -105,7 +112,7 @@
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
       </footer></div>

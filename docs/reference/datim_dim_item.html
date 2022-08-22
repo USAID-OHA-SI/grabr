@@ -69,44 +69,55 @@
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">datim_dim_item</span><span class="op">(</span>
-  <span class="va">dimension</span>,
-  <span class="va">name</span>,
-  url <span class="op">=</span> <span class="st">"https://final.datim.org/api/dimensions"</span>,
-  username <span class="op">=</span> <span class="cn">NULL</span>,
-  password <span class="op">=</span> <span class="cn">NULL</span>
-<span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">datim_dim_item</span><span class="op">(</span></span>
+<span>  <span class="va">dimension</span>,</span>
+<span>  <span class="va">name</span>,</span>
+<span>  url <span class="op">=</span> <span class="st">"https://final.datim.org/api/dimensions"</span>,</span>
+<span>  username <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  password <span class="op">=</span> <span class="cn">NULL</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>dimension</dt>
 <dd><p>Dimension name</p></dd>
+
+
 <dt>name</dt>
 <dd><p>Item name</p></dd>
+
+
 <dt>url</dt>
 <dd><p>DATIM API end point</p></dd>
+
+
 <dt>username</dt>
 <dd><p>DATIM Account Username</p></dd>
+
+
 <dt>password</dt>
 <dd><p>DATIM Account passward</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>UID of item</p>
+    
+
+<p>UID of item</p>
     </div>
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span>
-<span class="r-in">  <span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/USAID-OHA-SI/grabr" class="external-link">grabr</a></span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in">  <span class="fu">datim_dim_item</span><span class="op">(</span>dimension <span class="op">=</span> <span class="st">"Funding Agency"</span>, name <span class="op">=</span> <span class="st">"USAID"</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in">  <span class="fu">datim_dim_item</span><span class="op">(</span>dimension <span class="op">=</span> <span class="st">"Targets / Results"</span>, name <span class="op">=</span> <span class="st">"MER Results"</span><span class="op">)</span></span>
-<span class="r-in">  <span class="fu">datim_dim_item</span><span class="op">(</span>dimension <span class="op">=</span> <span class="st">"Targets / Results"</span>, name <span class="op">=</span> <span class="st">"MER Targets"</span><span class="op">)</span></span>
-<span class="r-in"><span class="op">}</span></span>
-<span class="r-in"></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span></span>
+<span class="r-in"><span>  <span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/USAID-OHA-SI/grabr" class="external-link">grabr</a></span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span>  <span class="fu">datim_dim_item</span><span class="op">(</span>dimension <span class="op">=</span> <span class="st">"Funding Agency"</span>, name <span class="op">=</span> <span class="st">"USAID"</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span>  <span class="fu">datim_dim_item</span><span class="op">(</span>dimension <span class="op">=</span> <span class="st">"Targets / Results"</span>, name <span class="op">=</span> <span class="st">"MER Results"</span><span class="op">)</span></span></span>
+<span class="r-in"><span>  <span class="fu">datim_dim_item</span><span class="op">(</span>dimension <span class="op">=</span> <span class="st">"Targets / Results"</span>, name <span class="op">=</span> <span class="st">"MER Targets"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="op">}</span></span></span>
+<span class="r-in"><span></span></span>
 </code></pre></div>
     </div>
   </div>
@@ -121,7 +132,7 @@
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
       </footer></div>

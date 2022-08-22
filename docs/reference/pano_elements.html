@@ -69,34 +69,39 @@
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">pano_elements</span><span class="op">(</span><span class="va">page_html</span>, page_url <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">pano_elements</span><span class="op">(</span><span class="va">page_html</span>, page_url <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>page_html</dt>
 <dd><p>html content</p></dd>
+
+
 <dt>page_url</dt>
 <dd><p>Curretn html page url</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>html element</p>
+    
+
+<p>html element</p>
     </div>
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span>
-<span class="r-in">  <span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/USAID-OHA-SI/grabr" class="external-link">grabr</a></span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in">  <span class="va">s</span> <span class="op">&lt;-</span> <span class="fu"><a href="pano_session.html">pano_session</a></span><span class="op">(</span><span class="st">"&lt;my-pano-user&gt;"</span>, <span class="st">"&lt;my-password&gt;"</span><span class="op">)</span></span>
-<span class="r-in">  <span class="va">url</span> <span class="op">&lt;-</span> <span class="st">"https://pepfar-panorama.org/forms/downloads"</span></span>
-<span class="r-in"></span>
-<span class="r-in">  <span class="va">cont</span> <span class="op">&lt;-</span> <span class="fu"><a href="pano_content.html">pano_content</a></span><span class="op">(</span>page_url <span class="op">=</span> <span class="va">url</span>, session <span class="op">=</span> <span class="va">s</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in">  <span class="va">elts</span> <span class="op">&lt;-</span> <span class="fu">pano_elements</span><span class="op">(</span>page_html <span class="op">=</span> <span class="va">cont</span>, page_url <span class="op">=</span> <span class="va">url</span><span class="op">)</span></span>
-<span class="r-in"><span class="op">}</span></span>
-<span class="r-in"></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span></span>
+<span class="r-in"><span>  <span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/USAID-OHA-SI/grabr" class="external-link">grabr</a></span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span>  <span class="va">s</span> <span class="op">&lt;-</span> <span class="fu"><a href="pano_session.html">pano_session</a></span><span class="op">(</span><span class="st">"&lt;my-pano-user&gt;"</span>, <span class="st">"&lt;my-password&gt;"</span><span class="op">)</span></span></span>
+<span class="r-in"><span>  <span class="va">url</span> <span class="op">&lt;-</span> <span class="st">"https://pepfar-panorama.org/forms/downloads"</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span>  <span class="va">cont</span> <span class="op">&lt;-</span> <span class="fu"><a href="pano_content.html">pano_content</a></span><span class="op">(</span>page_url <span class="op">=</span> <span class="va">url</span>, session <span class="op">=</span> <span class="va">s</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span>  <span class="va">elts</span> <span class="op">&lt;-</span> <span class="fu">pano_elements</span><span class="op">(</span>page_html <span class="op">=</span> <span class="va">cont</span>, page_url <span class="op">=</span> <span class="va">url</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="op">}</span></span></span>
+<span class="r-in"><span></span></span>
 </code></pre></div>
     </div>
   </div>
@@ -111,7 +116,7 @@
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
       </footer></div>

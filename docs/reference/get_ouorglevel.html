@@ -69,50 +69,63 @@
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">get_ouorglevel</span><span class="op">(</span>
-  <span class="va">operatingunit</span>,
-  country <span class="op">=</span> <span class="cn">NULL</span>,
-  org_type <span class="op">=</span> <span class="st">"prioritization"</span>,
-  <span class="va">username</span>,
-  <span class="va">password</span>,
-  baseurl <span class="op">=</span> <span class="st">"https://final.datim.org/"</span>
-<span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">get_ouorglevel</span><span class="op">(</span></span>
+<span>  <span class="va">operatingunit</span>,</span>
+<span>  country <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  org_type <span class="op">=</span> <span class="st">"prioritization"</span>,</span>
+<span>  <span class="va">username</span>,</span>
+<span>  <span class="va">password</span>,</span>
+<span>  baseurl <span class="op">=</span> <span class="st">"https://final.datim.org/"</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>operatingunit</dt>
 <dd><p>Operatingunit name</p></dd>
+
+
 <dt>country</dt>
 <dd><p>Country name (default = Operatingunit)</p></dd>
+
+
 <dt>org_type</dt>
 <dd><p>Orgunit type (country_lvl, prioritization, community, facility_lvl)</p></dd>
+
+
 <dt>username</dt>
 <dd><p>Datim Account username</p></dd>
+
+
 <dt>password</dt>
 <dd><p>Datim Account Password</p></dd>
+
+
 <dt>base_url</dt>
 <dd><p>Datim Base URL</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>uid</p>
+    
+
+<p>uid</p>
     </div>
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span>
-<span class="r-in"> <span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/USAID-OHA-SI/grabr" class="external-link">grabr</a></span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"> <span class="va">cntry</span> <span class="op">&lt;-</span> <span class="st">"Zambia"</span></span>
-<span class="r-in"></span>
-<span class="r-in"> <span class="co"># Get country org level</span></span>
-<span class="r-in"> <span class="fu">get_ouorglevel</span><span class="op">(</span><span class="va">cntry</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"> <span class="co"># Get community org level</span></span>
-<span class="r-in"> <span class="fu">get_ouorglevel</span><span class="op">(</span><span class="va">cntry</span>, org_type <span class="op">=</span> <span class="st">"community"</span><span class="op">)</span></span>
-<span class="r-in"><span class="op">}</span></span>
-<span class="r-in"></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span></span>
+<span class="r-in"><span> <span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/USAID-OHA-SI/grabr" class="external-link">grabr</a></span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span> <span class="va">cntry</span> <span class="op">&lt;-</span> <span class="st">"Zambia"</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span> <span class="co"># Get country org level</span></span></span>
+<span class="r-in"><span> <span class="fu">get_ouorglevel</span><span class="op">(</span><span class="va">cntry</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span> <span class="co"># Get community org level</span></span></span>
+<span class="r-in"><span> <span class="fu">get_ouorglevel</span><span class="op">(</span><span class="va">cntry</span>, org_type <span class="op">=</span> <span class="st">"community"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="op">}</span></span></span>
+<span class="r-in"><span></span></span>
 </code></pre></div>
     </div>
   </div>
@@ -127,7 +140,7 @@
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
       </footer></div>
