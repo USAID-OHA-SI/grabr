@@ -6,7 +6,7 @@
 \alias{grabr-package}
 \title{grabr: OHA/SI APIs Package}
 \description{
-\if{html}{\figure{logo.png}{options: align='right' alt='logo' width='120'}}
+\if{html}{\figure{logo.png}{options: style='float: right' alt='logo' width='120'}}
 
 Provides a series of base functions useful to the GH OHA SI team. These function extend the utility functions in glamr, focusing primarily on API utility functions.
 }

@@ -69,21 +69,28 @@
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">extract_datim</span><span class="op">(</span><span class="va">url</span>, <span class="va">username</span>, <span class="va">password</span><span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">extract_datim</span><span class="op">(</span><span class="va">url</span>, <span class="va">username</span>, <span class="va">password</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>url</dt>
 <dd><p>supply url for API call</p></dd>
+
+
 <dt>username</dt>
 <dd><p>DATIM Username, defaults to using glamr::datim_user()` if blank</p></dd>
+
+
 <dt>password</dt>
 <dd><p>DATIM password, defaults to using glamr::datim_pwd()` if blank</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>API pull of data from DATIM</p>
+    
+
+<p>API pull of data from DATIM</p>
     </div>
     <div id="note">
     <h2>Note</h2>
@@ -92,17 +99,17 @@
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span>
-<span class="r-in"> <span class="va">myurl</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="va">baseurl</span>, <span class="st">"api/29/analytics.json?</span>
-<span class="r-in">                 dimension=LxhLO68FcXm:udCop657yzi&amp;</span>
-<span class="r-in">                 dimension=ou:LEVEL-4;HfVjCurKxh2&amp;</span>
-<span class="r-in">                 filter=pe:2018Oct&amp;</span>
-<span class="r-in">                 displayProperty=SHORTNAME&amp;outputIdScheme=CODE"</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"> <span class="va">df_targets</span> <span class="op">&lt;-</span> <span class="fu">extract_datim</span><span class="op">(</span><span class="va">myurl</span>,<span class="fu">glamr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/glamr/man/datim_user.html" class="external-link">datim_user</a></span><span class="op">(</span><span class="op">)</span>,<span class="fu">glamr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/glamr/man/datim_pwd.html" class="external-link">datim_pwd</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"> <span class="op">}</span></span>
-<span class="r-in"></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span></span>
+<span class="r-in"><span> <span class="va">myurl</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="va">baseurl</span>, <span class="st">"api/29/analytics.json?</span></span></span>
+<span class="r-in"><span><span class="st">                 dimension=LxhLO68FcXm:udCop657yzi&amp;</span></span></span>
+<span class="r-in"><span><span class="st">                 dimension=ou:LEVEL-4;HfVjCurKxh2&amp;</span></span></span>
+<span class="r-in"><span><span class="st">                 filter=pe:2018Oct&amp;</span></span></span>
+<span class="r-in"><span><span class="st">                 displayProperty=SHORTNAME&amp;outputIdScheme=CODE"</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span> <span class="va">df_targets</span> <span class="op">&lt;-</span> <span class="fu">extract_datim</span><span class="op">(</span><span class="va">myurl</span>,<span class="fu">glamr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/glamr/man/datim_user.html" class="external-link">datim_user</a></span><span class="op">(</span><span class="op">)</span>,<span class="fu">glamr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/glamr/man/datim_pwd.html" class="external-link">datim_pwd</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span> <span class="op">}</span></span></span>
+<span class="r-in"><span></span></span>
 </code></pre></div>
     </div>
   </div>
@@ -117,7 +124,7 @@
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
       </footer></div>

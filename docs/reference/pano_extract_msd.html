@@ -69,44 +69,55 @@
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">pano_extract_msd</span><span class="op">(</span>
-  operatingunit <span class="op">=</span> <span class="cn">NULL</span>,
-  version <span class="op">=</span> <span class="st">"clean"</span>,
-  fiscal_year <span class="op">=</span> <span class="fl">2021</span>,
-  quarter <span class="op">=</span> <span class="fl">3</span>,
-  level <span class="op">=</span> <span class="st">"psnu"</span>,
-  dest_path <span class="op">=</span> <span class="cn">NULL</span>
-<span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">pano_extract_msd</span><span class="op">(</span></span>
+<span>  operatingunit <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  version <span class="op">=</span> <span class="st">"clean"</span>,</span>
+<span>  fiscal_year <span class="op">=</span> <span class="fl">2021</span>,</span>
+<span>  quarter <span class="op">=</span> <span class="fl">3</span>,</span>
+<span>  level <span class="op">=</span> <span class="st">"psnu"</span>,</span>
+<span>  dest_path <span class="op">=</span> <span class="cn">NULL</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>operatingunit</dt>
 <dd><p>PEPFAR Operating Unit. Default is set to NULL for global datasets</p></dd>
+
+
 <dt>version</dt>
 <dd><p>Data release version: initial or clean</p></dd>
+
+
 <dt>fiscal_year</dt>
 <dd><p>Reporting Fiscal year: 4 digits year</p></dd>
+
+
 <dt>quarter</dt>
 <dd><p>Reporting Quarter: Single digit quarters</p></dd>
+
+
 <dt>level</dt>
 <dd><p>Org level, options are ou, psnu and sites</p></dd>
+
+
 <dt>dest_path</dt>
 <dd><p>Directory path to download file. Default set to `si_path()`</p></dd>
+
 </dl></div>
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span>
-<span class="r-in"></span>
-<span class="r-in"> <span class="fu">pano_extract_msd</span><span class="op">(</span>operatingunit <span class="op">=</span> <span class="st">"Zambia"</span>,</span>
-<span class="r-in">                  version <span class="op">=</span> <span class="st">"clean"</span>,</span>
-<span class="r-in">                  fiscal_year <span class="op">=</span> <span class="fl">2021</span>,</span>
-<span class="r-in">                  quarter <span class="op">=</span> <span class="fl">3</span>,</span>
-<span class="r-in">                  level <span class="op">=</span> <span class="st">"site"</span>,</span>
-<span class="r-in">                  dest_path <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span>
-<span class="r-in"><span class="op">}</span></span>
-<span class="r-in"></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span> <span class="fu">pano_extract_msd</span><span class="op">(</span>operatingunit <span class="op">=</span> <span class="st">"Zambia"</span>,</span></span>
+<span class="r-in"><span>                  version <span class="op">=</span> <span class="st">"clean"</span>,</span></span>
+<span class="r-in"><span>                  fiscal_year <span class="op">=</span> <span class="fl">2021</span>,</span></span>
+<span class="r-in"><span>                  quarter <span class="op">=</span> <span class="fl">3</span>,</span></span>
+<span class="r-in"><span>                  level <span class="op">=</span> <span class="st">"site"</span>,</span></span>
+<span class="r-in"><span>                  dest_path <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="op">}</span></span></span>
+<span class="r-in"><span></span></span>
 </code></pre></div>
     </div>
   </div>
@@ -121,7 +132,7 @@
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
       </footer></div>

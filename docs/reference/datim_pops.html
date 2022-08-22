@@ -69,47 +69,60 @@
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">datim_pops</span><span class="op">(</span>
-  <span class="va">ou</span>,
-  level <span class="op">=</span> <span class="st">"country"</span>,
-  fy <span class="op">=</span> <span class="cn">NULL</span>,
-  hierarchy <span class="op">=</span> <span class="cn">FALSE</span>,
-  <span class="va">username</span>,
-  <span class="va">password</span>
-<span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">datim_pops</span><span class="op">(</span></span>
+<span>  <span class="va">ou</span>,</span>
+<span>  level <span class="op">=</span> <span class="st">"country"</span>,</span>
+<span>  fy <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  hierarchy <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  <span class="va">username</span>,</span>
+<span>  <span class="va">password</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>ou</dt>
 <dd><p>Operatingunit</p></dd>
+
+
 <dt>level</dt>
 <dd><p>Organization level</p></dd>
+
+
 <dt>fy</dt>
 <dd><p>Fiscal Year</p></dd>
+
+
 <dt>hierarchy</dt>
 <dd><p>Should additional organizational hierarchy be added?, default is FALSE</p></dd>
+
+
 <dt>username</dt>
 <dd><p>Datim account username</p></dd>
+
+
 <dt>password</dt>
 <dd><p>Datim account password</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>PLHIV and POP_EST Data</p>
+    
+
+<p>PLHIV and POP_EST Data</p>
     </div>
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span>
-<span class="r-in">  <span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/USAID-OHA-SI/grabr" class="external-link">grabr</a></span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in">  <span class="fu">datim_pops</span><span class="op">(</span>ou <span class="op">=</span> <span class="st">"Nigeria"</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in">  <span class="fu">datim_pops</span><span class="op">(</span>ou <span class="op">=</span> <span class="st">"Nigeria"</span>, fy <span class="op">=</span> <span class="fl">2021</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in">  <span class="fu">datim_pops</span><span class="op">(</span>ou <span class="op">=</span> <span class="st">"Nigeria"</span>, level <span class="op">=</span> <span class="st">"psnu"</span>, fy <span class="op">=</span> <span class="fl">2021</span>, hierarchy <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
-<span class="r-in"><span class="op">}</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span></span>
+<span class="r-in"><span>  <span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/USAID-OHA-SI/grabr" class="external-link">grabr</a></span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span>  <span class="fu">datim_pops</span><span class="op">(</span>ou <span class="op">=</span> <span class="st">"Nigeria"</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span>  <span class="fu">datim_pops</span><span class="op">(</span>ou <span class="op">=</span> <span class="st">"Nigeria"</span>, fy <span class="op">=</span> <span class="fl">2021</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span>  <span class="fu">datim_pops</span><span class="op">(</span>ou <span class="op">=</span> <span class="st">"Nigeria"</span>, level <span class="op">=</span> <span class="st">"psnu"</span>, fy <span class="op">=</span> <span class="fl">2021</span>, hierarchy <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="op">}</span></span></span>
 </code></pre></div>
     </div>
   </div>
@@ -124,7 +137,7 @@
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
       </footer></div>

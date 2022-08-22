@@ -18,7 +18,6 @@ unnested data frame containing output files
 Unpack Pano files directories
 }
 \examples{
-
 \dontrun{
   library(tidyverse)
   library(grabr)

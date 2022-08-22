@@ -69,78 +69,107 @@
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">datim_query</span><span class="op">(</span>
-  <span class="va">ou</span>,
-  level <span class="op">=</span> <span class="st">"prioritization"</span>,
-  pe <span class="op">=</span> <span class="st">"THIS_FINANCIAL_YEAR"</span>,
-  ta <span class="op">=</span> <span class="st">"PLHIV"</span>,
-  value <span class="op">=</span> <span class="cn">NULL</span>,
-  disaggs <span class="op">=</span> <span class="cn">NULL</span>,
-  dimensions <span class="op">=</span> <span class="cn">NULL</span>,
-  property <span class="op">=</span> <span class="st">"SHORTNAME"</span>,
-  metadata <span class="op">=</span> <span class="cn">TRUE</span>,
-  hierarchy <span class="op">=</span> <span class="cn">TRUE</span>,
-  baseurl <span class="op">=</span> <span class="st">"https://final.datim.org/api"</span>,
-  username <span class="op">=</span> <span class="cn">NULL</span>,
-  password <span class="op">=</span> <span class="cn">NULL</span>,
-  verbose <span class="op">=</span> <span class="cn">FALSE</span>
-<span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">datim_query</span><span class="op">(</span></span>
+<span>  <span class="va">ou</span>,</span>
+<span>  level <span class="op">=</span> <span class="st">"prioritization"</span>,</span>
+<span>  pe <span class="op">=</span> <span class="st">"THIS_FINANCIAL_YEAR"</span>,</span>
+<span>  ta <span class="op">=</span> <span class="st">"PLHIV"</span>,</span>
+<span>  value <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  disaggs <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  dimensions <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  property <span class="op">=</span> <span class="st">"SHORTNAME"</span>,</span>
+<span>  metadata <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  hierarchy <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  baseurl <span class="op">=</span> <span class="st">"https://final.datim.org/api"</span>,</span>
+<span>  username <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  password <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  verbose <span class="op">=</span> <span class="cn">FALSE</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>ou</dt>
 <dd><p>Operatingunit</p></dd>
+
+
 <dt>level</dt>
 <dd><p>Organization hierarchy level</p></dd>
+
+
 <dt>pe</dt>
 <dd><p>Reporting period. This can be expressed as relative or fixed periods
 Eg.: "THIS_FINANCIAL_YEAR", "2020Oct", "QUARTERS_THIS_YEAR", "2021Q2"
 default is "THIS_FINANCIAL_YEAR"</p></dd>
+
+
 <dt>ta</dt>
 <dd><p>Technical Area, valid option can be obtain from glamr::datim_dim_items("Technical Area")`</p></dd>
+
+
 <dt>value</dt>
 <dd><p>Type of value to return, MER Targets or Results or both</p></dd>
+
+
 <dt>disaggs</dt>
 <dd><p>Disaggregation Types. This depends on the value of ta</p></dd>
+
+
 <dt>dimensions</dt>
 <dd><p>Additional dimensions and/or columns. This depends on values of ta and disaggs</p></dd>
+
+
 <dt>property</dt>
 <dd><p>Type of name</p></dd>
+
+
 <dt>metadata</dt>
 <dd><p>Should metadata be included</p></dd>
+
+
 <dt>hierarchy</dt>
 <dd><p>Should additional hirarchy level be included</p></dd>
+
+
 <dt>baseurl</dt>
 <dd><p>DATIM API End point url</p></dd>
+
+
 <dt>username</dt>
 <dd><p>Datim username</p></dd>
+
+
 <dt>password</dt>
 <dd><p>Datim username</p></dd>
+
+
 <dt>verbose</dt>
 <dd><p>Display all notifications</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>data as tibble</p>
+    
+
+<p>data as tibble</p>
     </div>
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span>
-<span class="r-in"> <span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/USAID-OHA-SI/grabr" class="external-link">grabr</a></span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"> <span class="fu">datim_query</span><span class="op">(</span>ou <span class="op">=</span> <span class="st">"Nigeria"</span>, ta <span class="op">=</span> <span class="st">"PLHIV"</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"> <span class="fu">datim_query</span><span class="op">(</span>ou <span class="op">=</span> <span class="st">"Nigeria"</span>, ta <span class="op">=</span> <span class="st">"POP_EST"</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"> <span class="fu">datim_query</span><span class="op">(</span>ou <span class="op">=</span> <span class="st">"Nigeria"</span>,</span>
-<span class="r-in">             level <span class="op">=</span> <span class="st">"country"</span>,</span>
-<span class="r-in">             ta <span class="op">=</span> <span class="st">"TX_CURR"</span>,</span>
-<span class="r-in">             disaggs <span class="op">=</span> <span class="st">"Age/Sex/HIVStatus"</span>,</span>
-<span class="r-in">             dimensions <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Age: &lt;15/15+  (Coarse)"</span>, <span class="st">"Sex"</span><span class="op">)</span><span class="op">)</span></span>
-<span class="r-in"><span class="op">}</span></span>
-<span class="r-in"></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span></span>
+<span class="r-in"><span> <span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/USAID-OHA-SI/grabr" class="external-link">grabr</a></span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span> <span class="fu">datim_query</span><span class="op">(</span>ou <span class="op">=</span> <span class="st">"Nigeria"</span>, ta <span class="op">=</span> <span class="st">"PLHIV"</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span> <span class="fu">datim_query</span><span class="op">(</span>ou <span class="op">=</span> <span class="st">"Nigeria"</span>, ta <span class="op">=</span> <span class="st">"POP_EST"</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span> <span class="fu">datim_query</span><span class="op">(</span>ou <span class="op">=</span> <span class="st">"Nigeria"</span>,</span></span>
+<span class="r-in"><span>             level <span class="op">=</span> <span class="st">"country"</span>,</span></span>
+<span class="r-in"><span>             ta <span class="op">=</span> <span class="st">"TX_CURR"</span>,</span></span>
+<span class="r-in"><span>             disaggs <span class="op">=</span> <span class="st">"Age/Sex/HIVStatus"</span>,</span></span>
+<span class="r-in"><span>             dimensions <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Age: &lt;15/15+  (Coarse)"</span>, <span class="st">"Sex"</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="op">}</span></span></span>
+<span class="r-in"><span></span></span>
 </code></pre></div>
     </div>
   </div>
@@ -155,7 +184,7 @@ default is "THIS_FINANCIAL_YEAR"</p></dd>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
       </footer></div>

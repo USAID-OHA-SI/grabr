@@ -6,9 +6,9 @@
 \usage{
 pano_extract(
   item = "mer",
-  version = "initial",
-  fiscal_year = 2021,
-  quarter = 3,
+  version,
+  fiscal_year,
+  quarter,
   unpack = FALSE,
   username,
   password,
@@ -18,17 +18,18 @@ pano_extract(
 \arguments{
 \item{item}{Panorama data type. Eg: mer, financial, sims, narratives}
 
-\item{version}{Data release version: initial or clean}
+\item{version}{Data release version: Initial or Clean, defaults to
+current version if blank}
 
-\item{fiscal_year}{Reporting Fiscal year}
+\item{fiscal_year}{Reporting Fiscal year, defaults to current FY if blank}
 
-\item{quarter}{Reporting Quarter}
+\item{quarter}{Reporting Quarter, defaults to current quarter if blank}
 
-\item{unpack}{If yes, unpack nested directories}
+\item{unpack}{If TRUE, unpack nested directories}
 
-\item{username}{Panorama username, recommend using `pano_user()`}
+\item{username}{Panorama username, recommend using `glamr::pano_user()`}
 
-\item{password}{Panorama password, recommend using `pano_pwd()`}
+\item{password}{Panorama password, recommend using `glamr::pano_pwd()`}
 
 \item{base_url}{Panorama base url}
 }
