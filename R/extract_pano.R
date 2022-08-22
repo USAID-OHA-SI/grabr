@@ -329,19 +329,14 @@ pano_extract <- function(item = "mer",
   # archived files: update based on fy & qtr
   archive <- NULL
 
-  # Search key
-  s_dir <- base::paste0(s_item, " FY", fiscal_year, " Q", quarter)
-
   # Current releases
-  if (version == "initial") {
-    s_dir <- s_dir %>% base::paste0(" Pre-Cleaning")
-  }
-  else if (version == "clean") {
-    s_dir <- s_dir %>% base::paste0(" Post-Cleaning")
-  }
-  else {
-    base::stop("INPUT - Invalid input for version")
-  }
+  if(version %in% c("intial", "clean"))
+    base::stop("INPUT - Invalid input for version. Enter either 'initial' or 'clean'")
+
+  v <- ifelse(version == "initial", " Initial", " Clean") #"Pre-Cleaning", "Post-Cleaning"
+
+  # Search key
+  s_dir <- base::paste0(s_item, " FY", fiscal_year, " Q", quarter, v)
 
   accnt <- lazy_secrets("pano", username, password)
 
@@ -377,8 +372,7 @@ pano_extract <- function(item = "mer",
   curr_rep_qtr <- rep_pd[5] %>% base::as.integer()
 
   curr_item <- dt_item %>%
-    stringr::str_extract("(?<=Q)(.*)(?=-)") %>%
-    stringr::str_remove("\\d\\s")
+    stringr::str_extract("(Pre|Post|Initial)")
 
   if (fiscal_year < curr_rep_fy |
       quarter < curr_rep_qtr |
