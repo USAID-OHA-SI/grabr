@@ -200,7 +200,7 @@ get_orguids <-
     orgs <- baseurl %>%
       paste0("api/organisationUnits",
              "?filter=level:eq:", lvl) %>%
-      httr::GET(httr::authenticate(accnt$username, accnt$pasword)) %>%
+      httr::GET(httr::authenticate(accnt$username, accnt$password)) %>%
       httr::content("text") %>%
       jsonlite::fromJSON(flatten = TRUE) %>%
       purrr::pluck("organisationUnits") %>%
