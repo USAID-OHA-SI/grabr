@@ -343,8 +343,8 @@ datim_dim_url <- function(dimension,
 #' }
 #'
 datim_execute_query <- function(url,
-                                username = NULL,
-                                password = NULL,
+                                username,
+                                password,
                                 flatten = FALSE) {
   # datim credentials
   accnt <- lazy_secrets("datim", username, password)
@@ -386,8 +386,8 @@ datim_execute_query <- function(url,
 #' }
 #'
 datim_process_query <- function(url,
-                                username = NULL,
-                                password = NULL) {
+                                username,
+                                password) {
 
   # datim credentials
   accnt <- lazy_secrets("datim", username, password)
@@ -495,8 +495,8 @@ datim_query <-
            metadata = TRUE,
            hierarchy = TRUE,
            baseurl = "https://final.datim.org/api",
-           username = NULL,
-           password = NULL,
+           username,
+           password,
            verbose = FALSE){
 
     # datim credentials

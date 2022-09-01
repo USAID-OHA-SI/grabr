@@ -4,7 +4,7 @@
 \alias{datim_execute_query}
 \title{Execute Datim Query}
 \usage{
-datim_execute_query(url, username = NULL, password = NULL, flatten = FALSE)
+datim_execute_query(url, username, password, flatten = FALSE)
 }
 \arguments{
 \item{url}{API Base url & all query parameters}
