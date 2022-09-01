@@ -1,4 +1,5 @@
 # grabr 1.0.0
+* Resovle bug with `lazy_secrets` causing upstream errors with `get_ouuid` and other dependent functions [2022-09-01]
 * Update `pano_extract` to provide current period information if missing in parameters [2022-08-22]
 * Resolve Pano folder name change affecting `pano_extract` [2022-08-22]
 * Add dependencies to `glamr` and `gagglr` [2022-08-15]
