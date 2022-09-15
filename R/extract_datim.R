@@ -866,7 +866,7 @@ extract_datim <- function(url, username, password) {
 
 
     df <- df %>%
-      dplyr::mutate_all(~plyr::mapvalues(., metadata$from, metadata$name, warn_missing = FALSE)) %>%
+      dplyr::mutate_all(~dplyr::mapvalues(., metadata$from, metadata$name, warn_missing = FALSE)) %>%
       dplyr::mutate(Value = as.numeric(Value)) %>%
       dplyr::bind_cols(orgunituid = orguids) %>%
       convert_datim_pd_to_qtr()
