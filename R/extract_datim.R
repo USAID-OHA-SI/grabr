@@ -437,7 +437,7 @@ datim_process_query <- function(url,
 
   # Clean and augmente data
   df <- df %>%
-    dplyr::mutate_all(~plyr::mapvalues(., metadata$from, metadata$name, warn_missing = FALSE)) %>%
+    dplyr::mutate_all(~dplyr::mapvalues(., metadata$from, metadata$name, warn_missing = FALSE)) %>%
     dplyr::mutate(Value = as.numeric(Value)) %>%
     dplyr::bind_cols(orgunituid = orguids) %>%
     dplyr::relocate(orgunituid, .before = 1)
