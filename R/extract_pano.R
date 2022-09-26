@@ -471,7 +471,7 @@ pano_extract <- function(item = "mer",
     df_items <- df_items %>%
       dplyr::filter(type == "dir") %>%
       pano_unpack(session = sess) %>%
-      bind_rows(df_items)
+      dplyr::bind_rows(df_items)
   }
 
   #Download files
