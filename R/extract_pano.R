@@ -389,7 +389,7 @@ pano_extract <- function(item = "mer",
   curr_rep_qtr <- rep_pd[5] %>% base::as.integer()
 
   curr_item <- dt_item %>%
-    stringr::str_extract("(Pre|Post|Initial)")
+    stringr::str_extract("(Pre|Post|Initial|Clean)")
 
   if (fiscal_year < curr_rep_fy |
       quarter < curr_rep_qtr |
