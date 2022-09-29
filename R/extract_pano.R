@@ -569,7 +569,7 @@ pano_extract_msd <- function(operatingunit = NULL,
 #' @title Downloads All Global + OU Specific MSDs
 #'
 #' @param operatingunit PEPFAR Operating Unit. Default is set to NULL for global datasets
-#' @param items_type    Panorama data set, default option is `mer`
+#' @param items         Panorama data set, default option is `mer`
 #' @param archive       Logial, should the old files be archived?
 #' @param dest_path     Directory path to download file. Default set to `si_path()`
 #' @param username      Panorama username, recommend using `pano_user()`
@@ -586,8 +586,8 @@ pano_extract_msd <- function(operatingunit = NULL,
 #'                    archive = TRUE,
 #'                    dest_path = dir_mer)
 #' }
-pano_extract_msds <- function(operatingunit,
-                              items_type = "mer",
+pano_extract_msds <- function(operatingunit = NULL,
+                              items = "mer",
                               archive = FALSE,
                               dest_path,
                               username,
@@ -630,10 +630,12 @@ pano_extract_msds <- function(operatingunit,
   curr_fy <- stringr::str_extract(recent_fldr, "[:digit:]{4}") %>% as.numeric()
   curr_qtr <- stringr::str_extract(recent_fldr, "(?<=Q)[:digit:]") %>% as.numeric()
 
-  base::print(glue::glue("Download parameters\nRelease: {curr_release}\nFiscal Year: {curr_fy}\nQuarter: {curr_qtr}"))
+  base::print(glue::glue("Download parameters\nItems: {toupper({items})}\\
+                         \nRelease: {curr_release}\nFiscal Year: {curr_fy}\\
+                         \nQuarter: {curr_qtr}"))
 
   # Extract Data items
-  items <- pano_extract(item = items_type,
+  items <- pano_extract(item = {{items}},
                         version = curr_status,
                         fiscal_year = curr_fy,
                         quarter = curr_qtr,
@@ -681,7 +683,7 @@ pano_extract_msds <- function(operatingunit,
         fs::file_move(.x, arch_name)
       })
 
-    base::message("Archiving completed!")
+    usethis::ui_done("Archiving completed!")
   }
 
   # Global and OU MSDs
@@ -696,7 +698,7 @@ pano_extract_msds <- function(operatingunit,
     dplyr::pull(path)
 
   # Notification
-  base::message(glue::glue("Downloading MSDs files [{length(files_down)}] ..."))
+  usethis::ui_info("Downloading files [{length(files_down)}] ...")
 
   # Download
   files_down %>%
@@ -705,6 +707,6 @@ pano_extract_msds <- function(operatingunit,
       pano_download(item_url = .x, session = sess, dest = dest_path)
     })
 
-  base::message("All done!...:)")
+  usethis::ui_done("All done!...:)")
 }
 
