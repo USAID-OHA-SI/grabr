@@ -601,8 +601,8 @@ pano_extract_msds <- function(operatingunit,
   accnt <- lazy_secrets("pano", username, password)
 
   #use path_msd if output not provided
-  if (!is.missing(dest_path)) {
-    path_msd <-  glamr::si_path("path_msd")
+  if (missing(dest_path)) {
+    dest_path <-  glamr::si_path("path_msd")
   }
 
   #stop if no valid destination path set
