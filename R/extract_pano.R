@@ -568,13 +568,17 @@ pano_extract_msd <- function(operatingunit = NULL,
 
 #' @title Downloads All Global + OU Specific MSDs
 #'
-#' @param operatingunit PEPFAR Operating Unit. Default is set to NULL for global datasets
+#' @param operatingunit PEPFAR Operating Unit. Default is set to NULL for
+#'  global datasets
 #' @param items         Panorama data set, default option is `mer`
-#' @param archive       Logial, should the old files be archived?
-#' @param dest_path     Directory path to download file. Default set to `si_path()`
-#' @param username      Panorama username, recommend using `pano_user()`
-#' @param password      Panorama password, recommend using `pano_pwd()`
-#' @param base_url      Panorama base url
+#' @param archive       Logical, should the old files be archived? default=FALSE
+#' @param dest_path     Directory path to download file. Default set to
+#'  `glamr::si_path()`
+#' @param username      Panorama username, recommend using `glamr::pano_user()`,
+#'   which is the default if left blank
+#' @param password      Panorama password, recommend using `glamr::pano_pwd()`,
+#'   which is the default if left blank
+#' @param base_url      Panorama base url, default="https://pepfar-panorama.org"
 #'
 #' @export
 #'
