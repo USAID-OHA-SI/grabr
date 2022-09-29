@@ -589,7 +589,7 @@ pano_extract_msd <- function(operatingunit = NULL,
 pano_extract_msds <- function(operatingunit,
                               items = "mer",
                               archive = FALSE,
-                              dest_path = NULL,
+                              dest_path,
                               username,
                               password,
                               base_url = "https://pepfar-panorama.org") {
@@ -601,9 +601,9 @@ pano_extract_msds <- function(operatingunit,
   accnt <- lazy_secrets("pano", username, password)
 
   # Destination Path
-  path_msd <- si_path("path_msd")
+  path_msd <- glamr::si_path("path_msd")
 
-  if (!is.null(dest_path)) {
+  if (!is.missing(dest_path)) {
     path_msd <- dest_path
   }
 
