@@ -626,7 +626,7 @@ pano_extract_msds <- function(operatingunit,
 
   # Release
   curr_release <- stringr::str_extract(recent_fldr, "(?<=Q\\d{1}[:space:]).*")
-  curr_status <- base::ifelse(stringr::str_detect(recent_fldr, "Post"), "clean", "initial")
+  curr_status <- base::ifelse(stringr::str_detect(recent_fldr, "Post|Clean"), "clean", "initial")
   curr_fy <- stringr::str_extract(recent_fldr, "[:digit:]{4}") %>% as.numeric()
   curr_qtr <- stringr::str_extract(recent_fldr, "(?<=Q)[:digit:]") %>% as.numeric()
 
@@ -637,8 +637,8 @@ pano_extract_msds <- function(operatingunit,
                         version = curr_status,
                         fiscal_year = curr_fy,
                         quarter = curr_qtr,
-                        username = user,
-                        password = pass,
+                        username = accnt$username,
+                        password = accnt$password,
                         unpack = TRUE)
 
   # Archive existing files
