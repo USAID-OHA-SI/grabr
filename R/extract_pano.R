@@ -569,7 +569,7 @@ pano_extract_msd <- function(operatingunit = NULL,
 #' @title Downloads All Global + OU Specific MSDs
 #'
 #' @param operatingunit PEPFAR Operating Unit. Default is set to NULL for global datasets
-#' @param items         Panorama data set, default option is `mer`
+#' @param items_type    Panorama data set, default option is `mer`
 #' @param archive       Logial, should the old files be archived?
 #' @param dest_path     Directory path to download file. Default set to `si_path()`
 #' @param username      Panorama username, recommend using `pano_user()`
@@ -587,7 +587,7 @@ pano_extract_msd <- function(operatingunit = NULL,
 #'                    dest_path = dir_mer)
 #' }
 pano_extract_msds <- function(operatingunit,
-                              items = "mer",
+                              items_type = "mer",
                               archive = FALSE,
                               dest_path,
                               username,
@@ -633,7 +633,7 @@ pano_extract_msds <- function(operatingunit,
   base::print(glue::glue("Download parameters\nRelease: {curr_release}\nFiscal Year: {curr_fy}\nQuarter: {curr_qtr}"))
 
   # Extract Data items
-  items <- pano_extract(item = items,
+  items <- pano_extract(item = items_type,
                         version = curr_status,
                         fiscal_year = curr_fy,
                         quarter = curr_qtr,

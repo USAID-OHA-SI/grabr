@@ -6,7 +6,7 @@
 \usage{
 pano_extract_msds(
   operatingunit,
-  items = "mer",
+  items_type = "mer",
   archive = FALSE,
   dest_path,
   username,
@@ -17,7 +17,7 @@ pano_extract_msds(
 \arguments{
 \item{operatingunit}{PEPFAR Operating Unit. Default is set to NULL for global datasets}
 
-\item{items}{Panorama data set, default option is `mer`}
+\item{items_type}{Panorama data set, default option is `mer`}
 
 \item{archive}{Logial, should the old files be archived?}
 
