@@ -703,7 +703,7 @@ pano_extract_msds <- function(operatingunit = NULL,
   # Download
   files_down %>%
     purrr::walk(function(.x) {
-      base::print(.x)
+      base::print(basename(.x))
       pano_download(item_url = .x, session = sess, dest = dest_path)
     })
 
