@@ -1,5 +1,5 @@
 # grabr 1.0.0
-* Resolve outstanding issues around Pano folder name change affecting `pano_extract_msds` [2022-09-29] 
+* Resolve outstanding issues around Pano folder name change affecting `pano_extract_msd` and `pano_extract_msds` [2022-09-29] 
 * Adjust for Pano folder name change affecting `pano_extract` [2022-09-26]
 * Resolve bug with `lazy_secrets` causing upstream errors with `get_ouuid` and other dependent functions [2022-09-01]
 * Update `pano_extract` to provide current period information if missing in parameters [2022-08-22]

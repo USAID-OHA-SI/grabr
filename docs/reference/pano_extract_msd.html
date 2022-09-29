@@ -71,51 +71,62 @@
     <div id="ref-usage">
     <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">pano_extract_msd</span><span class="op">(</span></span>
 <span>  operatingunit <span class="op">=</span> <span class="cn">NULL</span>,</span>
-<span>  version <span class="op">=</span> <span class="st">"clean"</span>,</span>
-<span>  fiscal_year <span class="op">=</span> <span class="fl">2021</span>,</span>
-<span>  quarter <span class="op">=</span> <span class="fl">3</span>,</span>
-<span>  level <span class="op">=</span> <span class="st">"psnu"</span>,</span>
-<span>  dest_path <span class="op">=</span> <span class="cn">NULL</span></span>
+<span>  <span class="va">version</span>,</span>
+<span>  <span class="va">fiscal_year</span>,</span>
+<span>  <span class="va">quarter</span>,</span>
+<span>  level <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"psnu"</span>, <span class="st">"ou"</span>, <span class="st">"site"</span>, <span class="st">"nat"</span><span class="op">)</span>,</span>
+<span>  <span class="va">dest_path</span>,</span>
+<span>  <span class="va">username</span>,</span>
+<span>  <span class="va">password</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>operatingunit</dt>
-<dd><p>PEPFAR Operating Unit. Default is set to NULL for global datasets</p></dd>
+<dd><p>PEPFAR Operating Unit. Default is set to NULL for
+to return global datasets</p></dd>
 
 
 <dt>version</dt>
-<dd><p>Data release version: initial or clean</p></dd>
+<dd><p>Data release version: "initial" or "clean", defaults to
+current version</p></dd>
 
 
 <dt>fiscal_year</dt>
-<dd><p>Reporting Fiscal year: 4 digits year</p></dd>
+<dd><p>Reporting Fiscal year, defaults to current version</p></dd>
 
 
 <dt>quarter</dt>
-<dd><p>Reporting Quarter: Single digit quarters</p></dd>
+<dd><p>Reporting Quarter: Single digit quarters, defaults to
+current version</p></dd>
 
 
 <dt>level</dt>
-<dd><p>Org level, options are ou, psnu and sites</p></dd>
+<dd><p>Org level, options are psnu" (default), "ou", "site",
+or "nat"</p></dd>
 
 
 <dt>dest_path</dt>
-<dd><p>Directory path to download file. Default set to `si_path()`</p></dd>
+<dd><p>Directory path to download file. Default set to
+`si_path()`</p></dd>
+
+
+<dt>username</dt>
+<dd><p>Panorama username, recommend using `glamr::pano_user()`,
+which is the default if left blank</p></dd>
+
+
+<dt>password</dt>
+<dd><p>Panorama password, recommend using `glamr::pano_pwd()`,
+which is the default if left blank</p></dd>
 
 </dl></div>
 
     <div id="ref-examples">
     <h2>Examples</h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span></span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span> <span class="fu">pano_extract_msd</span><span class="op">(</span>operatingunit <span class="op">=</span> <span class="st">"Zambia"</span>,</span></span>
-<span class="r-in"><span>                  version <span class="op">=</span> <span class="st">"clean"</span>,</span></span>
-<span class="r-in"><span>                  fiscal_year <span class="op">=</span> <span class="fl">2021</span>,</span></span>
-<span class="r-in"><span>                  quarter <span class="op">=</span> <span class="fl">3</span>,</span></span>
-<span class="r-in"><span>                  level <span class="op">=</span> <span class="st">"site"</span>,</span></span>
-<span class="r-in"><span>                  dest_path <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span></span>
+<span class="r-in"><span> <span class="fu">pano_extract_msd</span><span class="op">(</span>operatingunit <span class="op">=</span> <span class="st">"Zambia"</span>, level <span class="op">=</span> <span class="st">"site"</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="op">}</span></span></span>
 <span class="r-in"><span></span></span>
 </code></pre></div>
