@@ -484,32 +484,40 @@ pano_extract <- function(item = "mer",
 
 #' @title Downloads Country Specific MSDs
 #'
-#' @param operatingunit PEPFAR Operating Unit. Default is set to NULL for global datasets
-#' @param version       Data release version: initial or clean
-#' @param fiscal_year   Reporting Fiscal year: 4 digits year
-#' @param quarter       Reporting Quarter: Single digit quarters
-#' @param level         Org level, options are ou, psnu and sites
-#' @param dest_path     Directory path to download file. Default set to `si_path()`
-#'
+#' @param operatingunit PEPFAR Operating Unit. Default is set to NULL for
+#'  to return global datasets
+#' @param version       Data release version: "initial" or "clean", defaults to
+#'  current version
+#' @param fiscal_year   Reporting Fiscal year, defaults to current version
+#' @param quarter       Reporting Quarter: Single digit quarters, defaults to
+#'  current version
+#' @param level         Org level, options are psnu" (default), "ou", "site",
+#'  or "nat"
+#' @param dest_path     Directory path to download file. Default set to
+#'  `si_path()`
+#' @param username      Panorama username, recommend using `glamr::pano_user()`,
+#'   which is the default if left blank
+#' @param password      Panorama password, recommend using `glamr::pano_pwd()`,
+#'   which is the default if left blank
 #' @export
 #'
 #' @examples
 #' \dontrun{
-#'
-#'  pano_extract_msd(operatingunit = "Zambia",
-#'                   version = "clean",
-#'                   fiscal_year = 2021,
-#'                   quarter = 3,
-#'                   level = "site",
-#'                   dest_path = NULL)
+#'  pano_extract_msd(operatingunit = "Zambia", level = "site")
 #' }
 #'
 pano_extract_msd <- function(operatingunit = NULL,
-                             version = "clean",
-                             fiscal_year = 2021,
-                             quarter = 3,
-                             level = "psnu",
-                             dest_path = NULL) {
+                             version,
+                             fiscal_year,
+                             quarter,
+                             level = c("psnu", "ou", "site", "nat"),
+                             dest_path,
+                             username,
+                             password) {
+
+  # URL
+  base_url = "https://pepfar-panorama.org"
+  url <- base::file.path(base_url, "forms/downloads")
 
   # Pano Access
   accnt <- lazy_secrets("pano", username, password)
@@ -519,6 +527,20 @@ pano_extract_msd <- function(operatingunit = NULL,
     dest_path <-  glamr::si_path("path_msd")
   }
 
+  #check if valid OU
+  if(!is.null(operatingunit) &&
+     !operatingunit %in% unique(glamr::pepfar_country_list$operatingunit))
+    usethis::ui_stop("The {usethis::ui_field('operatingunit')} you provided (\\
+                     {usethis::ui_field({operatingunit})}) is not valid")
+
+  #default to psnu (first option) if no level specified
+  level <- level[1]
+
+  #check valid level
+  if(!level %in% c("ou", "psnu", "site", "nat"))
+    usethis::ui_stop("The {usethis::ui_field('level')} you provided (\\
+                     {usethis::ui_field({level})}) is not valid")
+
   #stop if no valid destination path set
   if (!file.exists(dest_path)) {
     usethis::ui_stop("No {usethis::ui_field('dest_path')} provided or valid \\
@@ -527,52 +549,85 @@ pano_extract_msd <- function(operatingunit = NULL,
                      {usethis::ui_code('glamr::set_paths()')}")
   }
 
+  #establish pano session
   sess <- pano_session(username = accnt$username,
                        password = accnt$password,
                        base_url = base_url)
 
-  # Search Key
-  s_key <- level %>%
-    base::paste0("^mer_.*_", .,  "_im_.*") %>%
-    stringr::str_to_lower()
+  # IDENTIFY CURRENT PERIOD
+  recent_fldr <- url %>%
+    pano_content(session = sess) %>%
+    pano_elements() %>%
+    dplyr::filter(stringr::str_detect(item, "^MER")) %>%
+    dplyr::pull(item)
+
+  # Current Release
+  curr_version <- base::ifelse(stringr::str_detect(recent_fldr, "Post|Clean"), "clean", "initial")
+  curr_fy <- stringr::str_extract(recent_fldr, "[:digit:]{4}") %>% as.numeric()
+  curr_qtr <- stringr::str_extract(recent_fldr, "(?<=Q)[:digit:]") %>% as.numeric()
+
+  #fill missing param with current state
+  if(missing(version))
+    version <- curr_version
+  if(missing(fiscal_year))
+    fiscal_year <- curr_fy
+  if(missing(quarter))
+    quarter <- curr_qtr
+
+  #print out parameters for users
+  base::print(glue::glue("Download parameters\\
+                         \nOU: {ifelse(is.null(operatingunit),'Global',operatingunit)}\\
+                         \nLevel: {toupper({level})}\\
+                         \nRelease: {version}\nFiscal Year: {fiscal_year}\\
+                         \nQuarter: {quarter}"))
+
 
   # Data items
   df_pano <- pano_extract(item = "mer",
-                          version = version,
-                          fiscal_year = fiscal_year,
-                          quarter = quarter,
+                          version = {{version}},
+                          fiscal_year = {{fiscal_year}},
+                          quarter = {{quarter}},
                           unpack = T)
 
-  # Current global
-  df_pano <- df_pano %>%
-    filter(type == "file zip_file",
-           stringr::str_detect(str_to_lower(item), s_key))
-
-  # Global datasets
-  if (base::is.null(operatingunit) & level == "ou") {
-
-    df_pano %>%
-      dplyr::pull(path) %>%
-      purrr::walk(~pano_download(item_url = .x,
-                                 session = sess,
-                                 dest = path_msd))
-  } else if (!base::is.null(operatingunit) & level %in% c("psnu", "site")) {
-    # OU Specific
-    operatingunit %>%
-      purrr::walk(function(.x) {
-        s_ou <- base::paste0(".*_\\d{1}_", .x, ".zip$") %>%
-          stringr::str_to_lower()
-
-        df_pano %>%
-          filter(stringr::str_detect(stringr::str_to_lower(item), s_ou)) %>%
-          dplyr::pull(path) %>%
-          purrr::walk(~pano_download(item_url = .x,
-                                     session = sess,
-                                     dest = path_msd))
-        })
+  #add OU name(s) to the search parameters
+  if(!is.null(operatingunit)){
+    ou_filter <- operatingunit %>%
+      paste(collapse = "|") %>%
+      paste0("(", ., ").zip$")
   } else {
-    base::message("ERROR - Unkonwn options ou/level.")
+    ou_filter <- "_\\d{1}.zip$"
   }
+
+  # Search Key
+  s_key <- level %>%
+    base::paste0("^mer_.*_", .,  "_",
+                 ifelse(level == "nat", "subnat", "im"), "_.*", ou_filter) %>%
+    stringr::str_to_lower()
+
+
+  # Filter Pano items down to what is specified in the parameters
+  df_pano <- df_pano %>%
+    dplyr::filter(type == "file zip_file",
+           stringr::str_detect(stringr::str_to_lower(item), s_key))
+
+  #flag error if no results to download
+  if (nrow(df_pano) == 0){
+    usethis::ui_oops("ERROR - Unknown options ou/level.")
+    invisible(NULL)
+  }
+
+  #download all files identified through search
+  purrr::walk(df_pano$path,
+              function(.x) {
+                print(basename(.x))
+                pano_download(item_url = .x,
+                             session = sess,
+                             dest = dest_path)
+                })
+
+  #message
+  usethis::ui_done("All done!...:)")
+
 }
 
 
