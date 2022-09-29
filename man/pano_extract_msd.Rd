@@ -6,38 +6,45 @@
 \usage{
 pano_extract_msd(
   operatingunit = NULL,
-  version = "clean",
-  fiscal_year = 2021,
-  quarter = 3,
-  level = "psnu",
-  dest_path = NULL
+  version,
+  fiscal_year,
+  quarter,
+  level = c("psnu", "ou", "site", "nat"),
+  dest_path,
+  username,
+  password
 )
 }
 \arguments{
-\item{operatingunit}{PEPFAR Operating Unit. Default is set to NULL for global datasets}
+\item{operatingunit}{PEPFAR Operating Unit. Default is set to NULL for
+to return global datasets}
 
-\item{version}{Data release version: initial or clean}
+\item{version}{Data release version: "initial" or "clean", defaults to
+current version}
 
-\item{fiscal_year}{Reporting Fiscal year: 4 digits year}
+\item{fiscal_year}{Reporting Fiscal year, defaults to current version}
 
-\item{quarter}{Reporting Quarter: Single digit quarters}
+\item{quarter}{Reporting Quarter: Single digit quarters, defaults to
+current version}
 
-\item{level}{Org level, options are ou, psnu and sites}
+\item{level}{Org level, options are psnu" (default), "ou", "site",
+or "nat"}
 
-\item{dest_path}{Directory path to download file. Default set to `si_path()`}
+\item{dest_path}{Directory path to download file. Default set to
+`si_path()`}
+
+\item{username}{Panorama username, recommend using `glamr::pano_user()`,
+which is the default if left blank}
+
+\item{password}{Panorama password, recommend using `glamr::pano_pwd()`,
+which is the default if left blank}
 }
 \description{
 Downloads Country Specific MSDs
 }
 \examples{
 \dontrun{
-
- pano_extract_msd(operatingunit = "Zambia",
-                  version = "clean",
-                  fiscal_year = 2021,
-                  quarter = 3,
-                  level = "site",
-                  dest_path = NULL)
+ pano_extract_msd(operatingunit = "Zambia", level = "site")
 }
 
 }
