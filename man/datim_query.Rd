@@ -16,8 +16,8 @@ datim_query(
   metadata = TRUE,
   hierarchy = TRUE,
   baseurl = "https://final.datim.org/api",
-  username = NULL,
-  password = NULL,
+  username,
+  password,
   verbose = FALSE
 )
 }
