@@ -8,7 +8,7 @@ pano_extract_msds(
   operatingunit,
   items = "mer",
   archive = FALSE,
-  dest_path = NULL,
+  dest_path,
   username,
   password,
   base_url = "https://pepfar-panorama.org"

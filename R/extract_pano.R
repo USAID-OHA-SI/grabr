@@ -600,11 +600,17 @@ pano_extract_msds <- function(operatingunit,
   # Pano Access
   accnt <- lazy_secrets("pano", username, password)
 
-  # Destination Path
-  path_msd <- glamr::si_path("path_msd")
-
+  #use path_msd if output not provided
   if (!is.missing(dest_path)) {
-    path_msd <- dest_path
+    path_msd <-  glamr::si_path("path_msd")
+  }
+
+  #stop if no valid destination path set
+  if (!file.exists(dest_path)) {
+    usethis::ui_stop("No {usethis::ui_field('dest_path')} provided or valid \\
+                     and no default path stored in your \\
+                     {usethis::ui_path('.Rprofile')} through \\
+                     {usethis::ui_code('glamr::set_paths()')}")
   }
 
   sess <- pano_session(username = accnt$username,

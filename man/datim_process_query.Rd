@@ -4,7 +4,7 @@
 \alias{datim_process_query}
 \title{Process Datim Query results}
 \usage{
-datim_process_query(url, username = NULL, password = NULL)
+datim_process_query(url, username, password)
 }
 \arguments{
 \item{url}{Datim API Call url}
