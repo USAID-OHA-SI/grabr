@@ -547,6 +547,7 @@ pano_extract_msd <- function(operatingunit = NULL,
       purrr::walk(~pano_download(item_url = .x,
                                  session = sess,
                                  dest = path_msd))
+
   } else if (!base::is.null(operatingunit) & level %in% c("psnu", "site")) {
     # OU Specific
     operatingunit %>%
