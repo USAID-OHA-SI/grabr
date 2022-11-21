@@ -49,6 +49,8 @@ datim_dimensions <- function(url = "https://final.datim.org/api/dimensions",
 #' @param username  DATIM Account Username, recommended using glamr::datim_user()`
 #' @param password  DATIM Account passward, recommended using glamr::datim_pwd()`
 #'
+#' @importFrom glamr %ni%
+#'
 #' @return dimension uid
 #' @export
 #'
@@ -661,6 +663,8 @@ datim_query <-
 #' @param hierarchy Should additional organizational hierarchy be added?, default is FALSE
 #' @param username       Datim account username
 #' @param password       Datim account password
+#'
+#' @importFrom  glamr %ni%
 #'
 #' @return PLHIV and POP_EST Data
 #' @export
