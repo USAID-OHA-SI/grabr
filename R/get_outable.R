@@ -352,6 +352,7 @@ get_ouuids <-
 #' @param operatingunit Operatingunit name
 #' @param username      Datim Account username, recommend using glamr::datim_user()`
 #' @param password      Datim Account Password, recommend using glamr::datim_pwd()`
+#' @param baseurl     base url for the API, default = https://final.datim.org/
 #'
 #' @return uid
 #' @export
@@ -466,7 +467,7 @@ get_levels <-
 #' @param org_type      Orgunit type (country_lvl, prioritization, community, facility_lvl)
 #' @param username      Datim Account username
 #' @param password      Datim Account Password
-#' @param base_url      Datim Base URL
+#' @param baseurl      Datim Base URL
 #'
 #' @return uid
 #' @export

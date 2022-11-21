@@ -17,6 +17,8 @@ get_ouuid(
 \item{username}{Datim Account username, recommend using glamr::datim_user()`}
 
 \item{password}{Datim Account Password, recommend using glamr::datim_pwd()`}
+
+\item{baseurl}{base url for the API, default = https://final.datim.org/}
 }
 \value{
 uid
