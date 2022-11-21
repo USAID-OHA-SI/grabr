@@ -49,8 +49,6 @@ datim_dimensions <- function(url = "https://final.datim.org/api/dimensions",
 #' @param username  DATIM Account Username, recommended using glamr::datim_user()`
 #' @param password  DATIM Account passward, recommended using glamr::datim_pwd()`
 #'
-#' @importFrom glamr %ni%
-#'
 #' @return dimension uid
 #' @export
 #'
@@ -75,7 +73,7 @@ datim_dimension <- function(name,
                               username = accnt$username,
                               password = accnt$password)
 
-  if (base::is.null(df_dims) | base::nrow(df_dims) == 0 | name %ni% df_dims$dimension) {
+  if (base::is.null(df_dims) | base::nrow(df_dims) == 0 | !name %in% df_dims$dimension) {
     base::message(crayon::red(glue::glue("There is no '{name}' dimension. Check spelling.")))
     return(NULL)
   }
@@ -664,8 +662,6 @@ datim_query <-
 #' @param username       Datim account username
 #' @param password       Datim account password
 #'
-#' @importFrom  glamr %ni%
-#'
 #' @return PLHIV and POP_EST Data
 #' @export
 #'
@@ -692,7 +688,7 @@ datim_pops <- function(ou,
   # level
   lvl <- level %>% stringr::str_to_lower()
 
-  if (lvl %ni% c("country", "psnu", "prioritization")) {
+  if (!lvl %in% c("country", "psnu", "prioritization")) {
     base::message(crayon::red(glue::glue("Invalid level: {level}")))
     return(NULL)
   }
