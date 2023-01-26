@@ -25,9 +25,11 @@
 
 get_outable <- function(username, password, baseurl = "https://final.datim.org/"){
 
-  df_uid <- identify_ouuids(username, password, baseurl)
+  accnt <- lazy_secrets("datim", username , password)
 
-  df_levels <- identify_levels(username, password, baseurl)
+  df_uid <- identify_ouuids(accnt$username, accnt$password, baseurl)
+
+  df_levels <- identify_levels(accnt$username, accnt$password, baseurl)
 
   df_outable <- df_uid %>%
     dplyr::rename(operatingunit_uid = uid) %>%
