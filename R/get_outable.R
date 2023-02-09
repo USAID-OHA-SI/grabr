@@ -25,9 +25,11 @@
 
 get_outable <- function(username, password, baseurl = "https://final.datim.org/"){
 
-  df_uid <- identify_ouuids(username, password, baseurl)
+  accnt <- lazy_secrets("datim", username , password)
 
-  df_levels <- identify_levels(username, password, baseurl)
+  df_uid <- identify_ouuids(accnt$username, accnt$password, baseurl)
+
+  df_levels <- identify_levels(accnt$username, accnt$password, baseurl)
 
   df_outable <- df_uid %>%
     dplyr::rename(operatingunit_uid = uid) %>%
@@ -352,6 +354,7 @@ get_ouuids <-
 #' @param operatingunit Operatingunit name
 #' @param username      Datim Account username, recommend using glamr::datim_user()`
 #' @param password      Datim Account Password, recommend using glamr::datim_pwd()`
+#' @param baseurl     base url for the API, default = https://final.datim.org/
 #'
 #' @return uid
 #' @export
@@ -466,7 +469,7 @@ get_levels <-
 #' @param org_type      Orgunit type (country_lvl, prioritization, community, facility_lvl)
 #' @param username      Datim Account username
 #' @param password      Datim Account Password
-#' @param base_url      Datim Base URL
+#' @param baseurl      Datim Base URL
 #'
 #' @return uid
 #' @export

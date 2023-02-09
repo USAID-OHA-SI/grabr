@@ -24,7 +24,7 @@ get_ouorglevel(
 
 \item{password}{Datim Account Password}
 
-\item{base_url}{Datim Base URL}
+\item{baseurl}{Datim Base URL}
 }
 \value{
 uid

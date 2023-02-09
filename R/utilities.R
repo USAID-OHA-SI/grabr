@@ -10,20 +10,6 @@ check_internet <- function(){
 }
 
 
-#' Check if package exists
-#'
-#' @param pkg package name
-#'
-#' @export
-#' @keywords internal
-
-package_check <- function(pkg){
-  if (!requireNamespace(pkg, quietly = TRUE)) {
-    stop(paste("Package", pkg, "needed for this function to work. Please install it."),
-         call. = FALSE)
-  }
-}
-
 #' Lazy checking/loading of credentials
 #'
 #' This function is useful within another function. It check whether a username
@@ -48,26 +34,34 @@ lazy_secrets <- function(service = c("datim", "pano", "s3"),
 
   check_internet()
 
+  #ensure only one is picked
+  service <- match.arg(service)
+
+  #use stored secrets created under glamr if available (and nothing provided)
   if(service != "s3" && missing(username) && glamr::is_stored(service)){
     username <- keyring::key_list(service)[1, 2]
     password <- keyring::key_get(service, username)
   }
 
+  #if s3, use stored secrets created under glamr if available (and nothing provided)
   if(service == "s3" && missing(username) && glamr::is_stored(service)){
     username <- glamr::get_s3key("access")
     password <- glamr::get_s3key("secret")
   }
 
+  #if no username, prompt (UI) for username
   if(missing(username) && !glamr::is_stored(service))
     username <- getPass::getPass(
       glue::glue("Provide {service} {ifelse(service == 's3', 'access key','username')}")
       )
 
+  #if no username, prompt (UI) for username
   if(missing(password) && !glamr::is_stored(service))
     password <- getPass::getPass(
       glue::glue("Provide {service} {ifelse(service == 's3', 'secret key','password')}")
     )
 
+  #if s3, change names from user/pass to access/secret key
   if(service != "s3"){
     accnt_info <- list(username = username,
                        password = password)

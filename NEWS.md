@@ -1,4 +1,8 @@
 # grabr 1.0.0
+* Resolve bug with `lazy_secrets` where there are too many default param by using `match.arg` [2023-02-09]
+* Limit credential pop up to once when running `get_outable()` [2023-01-26]
+* Clean up dependencies and remove `check_package()` which was conflicting with `glamr` [2022-12-01] 
+* Replace `%ni%` with `! .. %in%..` as you cannot use an imported object from a GitHub package, `glamr` [2022-11-21] 
 * Resolve outstanding issues around Pano folder name change affecting `pano_extract_msd` and `pano_extract_msds` [2022-09-29] 
 * Adjust for Pano folder name change affecting `pano_extract` [2022-09-26]
 * Resolve bug with `lazy_secrets` causing upstream errors with `get_ouuid` and other dependent functions [2022-09-01]
