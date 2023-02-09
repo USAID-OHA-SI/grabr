@@ -429,8 +429,8 @@ get_ouuid <-
 #'  }
 #'
 get_levels <-
-  function(username = NULL,
-           password = NULL,
+  function(username,
+           password,
            baseurl = "https://final.datim.org/"){
 
     # Params
@@ -587,7 +587,7 @@ get_ouorglabel <- function(operatingunit,
                  names_to = "label",
                  values_to = "level")
 
-  df_lvls %<>%
+  df_lvls <- df_lvls %>%
     dplyr::filter(operatingunit == operatingunit,
            countryname == country,
            level == org_level)

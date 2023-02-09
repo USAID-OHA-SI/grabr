@@ -8,8 +8,8 @@ datim_dim_item(
   dimension,
   name,
   url = "https://final.datim.org/api/dimensions",
-  username = NULL,
-  password = NULL
+  username,
+  password
 )
 }
 \arguments{

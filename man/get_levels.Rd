@@ -4,11 +4,7 @@
 \alias{get_levels}
 \title{Get all orgunits levels in org hierarchy}
 \usage{
-get_levels(
-  username = NULL,
-  password = NULL,
-  baseurl = "https://final.datim.org/"
-)
+get_levels(username, password, baseurl = "https://final.datim.org/")
 }
 \arguments{
 \item{username}{DATIM username, recommed using glamr::datim_user()`}

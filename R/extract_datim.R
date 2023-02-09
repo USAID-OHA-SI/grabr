@@ -186,8 +186,8 @@ datim_dim_items <- function(dimension,
 #'
 datim_dim_item <- function(dimension, name,
                            url = "https://final.datim.org/api/dimensions",
-                           username = NULL,
-                           password = NULL) {
+                           username,
+                           password) {
 
   item_id <- NULL
 
@@ -346,6 +346,7 @@ datim_execute_query <- function(url,
                                 username,
                                 password,
                                 flatten = FALSE) {
+
   # datim credentials
   accnt <- lazy_secrets("datim", username, password)
 
@@ -396,7 +397,7 @@ datim_process_query <- function(url,
   res_json <- datim_execute_query(url, accnt$username, accnt$password)
 
   # check for valid json result
-  if ( base::is.null(res_json)) {
+  if (base::is.null(res_json)) {
     base::message(crayon::red("No data available for your query"))
     return(NULL)
   }
@@ -534,7 +535,7 @@ datim_query <-
 
     # ou/org level
     url_core <-
-      paste0(baseurl, "/29/analytics?",
+      paste0(baseurl, "/analytics?",
              "dimension=ou:", ou_uid, ";LEVEL-", org_lvl)
 
     # Notifications
