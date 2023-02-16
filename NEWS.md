@@ -1,4 +1,5 @@
 # grabr 1.0.0
+* Resolves a bug caused by a dplyr update when `s3_unpack_keys` is called from `s3_objects` [2023-02-16] 
 * Resolve bug with `lazy_secrets` where there are too many default param by using `match.arg` [2023-02-09]
 * Limit credential pop up to once when running `get_outable()` [2023-01-26]
 * Clean up dependencies and remove `check_package()` which was conflicting with `glamr` [2022-12-01] 

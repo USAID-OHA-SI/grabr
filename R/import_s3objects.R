@@ -153,8 +153,8 @@ s3_unpack_keys <-
 
       df_objects <- df_objects %>%
         dplyr::filter(
-          !stringr::str_detect(dplyr::sym({{data_route}}), "^[.]"),
-          !stringr::str_detect(dplyr::sym({{data_object}}), "^[.]")
+          !stringr::str_detect(data_route, "^[.]"),
+          !stringr::str_detect(data_object, "^[.]")
         )
     }
 
