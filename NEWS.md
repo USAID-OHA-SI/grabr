@@ -1,3 +1,7 @@
+# grabr 1.0.1
+* Adding new datim sqlview functions: `datim_sqlview()` and `datim_orgunits()` [2023-04-14]
+* More of these to be migrated from `MerQL` repo to this packages
+
 # grabr 1.0.0
 * Resolve bug with `lazy_secrets` where there are too many default param by using `match.arg` [2023-02-09]
 * Limit credential pop up to once when running `get_outable()` [2023-01-26]

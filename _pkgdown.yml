@@ -53,6 +53,8 @@ reference:
   - datim_process_query
   - datim_query
   - datim_pops
+  - datim_sqlviews
+  - datim_orgunits
 
 - title: Panorama
   contents:
