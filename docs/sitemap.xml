@@ -115,6 +115,9 @@
     <loc>https://usaid-oha-si.github.io/grabr/reference/datim_execute_query.html</loc>
   </url>
   <url>
+    <loc>https://usaid-oha-si.github.io/grabr/reference/datim_orgunits.html</loc>
+  </url>
+  <url>
     <loc>https://usaid-oha-si.github.io/grabr/reference/datim_pops.html</loc>
   </url>
   <url>
@@ -128,6 +131,9 @@
   </url>
   <url>
     <loc>https://usaid-oha-si.github.io/grabr/reference/datim_query_old.html</loc>
+  </url>
+  <url>
+    <loc>https://usaid-oha-si.github.io/grabr/reference/datim_sqlviews.html</loc>
   </url>
   <url>
     <loc>https://usaid-oha-si.github.io/grabr/reference/datim_user.html</loc>

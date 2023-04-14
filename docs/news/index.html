@@ -64,8 +64,17 @@
     </div>
 
     <div class="section level2">
+<h2 class="page-header" data-toc-text="1.0.1" id="grabr-101">grabr 1.0.1<a class="anchor" aria-label="anchor" href="#grabr-101"></a></h2>
+<ul><li>Adding new datim sqlview functions: <code>datim_sqlview()</code> and <code><a href="../reference/datim_orgunits.html">datim_orgunits()</a></code> [2023-04-14]</li>
+<li>More of these to be migrated from <code>MerQL</code> repo to this packages</li>
+</ul></div>
+    <div class="section level2">
 <h2 class="page-header" data-toc-text="1.0.0" id="grabr-100">grabr 1.0.0<a class="anchor" aria-label="anchor" href="#grabr-100"></a></h2>
-<ul><li>Resolve outstanding issues around Pano folder name change affecting <code>pano_extract_msd</code> and <code>pano_extract_msds</code> [2022-09-29]</li>
+<ul><li>Resolve bug with <code>lazy_secrets</code> where there are too many default param by using <code>match.arg</code> [2023-02-09]</li>
+<li>Limit credential pop up to once when running <code><a href="../reference/get_outable.html">get_outable()</a></code> [2023-01-26]</li>
+<li>Clean up dependencies and remove <code>check_package()</code> which was conflicting with <code>glamr</code> [2022-12-01]</li>
+<li>Replace <code>%ni%</code> with <code>! .. %in%..</code> as you cannot use an imported object from a GitHub package, <code>glamr</code> [2022-11-21]</li>
+<li>Resolve outstanding issues around Pano folder name change affecting <code>pano_extract_msd</code> and <code>pano_extract_msds</code> [2022-09-29]</li>
 <li>Adjust for Pano folder name change affecting <code>pano_extract</code> [2022-09-26]</li>
 <li>Resolve bug with <code>lazy_secrets</code> causing upstream errors with <code>get_ouuid</code> and other dependent functions [2022-09-01]</li>
 <li>Update <code>pano_extract</code> to provide current period information if missing in parameters [2022-08-22]</li>
@@ -89,7 +98,7 @@
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.</p>
 </div>
 
       </footer></div>
