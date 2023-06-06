@@ -199,12 +199,14 @@ pano_items <- function(page_url, session = NULL) {
 #'
 #'   pano_download(item_url = f_url, session = s, dest = "./Data/")}
 #'
-pano_download <- function(item_url, session,
+pano_download <- function(item_url,
+                          session,
                           dest = NULL,
                           uncompress = FALSE) {
 
   # Default destination folder
   if (base::is.null(dest)) {
+    usethis::ui_warn("Missing destination path - file will be placed in {glamr::si_path('path_msd')}")
     dest = glamr::si_path("path_msd")
   }
 
@@ -214,13 +216,19 @@ pano_download <- function(item_url, session,
     base::stop("Invalid Directory")
   }
 
-  dfile <- base::paste0(dest, "/", base::basename(item_url))
+  # Filename
+  dfile <- item_url %>%
+    base::basename() %>%
+    urltools::url_decode() %>%
+    base::file.path(dest, .)
 
+  # Download file
   item_url %>%
     httr::GET(.,
-              httr::write_disk(paste0(dest, "/", base::basename(item_url)), overwrite=TRUE),
+              httr::write_disk(path = dfile, overwrite=TRUE),
               httr::set_cookies("formsSessionState" = session))
 
+  # Unzip
   if (uncompress) {
     zip::unzip(dfile, overwrite = TRUE, exdir = dest)
   }
