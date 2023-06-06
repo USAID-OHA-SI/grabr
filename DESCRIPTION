@@ -1,7 +1,7 @@
 Package: grabr
 Type: Package
 Title: OHA/SI APIs Package
-Version: 1.0.0
+Version: 1.0.1
 Authors@R: c(
     person("Aaron", "Chafetz", ,"achafetz@usaid.gov", c("aut", "cre")),
     person("Tim", "Essam", ,"tessam@usaid.gov", c("aut")),
@@ -35,7 +35,8 @@ Imports:
     tools,
     tidyr,
     tidyselect,
-    usethis
+    usethis,
+    urltools
 Suggests: 
     fs,
     zip,

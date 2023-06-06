@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">grabr</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.0.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.0.1</span>
       </span>
     </div>
 
@@ -70,7 +70,8 @@
 </ul></div>
     <div class="section level2">
 <h2 class="page-header" data-toc-text="1.0.0" id="grabr-100">grabr 1.0.0<a class="anchor" aria-label="anchor" href="#grabr-100"></a></h2>
-<ul><li>Resolve bug with <code>lazy_secrets</code> where there are too many default param by using <code>match.arg</code> [2023-02-09]</li>
+<ul><li>Resolves a bug caused by a dplyr update when <code>s3_unpack_keys</code> is called from <code>s3_objects</code> [2023-02-16]</li>
+<li>Resolve bug with <code>lazy_secrets</code> where there are too many default param by using <code>match.arg</code> [2023-02-09]</li>
 <li>Limit credential pop up to once when running <code><a href="../reference/get_outable.html">get_outable()</a></code> [2023-01-26]</li>
 <li>Clean up dependencies and remove <code>check_package()</code> which was conflicting with <code>glamr</code> [2022-12-01]</li>
 <li>Replace <code>%ni%</code> with <code>! .. %in%..</code> as you cannot use an imported object from a GitHub package, <code>glamr</code> [2022-11-21]</li>
