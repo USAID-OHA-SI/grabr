@@ -5,7 +5,11 @@
 
 check_internet <- function(){
 
-  if(!curl::has_internet())
+  # Assuming google is always up
+  host <- "google.com"
+
+  #if(!curl::has_internet())
+  if(is.null(curl::nslookup(host, error = FALSE)))
     stop("No internet connection. Cannot excecute API.")
 }
 
