@@ -353,7 +353,8 @@ datim_execute_query <- function(url,
   # Run query
   json <- base::tryCatch({
     url %>%
-      urltools::url_encode() %>%
+      urltools::url_decode() %>%
+      gsub(" ", "%20", .) %>%
       httr::GET(httr::authenticate(accnt$username, accnt$password)) %>%
       httr::content("text") %>%
       jsonlite::fromJSON(flatten = flatten)
