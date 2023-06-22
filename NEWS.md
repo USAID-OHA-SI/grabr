@@ -1,3 +1,6 @@
+# grabr 1.1.0
+* Update `datim_execute_query` to resolve new behavior from `urltools::url_encode` that started changing character other than spaces, having unexpected change to APIs [2022-06-22] 
+
 # grabr 1.0.1
 * Adding new datim sqlview functions: `datim_sqlview()` and `datim_orgunits()` [2023-04-14]
 * More of these to be migrated from `MerQL` repo to this packages
