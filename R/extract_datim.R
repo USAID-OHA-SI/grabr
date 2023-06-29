@@ -1073,17 +1073,17 @@ datim_orgunits <- function(username, password, cntry,
   if (missing(base_url))
     base_url <- "https://final.datim.org"
 
-  if(!cntry %in% pepfar_countries$country) {
+  if(!cntry %in% glamr::pepfar_country_list$country) {
     usethis::ui_stop(glue::glue("Invalid country name: {cntry}"))
   }
 
   # Get Country ISO Code
-  cntry_iso <- pepfar_countries %>%
+  cntry_iso <- glamr::pepfar_country_list %>%
     dplyr::filter(country == cntry) %>%
     dplyr::pull(country_iso)
 
   # get distinct levels
-  cntry_levels <- pepfar_countries %>%
+  cntry_levels <- glamr::pepfar_country_list %>%
     dplyr::filter(country == cntry) %>%
     dplyr::select(dplyr::ends_with("_lvl")) %>%
     tidyr::pivot_longer(cols = dplyr::ends_with("_lvl"),
