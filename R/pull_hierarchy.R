@@ -111,11 +111,11 @@ hierarchy_clean <- function(df){
 
 #' Rename Hierarchy from Levels to OU/SNU1/PSNU/Facility
 #'
-#' @param df data frame created by `hierarchy_extract() %>% hierarchy_clean()`
-#' @param country county name, eg "Malawi" or "Nepal"
-#' @param username DATIM username
-#' @param password DATIM password, recommend using `mypwd()`
-#' @param baseurl API base url, default = https://final.datim.org/
+#' @param df        data frame created by `hierarchy_extract() %>% hierarchy_clean()`
+#' @param country   county name, eg "Malawi" or "Nepal"
+#' @param username  DATIM username
+#' @param password  DATIM password, recommend using `mypwd()`
+#' @param baseurl   API base url, default = https://final.datim.org/
 #'
 #' @export
 

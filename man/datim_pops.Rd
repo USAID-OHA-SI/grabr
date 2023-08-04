@@ -26,6 +26,8 @@ datim_pops(
 \item{fy}{Fiscal Year}
 
 \item{hierarchy}{Should additional organizational hierarchy be added?, default is FALSE}
+
+\item{baseurl}{DATIM API base url}
 }
 \value{
 PLHIV and POP_EST Data

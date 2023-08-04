@@ -49,6 +49,21 @@ get_baseurl <- function(url) {
     stringr::str_remove("\\/*$")
 }
 
+#' Check if variable exist
+#'
+#' @param df data frame to check against
+#' @param var quoted variable of interest
+#' @export
+#' @family utility
+#' @examples
+#' \dontrun{
+#' var_exists(df, "val") }
+var_exists <- function(df, var) {
+
+  var %in% names(df)
+
+}
+
 #' Lazy checking/loading of credentials
 #'
 #' This function is useful within another function. It check whether a username

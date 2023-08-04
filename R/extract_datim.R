@@ -695,11 +695,12 @@ datim_query <-
 #' @title Extract PLHIV and General POP Estimates from datim
 #'
 #' @param ou        Operatingunit
-#' @param username       Datim account username
-#' @param password       Datim account password
+#' @param username  Datim account username
+#' @param password  Datim account password
 #' @param level     Organization level
 #' @param fy        Fiscal Year
 #' @param hierarchy Should additional organizational hierarchy be added?, default is FALSE
+#' @param baseurl   DATIM API base url
 #'
 #' @return PLHIV and POP_EST Data
 #' @export
@@ -1175,6 +1176,7 @@ datim_orgunits <- function(cntry, username, password,
 #' @param cntry    Country name
 #' @param username Datim username
 #' @param password Datim password
+#' @param agency   Agency name
 #' @param base_url Datim API Base URL
 #'
 #' @export

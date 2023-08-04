@@ -13,6 +13,8 @@ datim_mechs(cntry, username, password, agency = "USAID", base_url = NULL)
 
 \item{password}{Datim password}
 
+\item{agency}{Agency name}
+
 \item{base_url}{Datim API Base URL}
 }
 \value{
