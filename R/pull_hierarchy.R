@@ -14,13 +14,17 @@
 #' #pull hierarchy (paths are all UIDs)
 #'   df <- hierarchy_extract(ouuid, username = myuser, password = mypwd(myuser)) }
 
-hierarchy_extract <- function(ou_uid, username, password, baseurl = "https://final.datim.org/"){
+hierarchy_extract <- function(ou_uid, username, password,
+                              baseurl = "https://final.datim.org/"){
 
   package_check("curl")
   package_check("httr")
   package_check("jsonlite")
 
   stopifnot(curl::has_internet())
+
+  # datim credentials
+  accnt <- lazy_secrets("datim", username, password)
 
   #compile url
   url <- paste0(baseurl,
@@ -29,9 +33,9 @@ hierarchy_extract <- function(ou_uid, username, password, baseurl = "https://fin
 
   #pull data from DATIM
   df <- url %>%
-    httr::GET(httr::authenticate(username,password)) %>%
-    httr::content("text") %>%
-    jsonlite::fromJSON() %>%
+    datim_execute_query(username = accnt$username,
+                        password = accnt$password,
+                        flatten = FALSE) %>%
     purrr::pluck("organisationUnits") %>%
     tibble::as_tibble()
 }
@@ -115,7 +119,8 @@ hierarchy_clean <- function(df){
 #'
 #' @export
 
-hierarchy_rename <- function(df, country, username, password, baseurl = "https://final.datim.org/"){
+hierarchy_rename <- function(df, country, username, password,
+                             baseurl = "https://final.datim.org/"){
 
   package_check("curl")
   package_check("httr")
@@ -166,7 +171,6 @@ hierarchy_rename <- function(df, country, username, password, baseurl = "https:/
         dplyr::relocate(snu1, .after = "countryname")
     }
 
-
     if(!!paste0("orglvl_", ou_psnu) %in% names(df))
       df <- dplyr::rename(df, psnu = !!paste0("orglvl_", ou_psnu))
 
@@ -198,8 +202,8 @@ hierarchy_rename <- function(df, country, username, password, baseurl = "https:/
       dplyr::select(orgunit, orgunituid, dplyr::everything()) %>%
       dplyr::select(-dplyr::starts_with("orglvl_"), -dplyr::starts_with("uidlvl_"))
 
-
     return(df)
+
   } else {
     return(NULL)
   }
@@ -248,7 +252,7 @@ pull_hierarchy <- function(ou_uid, username, password,
                            baseurl = "https://final.datim.org/",
                            folderpath_output = NULL){
 
-  print(ou_uid)
+  #print(ou_uid)
 
   df <- hierarchy_extract(ou_uid, username, password, baseurl)
 
@@ -261,6 +265,29 @@ pull_hierarchy <- function(ou_uid, username, password,
 
   hfr_export(df, folderpath_output, type = "mechanisms")
 
+  # Export
+  if(!is.null(folderpath_output) & fs::dir_exists(folderpath_output)){
+
+    cat("\nExporting ...\n")
+
+    #compile file name  and export data
+    filename <- paste(
+        country_name,
+        "OrgHierarchy",
+        glamr::curr_date(),
+        sep = "_"
+      ) %>%
+      paste0(".csv") %>%
+      stringr::str_replace_all("_{2,}", "_")
+
+    readr::write_csv(x = df,
+                     file = file.path(folderpath_output, filename),
+                     na = "")
+
+    cat(crayon::blue("\n", file.path(folderpath_output, filename), "\n"))
+
+  }
+
   return(df)
 }
 
@@ -271,7 +298,8 @@ pull_hierarchy <- function(ou_uid, username, password,
 #' @param upload should the new table be pushed to Google Drive and s3? default = FALSE
 #'
 #' @export
-update_meta_orgs <- function(savefolder = "out/DATIM", upload = FALSE){
+update_meta_orgs <- function(savefolder = "out/DATIM",
+                             upload = FALSE){
 
   #pull updated hierarchy table
   ouuids <- Wavelength::identify_ouuids(glamr::datim_user(), glamr::datim_pwd()) %>%

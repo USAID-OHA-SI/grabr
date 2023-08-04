@@ -14,6 +14,22 @@ check_internet <- function(){
 }
 
 
+#' Check if package exists
+#'
+#' @param pkg package name
+#'
+#' @return warning message if package is not installed
+#' @export
+#' @family utility
+
+package_check <- function(pkg){
+  if (!requireNamespace(pkg, quietly = TRUE)) {
+    stop(paste("Package", pkg,
+               "needed for this function to work. Please install it."),
+         call. = FALSE)
+  }
+}
+
 #' Lazy checking/loading of credentials
 #'
 #' This function is useful within another function. It check whether a username
