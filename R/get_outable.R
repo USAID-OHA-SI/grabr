@@ -81,9 +81,7 @@ identify_ouuids <- function(username, password,
 
   ous <- baseurl %>%
     paste0("api/organisationUnits?filter=level:eq:3") %>%
-    httr::GET(httr::authenticate(accnt$username, accnt$password)) %>%
-    httr::content("text") %>%
-    jsonlite::fromJSON(flatten=TRUE) %>%
+    datim_execute_query(accnt$username, accnt$password, flatten = TRUE) %>%
     purrr::pluck("organisationUnits")
 
   region_uids <- ous %>%
@@ -93,9 +91,7 @@ identify_ouuids <- function(username, password,
   ctrys <- purrr::map_dfr(.x = region_uids,
                           .f = ~ baseurl %>%
                             paste0("api/organisationUnits?filter=level:eq:4&filter=path:like:", .x) %>%
-                            httr::GET(httr::authenticate(accnt$username, accnt$password)) %>%
-                            httr::content("text") %>%
-                            jsonlite::fromJSON(flatten=TRUE) %>%
+                           datim_execute_query(accnt$username, accnt$password, flatten = TRUE) %>%
                             purrr::pluck("organisationUnits") %>%
                             dplyr::mutate(regional = TRUE))
 
@@ -144,9 +140,7 @@ identify_levels <- function(username, password,
 
   df_levels <- baseurl %>%
     paste0(.,"api/dataStore/dataSetAssignments/orgUnitLevels") %>%
-    httr::GET(httr::authenticate(accnt$username, accnt$password)) %>%
-    httr::content("text") %>%
-    jsonlite::fromJSON(flatten=TRUE) %>%
+    datim_execute_query(accnt$username, accnt$password, flatten = TRUE) %>%
     purrr::map_dfr(dplyr::bind_rows) %>%
     dplyr::mutate_if(is.character, ~ dplyr::na_if(., ""))
 
@@ -202,9 +196,7 @@ get_orguids <-
     orgs <- baseurl %>%
       paste0("api/organisationUnits",
              "?filter=level:eq:", lvl) %>%
-      httr::GET(httr::authenticate(accnt$username, accnt$password)) %>%
-      httr::content("text") %>%
-      jsonlite::fromJSON(flatten = TRUE) %>%
+      datim_execute_query(accnt$username, accnt$password, flatten = TRUE) %>%
       purrr::pluck("organisationUnits") %>%
       dplyr::rename(uid = id, orgunit = displayName) %>%
       tibble::as_tibble()
@@ -259,9 +251,7 @@ get_ouorgs <-
              "?filter=level:eq:", lvl,
              "&filter=path:like:", uid,
              "&paging=false&format=json") %>%
-      httr::GET(httr::authenticate(accnt$username, accnt$password)) %>%
-      httr::content("text") %>%
-      jsonlite::fromJSON(flatten = TRUE) %>%
+      datim_execute_query(accnt$username, accnt$password, flatten = TRUE) %>%
       purrr::pluck("organisationUnits")
 
     # Check data
@@ -436,13 +426,10 @@ get_levels <-
     # Params
     accnt <- lazy_secrets("datim", username , password)
 
-
     # Query data
     df_levels <- baseurl %>%
       paste0(.,"api/dataStore/dataSetAssignments/orgUnitLevels") %>%
-      httr::GET(httr::authenticate(accnt$username, accnt$password)) %>%
-      httr::content("text") %>%
-      jsonlite::fromJSON(flatten = TRUE) %>%
+      datim_execute_query(accnt$username, accnt$password, flatten = TRUE) %>%
       purrr::map_dfr(dplyr::bind_rows) %>%
       dplyr::mutate_if(is.character, ~ dplyr::na_if(., ""))
 
