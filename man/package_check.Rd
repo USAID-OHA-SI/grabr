@@ -17,6 +17,7 @@ Check if package exists
 }
 \seealso{
 Other utility: 
-\code{\link{get_baseurl}()}
+\code{\link{get_baseurl}()},
+\code{\link{var_exists}()}
 }
 \concept{utility}

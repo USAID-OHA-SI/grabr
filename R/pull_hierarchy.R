@@ -131,7 +131,11 @@ hierarchy_rename <- function(df, country, username, password,
   if(!country %in% unique(df$orglvl_3))
     df <- dplyr::filter(df, orglvl_4 == country)
 
-  df_ou_info <- identify_levels(country, username = username, password = password, baseurl = baseurl)
+  df_ou_info <- identify_levels(username = username,
+                                password = password,
+                                baseurl = baseurl) %>%
+    dplyr::filter(country == country)
+
 
   if(NROW(df_ou_info) > 0 && df_ou_info$facility > 0){
     #identify levels
