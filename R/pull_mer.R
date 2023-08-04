@@ -79,7 +79,6 @@ get_datim_data <- function(url, username, password) {
         tidyr::separate(value, headers, sep = "/")
     }
 
-
     df <- df %>%
       dplyr::mutate_all(~plyr::mapvalues(., metadata$from, metadata$name, warn_missing = FALSE)) %>%
       dplyr::mutate(Value = as.numeric(Value)) %>%
@@ -351,8 +350,29 @@ pull_mer <- function(ou_name = NULL,
       if(var_exists(df_combo, "mer_targets"))
         df_combo <- dplyr::mutate(df_combo, psnu = ifelse(is.na(psnu) & mer_targets > 0, orgunit, psnu))
 
-    #export
-      hfr_export(df_combo, folderpath_output, type = "DATIM", by_mech = TRUE, quarters_complete)
+    # Export
+    if(!is.null(folderpath_output) & fs::dir_exists(folderpath_output)){
+
+      cat("\nExporting ...\n")
+
+      #compile file name  and export data
+      filename <- paste(
+        fy_pd,
+        ou_name,
+        "MER Data",
+        glamr::curr_date(),
+        sep = "_"
+      ) %>%
+        paste0(".csv") %>%
+        stringr::str_replace_all("_{2,}", "_")
+
+      readr::write_csv(x = df,
+                       file = file.path(folderpath_output, filename),
+                       na = "")
+
+      cat(crayon::blue("\n", file.path(folderpath_output, filename), "\n"))
+
+    }
 
     invisible(df_combo)
 
