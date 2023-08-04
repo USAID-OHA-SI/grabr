@@ -11,7 +11,9 @@
 #' #pull mechanism/partner information
 #' df <- pull_mech() }
 
-pull_mech <- function(usaid_only = TRUE, ou_sel = NULL, folderpath_output = NULL){
+pull_mech <- function(usaid_only = TRUE,
+                      ou_sel = NULL,
+                      folderpath_output = NULL){
 
   package_check("curl")
 
@@ -50,6 +52,29 @@ pull_mech <- function(usaid_only = TRUE, ou_sel = NULL, folderpath_output = NULL
 
   #export
     hfr_export(df, folderpath_output, type = "mechanisms")
+
+  # Export
+  if(!is.null(folderpath_output) & fs::dir_exists(folderpath_output)){
+
+    cat("\nExporting ...\n")
+
+    #compile file name  and export data
+    filename <- paste(
+      ou_sel,
+      "Mechanisms",
+      glamr::curr_date(),
+      sep = "_"
+    ) %>%
+      paste0(".csv") %>%
+      stringr::str_replace_all("_{2,}", "_")
+
+    readr::write_csv(x = df,
+                     file = file.path(folderpath_output, filename),
+                     na = "")
+
+    cat(crayon::blue("\n", file.path(folderpath_output, filename), "\n"))
+
+  }
 
   return(df)
 }
