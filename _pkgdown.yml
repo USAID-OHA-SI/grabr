@@ -55,6 +55,10 @@ reference:
   - datim_pops
   - datim_sqlviews
   - datim_orgunits
+  - datim_mechs
+  - pull_hierarchy
+  - pull_mech
+  - pull_mer
 
 - title: Panorama
   contents:

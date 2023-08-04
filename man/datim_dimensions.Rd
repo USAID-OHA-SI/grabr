@@ -5,20 +5,20 @@
 \title{Get PEPFAR/DATIM dimensions}
 \usage{
 datim_dimensions(
-  url = "https://final.datim.org/api/dimensions",
   username,
   password,
-  var = NULL
+  var = NULL,
+  base_url = "https://final.datim.org/"
 )
 }
 \arguments{
-\item{url}{DATIM API End point}
-
 \item{username}{DATIM Account Username}
 
 \item{password}{DATIM Account passward}
 
 \item{var}{Column name to pull all values from, default is NULL, options are: id, dimension}
+
+\item{base_url}{DATIM API End point, , default value is `https://final.datim.org/`}
 }
 \value{
 Dimensions as tibble or list of ids / dimension names

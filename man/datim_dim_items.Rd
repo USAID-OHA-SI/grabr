@@ -6,25 +6,25 @@
 \usage{
 datim_dim_items(
   dimension,
+  username,
+  password,
   var = NULL,
   fields = NULL,
-  url = "https://final.datim.org/api/dimensions",
-  username,
-  password
+  base_url = "https://final.datim.org/"
 )
 }
 \arguments{
 \item{dimension}{Dimension name}
 
-\item{var}{column name to pull values from, id or item}
-
-\item{fields}{list of column names to return, this will overight `var`}
-
-\item{url}{DATIM API end point}
-
 \item{username}{DATIM Account Username}
 
 \item{password}{DATIM Account passward}
+
+\item{var}{column name to pull values from, id or item}
+
+\item{fields}{list of column names to return, this will overwrite `var`}
+
+\item{base_url}{DATIM API end point}
 }
 \value{
 Dimension's items as tibble or vector

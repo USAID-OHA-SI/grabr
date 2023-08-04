@@ -1,3 +1,8 @@
+# grabr 1.2.0
+* Update `datim_*` functions to use `datim_execute_query()` that uses `tryCatch` for errors [2023-08-04] 
+* Add `get_baseurl()` to clean up urls and remove trailing slashes [2023-08-04]
+* Copied `pull_hierarchy()`, `pull_mech()` and `pull_mer()` along with their respective dependencies to this package [2023-08-04]
+
 # grabr 1.1.0
 * Update `datim_execute_query` to resolve new behavior from `urltools::url_encode` that started changing character other than spaces, having unexpected change to APIs [2022-06-22] 
 

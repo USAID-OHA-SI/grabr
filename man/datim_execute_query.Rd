@@ -25,7 +25,7 @@ Execute Datim Query
 \dontrun{
   library(grabr)
 
-  execute_datim_query(
+  datim_execute_query(
     url = 'https://www.datim.org/api/sqlViews/<uid>?format=json',
     username =glamr::datim_user(),
     password =glamr::datim_pwd(),

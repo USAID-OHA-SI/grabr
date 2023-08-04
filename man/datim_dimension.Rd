@@ -6,19 +6,19 @@
 \usage{
 datim_dimension(
   name,
-  url = "https://final.datim.org/api/dimensions",
   username,
-  password
+  password,
+  base_url = "https://final.datim.org/"
 )
 }
 \arguments{
 \item{name}{Dimension name}
 
-\item{url}{DATIM API End point, default value is `https://final.datim.org/api/dimensions`}
-
 \item{username}{DATIM Account Username, recommended using glamr::datim_user()`}
 
 \item{password}{DATIM Account passward, recommended using glamr::datim_pwd()`}
+
+\item{base_url}{DATIM API End point, default value is `https://final.datim.org/`}
 }
 \value{
 dimension uid
