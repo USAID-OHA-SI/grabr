@@ -405,6 +405,7 @@ get_ouuid <-
 #'
 #' @param username DATIM username, recommed using glamr::datim_user()`
 #' @param password DATIM password, recommend using glamr::datim_pwd()`
+#' @param reshape  Reshape data as long? default is FALSE
 #' @param baseurl  base API url, default = https://final.datim.org/
 #'
 #' @return df
@@ -421,6 +422,7 @@ get_ouuid <-
 get_levels <-
   function(username,
            password,
+           reshape = FALSE,
            baseurl = "https://final.datim.org/"){
 
     # Params
@@ -444,6 +446,15 @@ get_levels <-
                     countryname = name4,
                     operatingunit_iso = iso3,
                     country_iso = iso4)
+
+    # Reshape
+    if (reshape) {
+      df_levels <- df_levels %>%
+        tidyr::pivot_longer(
+          cols = dplyr::any_of(c("country", "prioritization", "community", "facility")),
+          names_to = "label",
+          values_to = "level")
+    }
 
     return(df_levels)
   }

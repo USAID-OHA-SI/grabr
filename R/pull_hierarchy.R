@@ -134,7 +134,8 @@ hierarchy_rename <- function(df, country, username, password,
   # Get and clean country levels
   df_ou_info <- get_levels(username = username,
                            password = password,
-                           baseurl = baseurl)
+                           baseurl = baseurl) %>%
+    dplyr::filter(countryname == country)
 
   # Rename columns
   if(NROW(df_ou_info) > 0 && df_ou_info$facility > 0){
@@ -267,10 +268,8 @@ pull_hierarchy <- function(ou_uid, username, password,
   df <- purrr::map_dfr(.x = country_name,
                        .f = ~ hierarchy_rename(df, .x, username, password, baseurl))
 
-  hfr_export(df, folderpath_output, type = "mechanisms")
-
   # Export
-  if(!is.null(folderpath_output) & fs::dir_exists(folderpath_output)){
+  if(!is.null(folderpath_output) && fs::dir_exists(folderpath_output)){
 
     cat("\nExporting ...\n")
 
