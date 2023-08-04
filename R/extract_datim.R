@@ -334,7 +334,7 @@ datim_dim_url <- function(dimension,
 #' \dontrun{
 #'   library(grabr)
 #'
-#'   execute_datim_query(
+#'   datim_execute_query(
 #'     url = 'https://www.datim.org/api/sqlViews/<uid>?format=json',
 #'     username =glamr::datim_user(),
 #'     password =glamr::datim_pwd(),
@@ -351,25 +351,25 @@ datim_execute_query <- function(url,
   accnt <- lazy_secrets("datim", username, password)
 
   # Run query
-  json <- base::tryCatch({
-    url %>%
-      urltools::url_decode() %>%
-      gsub(" ", "%20", .) %>%
-      httr::GET(httr::authenticate(accnt$username, accnt$password)) %>%
-      httr::content("text") %>%
-      jsonlite::fromJSON(flatten = flatten)
-  },
-  warning = function(warn) {
-    base::message(crayon::red("Query execution warnings:"))
-    base::print(warn)
-  },
-  error = function(err) {
-    base::message(crayon::red("Unable to execute your query:"))
-    base::print(err)
-    return(NULL)
-  })
+  .data_json <- base::tryCatch({
+      url %>%
+        urltools::url_decode() %>%
+        gsub(" ", "%20", .) %>%
+        httr::GET(httr::authenticate(accnt$username, accnt$password)) %>%
+        httr::content("text") %>%
+        jsonlite::fromJSON(flatten = flatten)
+    },
+    warning = function(warn) {
+      base::message(crayon::red("Query execution warnings:"))
+      base::print(warn)
+    },
+    error = function(err) {
+      base::message(crayon::red("Unable to execute your query:"))
+      base::print(err)
+      return(NULL)
+    })
 
-  return(json)
+  return(.data_json)
 }
 
 
@@ -902,15 +902,14 @@ extract_datim <- function(url, username, password) {
 #' \dontrun{
 #'   library(grabr)
 #'
-#'   execute_datim_query(
-#'     url = 'https://www.datim.org/api/sqlViews/<uid>?format=json',
+#'   datim_sqlviews(
 #'     username =glamr::datim_user(),
 #'     password =glamr::datim_pwd(),
-#'     flatten = TRUE
+#'     view_name = "<name>",
+#'     dataset = TRUE
 #'   )
 #' }
 #'
-
 datim_sqlviews <- function(username, password,
                            view_name = NULL,
                            dataset = FALSE,
@@ -1049,15 +1048,25 @@ datim_sqlviews <- function(username, password,
 
 #' @title Pull Orgunits SQLView
 #'
+#' @param cntry    Country name
 #' @param username Datim username
 #' @param password Datim password
-#' @param cntry    Country name
 #' @param base_url Datim API Base URL
 #'
 #' @export
 #' @return OU Orgunit as data frame
 #'
-datim_orgunits <- function(username, password, cntry,
+#' @examples
+#' \dontrun{
+#'   library(grabr)
+#'
+#'   datim_orgunits(
+#'    cntry = "Mozambique",
+#'    username = glamr::datim_user(),
+#'    password = glamr::datim_pwd()
+#'   )
+#' }
+datim_orgunits <- function(cntry, username, password,
                            base_url = NULL) {
 
   # datim credentials
@@ -1112,4 +1121,90 @@ datim_orgunits <- function(username, password, cntry,
   #   clean_orgview(levels = cntry_levels) %>%
   #   reshape_orgview(levels = cntry_levels) %>%
   #   rename_orgview(levels = cntry_levels)
+}
+
+#' @title Pull Orgunits
+#'
+#' @param cntry    Country name
+#' @param username Datim username
+#' @param password Datim password
+#' @param base_url Datim API Base URL
+#'
+#' @export
+#' @return OU Mechanisms as data frame
+#'
+#' @examples
+#' \dontrun{
+#'   library(grabr)
+#'
+#'   datim_mechs(
+#'    cntry = "Mozambique",
+#'    username = glamr::datim_user(),
+#'    password = glamr::datim_pwd()
+#'   )
+#' }
+datim_mechs <- function(cntry, username, password,
+                        agency = "USAID",
+                        base_url = NULL) {
+
+  user_params <- list("ou" = cntry)
+
+  if (!is.null(agency)) user_params['agency'] = agency
+
+  .mechs <- datim_sqlviews(
+    username,
+    password,
+    view_name = "Mechanisms partners agencies OUS Start End",
+    dataset = TRUE,
+    query = list(
+      type = "field",
+      params = user_params
+    ),
+    base_url = base_url
+  )
+
+  # Reshape Results - mech code, award number, and name separations chars
+  sep_chrs <- c("[[:space:]]+",
+                "[[:space:]]+-",
+                "[[:space:]]+-[[:space:]]+",
+                "[[:space:]]+-[[:space:]]+-",
+                "[[:space:]]+-[[:space:]]+-[[:space:]]+",
+                "[[:space:]]+-[[:space:]]+-[[:space:]]+-",
+                "-[[:space:]]+",
+                "-[[:space:]]+-",
+                "-[[:space:]]+-[[:space:]]+",
+                "-[[:space:]]+-[[:space:]]+-",
+                "-[[:space:]]+-[[:space:]]+-[[:space:]]+",
+                "-[[:space:]]+-[[:space:]]+-[[:space:]]+-")
+
+  # Reshape Results - separation
+  .mechs %>%
+    dplyr::rename(
+      mech_code = code,
+      operatingunit = ou,
+      prime_partner_name = partner,
+      prime_partner_uid = primeid,
+      funding_agency = agency,
+      operatingunit = ou
+    ) %>%
+    dplyr::mutate(
+      mech_name = stringr::str_remove(mechanism, mech_code),
+      mech_name = stringr::str_replace_all(mech_name, "\n", ""),
+      award_number = dplyr::case_when(
+        stringr::str_detect(prime_partner_name, "^TBD") ~ NA_character_,
+        TRUE ~ stringr::str_extract(
+          mech_name,
+          pattern = "(?<=-[:space:])[A-Z0-9]+(?=[:space:]-[:space:])"
+        )
+      ),
+      mech_name = dplyr::case_when(
+        !is.na(award_number) ~ stringr::str_remove(mech_name, award_number),
+        TRUE ~ mech_name
+      ),
+      mech_name = stringr::str_remove(
+        mech_name,
+        paste0("^", rev(sep_chrs), collapse = "|")
+      )
+    ) %>%
+    dplyr::select(uid, mech_code, mech_name, award_number, mechanism, everything())
 }
