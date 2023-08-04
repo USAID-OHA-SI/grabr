@@ -30,6 +30,25 @@ package_check <- function(pkg){
   }
 }
 
+#' @title Get base url from a link
+#'
+#' @param url api end point
+#'
+#' @return Base url without trailing slash
+#' @export
+#' @family utility
+
+get_baseurl <- function(url) {
+
+  url_parts <- urltools::url_parse(url)
+
+  base_url <- ifelse(is.na(url_parts$scheme), "https", url_parts$scheme)
+
+  base_url %>%
+    paste0("://", url_parts$domain) %>%
+    stringr::str_remove("\\/*$")
+}
+
 #' Lazy checking/loading of credentials
 #'
 #' This function is useful within another function. It check whether a username

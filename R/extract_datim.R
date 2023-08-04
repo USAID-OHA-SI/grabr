@@ -1,9 +1,9 @@
 #' @title Get PEPFAR/DATIM dimensions
 #'
-#' @param url      DATIM API End point
 #' @param username DATIM Account Username
 #' @param password DATIM Account passward
 #' @param var      Column name to pull all values from, default is NULL, options are: id, dimension
+#' @param base_url DATIM API End point, , default value is `https://final.datim.org/`
 #'
 #' @export
 #' @return Dimensions as tibble or list of ids / dimension names
@@ -15,17 +15,16 @@
 #'   datim_dimensions()
 #' }
 #'
-datim_dimensions <- function(url = "https://final.datim.org/api/dimensions",
-                             username,
-                             password,
-                             var = NULL) {
+datim_dimensions <- function(username, password,
+                             var = NULL,
+                             base_url = "https://final.datim.org/") {
 
   # datim credentials
   accnt <- lazy_secrets("datim", username, password)
 
-  # paging
-  if (!stringr::str_detect(url, "paging"))
-    url <- base::paste0(url, "?paging=false")
+  # Update URL + remove paging
+  url <- get_baseurl(base_url) %>%
+    paste0("/api/dimensions?paging=false")
 
   # Query datim
   dims <- url %>%
@@ -45,9 +44,9 @@ datim_dimensions <- function(url = "https://final.datim.org/api/dimensions",
 #' @title Get PEPFAR/DATIM Dimension ID
 #'
 #' @param name      Dimension name
-#' @param url       DATIM API End point, default value is `https://final.datim.org/api/dimensions`
 #' @param username  DATIM Account Username, recommended using glamr::datim_user()`
 #' @param password  DATIM Account passward, recommended using glamr::datim_pwd()`
+#' @param base_url  DATIM API End point, default value is `https://final.datim.org/`
 #'
 #' @return dimension uid
 #' @export
@@ -59,26 +58,27 @@ datim_dimensions <- function(url = "https://final.datim.org/api/dimensions",
 #' }
 #'
 datim_dimension <- function(name,
-                            url = "https://final.datim.org/api/dimensions",
                             username,
-                            password) {
-
+                            password,
+                            base_url = "https://final.datim.org/") {
+  # ID
   dim_id <- NULL
 
   # datim credentials
   accnt <- lazy_secrets("datim", username, password)
 
   # Query dimensions
-  df_dims <- datim_dimensions(url = url,
-                              username = accnt$username,
-                              password = accnt$password)
+  .df_dims <- datim_dimensions(username = accnt$username,
+                              password = accnt$password,
+                              base_url = base_url)
 
-  if (base::is.null(df_dims) | base::nrow(df_dims) == 0 | !name %in% df_dims$dimension) {
+  if (base::is.null(.df_dims) | base::nrow(.df_dims) == 0 | !name %in% .df_dims$dimension) {
     base::message(crayon::red(glue::glue("There is no '{name}' dimension. Check spelling.")))
     return(NULL)
   }
 
-  dim_id = df_dims %>%
+  # Return dimension id
+  dim_id = .df_dims %>%
     dplyr::filter(dimension == name) %>%
     dplyr::pull(id)
 
@@ -89,11 +89,11 @@ datim_dimension <- function(name,
 #' @title Get PEPFAR/DATIM Dimension Items
 #'
 #' @param dimension Dimension name
-#' @param var       column name to pull values from, id or item
-#' @param fields    list of column names to return, this will overight `var`
-#' @param url       DATIM API end point
 #' @param username  DATIM Account Username
 #' @param password  DATIM Account passward
+#' @param var       column name to pull values from, id or item
+#' @param fields    list of column names to return, this will overwrite `var`
+#' @param base_url  DATIM API end point
 #'
 #' @export
 #' @return Dimension's items as tibble or vector
@@ -107,26 +107,27 @@ datim_dimension <- function(name,
 #' }
 #'
 datim_dim_items <- function(dimension,
+                            username,
+                            password,
                             var = NULL,
                             fields = NULL,
-                            url = "https://final.datim.org/api/dimensions",
-                            username,
-                            password){
+                            base_url = "https://final.datim.org/"){
 
   # datim credentials
   accnt <- lazy_secrets("datim", username, password)
 
   # clean up url / paging
-  url <- stringr::str_remove(url, "\\?.*")
+  url <- get_baseurl(baseurl)
 
   # Get dimension id
-  dim_id <- datim_dimension(url = url,
-                            name = dimension,
+  dim_id <- datim_dimension(name = dimension,
                             username = accnt$username,
-                            password = accnt$password)
+                            password = accnt$password,
+                            base_url = url)
 
   # Update url with id and paging
-  url_dims <- glue::glue("{url}/{dim_id}/items?paging=false")
+  url_dims <- get_baseurl(baseurl) %>%
+    glue::glue("{url}/{dim_id}/items?paging=false")
 
   # Request specific fields
   if (!base::is.null(fields)) {
@@ -167,9 +168,9 @@ datim_dim_items <- function(dimension,
 #'
 #' @param dimension Dimension name
 #' @param name      Item name
-#' @param url       DATIM API end point
 #' @param username  DATIM Account Username
-#' @param password  DATIM Account passward
+#' @param password  DATIM Account password
+#' @param base_url  DATIM API end point
 #'
 #' @export
 #' @return UID of item
@@ -185,9 +186,8 @@ datim_dim_items <- function(dimension,
 #' }
 #'
 datim_dim_item <- function(dimension, name,
-                           url = "https://final.datim.org/api/dimensions",
-                           username,
-                           password) {
+                           username, password,
+                           base_url = "https://final.datim.org/") {
 
   item_id <- NULL
 
@@ -196,9 +196,9 @@ datim_dim_item <- function(dimension, name,
 
   # Get dimension's items
   items <- datim_dim_items(dimension = dimension,
-                           url = url,
                            username = accnt$username,
-                           password = accnt$password)
+                           password = accnt$password,
+                           base_url = base_url)
 
   if (is.null(items) || nrow(items) == 0) {
     base::message(glue::glue("Dimension: {dimension}, response is null or empty"))
@@ -224,9 +224,9 @@ datim_dim_item <- function(dimension, name,
 #'
 #' @param dimension Dimension name
 #' @param items     Item name
-#' @param url       DATIM API End point
 #' @param username  DATIM Account Username
 #' @param password  DATIM Account passward
+#' @param base_url  DATIM API End point
 #'
 #' @return Valid DATIM Query Params url
 #' @export
@@ -252,9 +252,9 @@ datim_dim_item <- function(dimension, name,
 #'
 datim_dim_url <- function(dimension,
                           items = NULL,
-                          url = "https://final.datim.org/api/dimensions",
                           username,
-                          password) {
+                          password,
+                          base_url = "https://final.datim.org/") {
 
   # datim credentials
   accnt <- lazy_secrets("datim", username, password)
@@ -266,18 +266,18 @@ datim_dim_url <- function(dimension,
   if (!base::is.null(items)) {
 
     dim_id <- datim_dimension(name = dimension,
-                              url = url,
                               username = accnt$username,
-                              password = accnt$password)
+                              password = accnt$password,
+                              base_url = base_url)
 
     dim_query <- items %>%
       purrr::map(function(item) {
 
         dim <- datim_dim_item(dimension = dimension,
                               name = item,
-                              url = url,
                               username = accnt$username,
-                              password = accnt$password) %>%
+                              password = accnt$password,
+                              base_url = base_url) %>%
           base::unlist() %>%
           base::paste(collapse = ';') %>%
           base::paste0("dimension=", dim_id, ":", .)
@@ -296,15 +296,18 @@ datim_dim_url <- function(dimension,
     purrr::map(function(dim) {
 
       dim_id <- datim_dimension(name = dim,
-                                url = url,
                                 username = accnt$username,
-                                password = accnt$password)
+                                password = accnt$password,
+                                base_url = base_url)
 
-      dim_items <- datim_dim_items(dim) %>%
+      dim_items <- datim_dim_items(dimension = dim,
+                                   username = accnt$username,
+                                   password = accnt$password,
+                                   base_url = base_url) %>%
         dplyr::pull(item) %>%
         purrr::map(~datim_dim_item(dimension = dim,
                                    name = .x,
-                                   url = url,
+                                   base_url = base_url,
                                    username = accnt$username,
                                    password = accnt$password)) %>%
         base::unlist() %>%
@@ -312,6 +315,7 @@ datim_dim_url <- function(dimension,
         base::paste0("dimension=", dim_id, ":", .)
 
       return(dim_items)
+
     }) %>%
     base::unlist() %>%
     base::paste(collapse = '&')
@@ -487,7 +491,7 @@ datim_process_query <- function(url,
 #' }
 #'
 datim_query <-
-  function(ou,
+  function(ou, username, password,
            level = "prioritization",
            pe = "THIS_FINANCIAL_YEAR",
            ta = "PLHIV",
@@ -497,9 +501,7 @@ datim_query <-
            property = "SHORTNAME",
            metadata = TRUE,
            hierarchy = TRUE,
-           baseurl = "https://final.datim.org/api",
-           username,
-           password,
+           baseurl = "https://final.datim.org/",
            verbose = FALSE){
 
     # datim credentials
@@ -518,7 +520,10 @@ datim_query <-
     }
 
     # Org OU
-    ou_uid <- get_ouuid(ou, username = accnt$username, password = accnt$password)
+    ou_uid <- get_ouuid(ou,
+                        username = accnt$username,
+                        password = accnt$password,
+                        baseurl = baseurl)
 
     if (base::is.null(ou_uid)) {
       base::message(crayon::red("OU/Country [{ou}] is invalid or unavailable"))
@@ -528,7 +533,8 @@ datim_query <-
     # Org Level
     org_lvl <- get_ouorglevel(ou, org_type = level,
                               username = accnt$username,
-                              password = accnt$password)
+                              password = accnt$password,
+                              baseurl = baseurl)
 
     if (base::is.null(org_lvl)) {
       base::message(crayon::red("Org level [{level}] is invalid or unavailable"))
@@ -548,27 +554,50 @@ datim_query <-
     # Targets/Results
     dim_tr_name <- "Targets / Results"
 
-    dim_tr <- datim_dimension(name = dim_tr_name)
+    dim_tr <- datim_dimension(name = dim_tr_name,
+                              username = accnt$username,
+                              password = accnt$password,
+                              base_url = baseurl)
 
     # Get value types
     if (!base::is.null(value)) {
       # Get user's options
       dim_tr_value <- value %>%
-        purrr::map(~datim_dim_item(dimension = dim_tr_name, name = .x)) %>%
+        purrr::map(~datim_dim_item(dimension = dim_tr_name,
+                                   name = .x,
+                                   username = accnt$username,
+                                   password = accnt$password,
+                                   base_url = baseurl)) %>%
         base::unlist() %>%
         base::paste0(collapse = ";")
 
     } else {
       # Default options: use all items
-      dim_tr_value <- datim_dim_items(dimension = dim_tr_name, var = "item") %>%
-        purrr::map(~datim_dim_item(dimension = "Targets / Results", name = .x)) %>%
+      dim_tr_value <- datim_dim_items(dimension = dim_tr_name,
+                                      var = "item",
+                                      username = accnt$username,
+                                      password = accnt$password,
+                                      base_url = baseurl) %>%
+        purrr::map(~datim_dim_item(dimension = "Targets / Results",
+                                   name = .x,
+                                   username = accnt$username,
+                                   password = accnt$password,
+                                   base_url = baseurl)) %>%
         base::unlist() %>%
         base::paste0(collapse = ";")
     }
 
     # Indicators
-    dim_ta <- datim_dimension(name = "Technical Area")
-    dim_ta_ind <- datim_dim_item(dimension = "Technical Area", name = ta)
+    dim_ta <- datim_dimension(name = "Technical Area",
+                              username = accnt$username,
+                              password = accnt$password,
+                              base_url = baseurl)
+
+    dim_ta_ind <- datim_dim_item(dimension = "Technical Area",
+                                 name = ta,
+                                 username = accnt$username,
+                                 password = accnt$password,
+                                 base_url = baseurl)
 
     # Periods
     periods <- pe %>% base::paste(collapse = ";")
@@ -589,7 +618,11 @@ datim_query <-
 
     if (!base::is.null(disaggs)) {
       url_disaggs <- disaggs %>%
-        purrr::map(~datim_dim_url(dimension = "Disaggregation Type", items = .x)) %>%
+        purrr::map(~datim_dim_url(dimension = "Disaggregation Type",
+                                  items = .x,
+                                  username = accnt$username,
+                                  password = accnt$password,
+                                  base_url = baseurl)) %>%
         base::unlist() %>%
         base::paste(collapse = '&')
     }
@@ -604,7 +637,10 @@ datim_query <-
 
     if (!base::is.null(dimensions)) {
       url_dims <- dimensions %>%
-        purrr::map(~datim_dim_url(dimension = .x)) %>%
+        purrr::map(~datim_dim_url(dimension = .x,
+                                  username = accnt$username,
+                                  password = accnt$password,
+                                  base_url = baseurl)) %>%
         base::unlist() %>%
         base::paste(collapse = '&')
     }
@@ -659,11 +695,11 @@ datim_query <-
 #' @title Extract PLHIV and General POP Estimates from datim
 #'
 #' @param ou        Operatingunit
+#' @param username       Datim account username
+#' @param password       Datim account password
 #' @param level     Organization level
 #' @param fy        Fiscal Year
 #' @param hierarchy Should additional organizational hierarchy be added?, default is FALSE
-#' @param username       Datim account username
-#' @param password       Datim account password
 #'
 #' @return PLHIV and POP_EST Data
 #' @export
@@ -678,12 +714,11 @@ datim_query <-
 #'
 #'   datim_pops(ou = "Nigeria", level = "psnu", fy = 2021, hierarchy = TRUE)
 #' }
-datim_pops <- function(ou,
+datim_pops <- function(ou, username, password,
                        level = "country",
                        fy = NULL,
                        hierarchy = FALSE,
-                       username,
-                       password) {
+                       baseurl = "https://final.datim.org/") {
 
   # datim credentials
   accnt <- lazy_secrets("datim", username, password)
@@ -726,7 +761,8 @@ datim_pops <- function(ou,
                 dimensions = c("Sex", "Age: Semi-fine age"),
                 hierarchy = hierarchy,
                 username = accnt$username,
-                password = accnt$password)
+                password = accnt$password,
+                baseurl = baseurl)
 
   if (base::is.null(df_plhiv)) {
     df_plhiv <- tibble::tibble()
@@ -742,7 +778,10 @@ datim_pops <- function(ou,
                 value = "MER Targets",
                 disaggs = "Age/Sex",
                 dimensions = c("Sex", "Age: Semi-fine age"),
-                hierarchy = hierarchy)
+                hierarchy = hierarchy,
+                username = accnt$username,
+                password = accnt$password,
+                baseurl = baseurl)
 
   if (base::is.null(df_pop)) {
     df_pop <- tibble::tibble()
@@ -794,7 +833,10 @@ datim_pops <- function(ou,
         if (stringr::str_detect(.x, "_\\d")) {
           lbl <- get_ouorglabel(
             operatingunit = ou,
-            org_level = stringr::str_extract(.x, "\\d$"))
+            org_level = stringr::str_extract(.x, "\\d$"),
+            username = accnt$username,
+            password = accnt$password,
+            baseurl = baseurl)
 
           return(lbl)
         }
@@ -921,8 +963,10 @@ datim_sqlviews <- function(username, password,
   accnt <- lazy_secrets("datim", username, password)
 
   # Base url
-  if (missing(base_url))
+  if (missing(base_url) | is.null(base_url))
     base_url <- "https://final.datim.org"
+
+  base_url <- get_baseurl(base_url)
 
   # Other Options
   end_point <- "/api/sqlViews/"
@@ -1072,15 +1116,18 @@ datim_orgunits <- function(cntry, username, password,
   # datim credentials
   accnt <- lazy_secrets("datim", username, password)
 
+  # Base url
+  if (missing(base_url) | is.null(base_url))
+    base_url <- "https://final.datim.org/"
+
+  base_url <- get_baseurl(base_url)
+
   # Get PEPFAR Countries
   pepfar_countries <- get_outable(
     username = accnt$username,
-    password = accnt$password
+    password = accnt$password,
+    baseurl = base_url
   )
-
-  # Base url
-  if (missing(base_url))
-    base_url <- "https://final.datim.org"
 
   if(!cntry %in% glamr::pepfar_country_list$country) {
     usethis::ui_stop(glue::glue("Invalid country name: {cntry}"))
