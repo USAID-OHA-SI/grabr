@@ -1,94 +1,3 @@
-# OU UIDs -----------------------------------------------------------------
-
-#' Pull OU UIDS
-#'
-#' @param baseurl base url for the API, default = https://final.datim.org/
-#' @param username DATIM Username
-#' @param password DATIM password, recommend using `mypwd()`
-#'
-#' @export
-#'
-#' @examples
-#' \dontrun{
-#'  ous <- identify_ouuids("userx", mypwd("userx")) }
-
-identify_ouuids <- function(username, password, baseurl = "https://final.datim.org/"){
-
-  package_check("httr")
-  package_check("jsonlite")
-
-  ous <- baseurl %>%
-    paste0("api/organisationUnits?filter=level:eq:3") %>%
-    httr::GET(httr::authenticate(username,password)) %>%
-    httr::content("text") %>%
-    jsonlite::fromJSON(flatten=TRUE) %>%
-    purrr::pluck("organisationUnits")
-
-  region_uids <- ous %>%
-    dplyr::filter(stringr::str_detect(displayName, "Region")) %>%
-    dplyr::pull(id)
-
-  ctrys <- purrr::map_dfr(.x = region_uids,
-                          .f = ~ baseurl %>%
-                            paste0("api/organisationUnits?filter=level:eq:4&filter=path:like:", .x) %>%
-                            httr::GET(httr::authenticate(username,password)) %>%
-                            httr::content("text") %>%
-                            jsonlite::fromJSON(flatten=TRUE) %>%
-                            purrr::pluck("organisationUnits") %>%
-                            dplyr::filter(stringr::str_detect(displayName, "Region", negate = TRUE)) %>%
-                            dplyr::mutate(regional = TRUE))
-
-
-  uids <- ous %>%
-    dplyr::bind_rows(ctrys) %>%
-    dplyr::arrange(displayName)
-
-  return(uids)
-}
-
-
-# Identify Levels ---------------------------------------------------------
-
-#' Identify Facility/Community levels in org hierarchy
-#'
-#' @param ou operating unit name
-#' @param username DATIM username
-#' @param password DATIM password, recommend using `mypwd()`
-#' @param baseurl base API url, default = https://final.datim.org/
-#'
-#' @export
-#'
-#' @examples
-#' \dontrun{
-#'  #table for all OUs
-#'   myuser <- "UserX"
-#'   identify_levels(username = myuser, password = mypwd())
-#'  #table for just Kenya
-#'    identify_levels("Kenya", username = myuser, password = mypwd()) }
-
-identify_levels <- function(ou = NULL, username, password, baseurl = "https://final.datim.org/"){
-
-  package_check("httr")
-  package_check("jsonlite")
-
-  df_levels <- baseurl %>%
-    paste0(.,"api/dataStore/dataSetAssignments/orgUnitLevels") %>%
-    httr::GET(httr::authenticate(username,password)) %>%
-    httr::content("text") %>%
-    jsonlite::fromJSON(flatten=TRUE) %>%
-    purrr::map_dfr(dplyr::bind_rows) %>%
-    dplyr::mutate_if(is.character, ~ dplyr::na_if(., ""))
-
-  #adjust for regional missions
-  df_levels <- df_levels %>%
-    dplyr::mutate(country_name = ifelse(is.na(name4), name3, name4))
-
-  if(!is.null(ou))
-    df_levels <- dplyr::filter(df_levels, country_name == ou)
-
-  return(df_levels)
-}
-
 
 # Pull Target Data from DATIM ---------------------------------------------
 
@@ -110,11 +19,11 @@ identify_levels <- function(ou = NULL, username, password, baseurl = "https://fi
 #'  myuser <- "UserX"
 #'  df_targets <- get_datim_targets(myurl, myuser, mypwd(myuser)) }
 
-get_datim_targets <- function(url,username,password) {
+get_datim_targets <- function(url, username, password) {
 
   .Deprecated("get_datim_data")
 
-  get_datim_data(url,username,password)
+  get_datim_data(url, username, password)
 
 }
 
@@ -138,7 +47,7 @@ get_datim_targets <- function(url,username,password) {
 #'  myuser <- "UserX"
 #'  df_datim <- get_datim_data(myurl, myuser, mypwd(myuser)) }
 
-get_datim_data <- function(url,username,password) {
+get_datim_data <- function(url, username, password) {
 
   package_check("httr")
   package_check("jsonlite")
@@ -207,8 +116,11 @@ get_datim_data <- function(url,username,password) {
 #'  #gen url
 #'   myurl <- gen_url(ouuid, faclvl, org_type = facility) }
 
-gen_url <- function(ou_uid, org_lvl, org_type = "facility",
-                    value_type = "results", is_hts = FALSE, fy_pd = NULL,
+gen_url <- function(ou_uid, org_lvl,
+                    org_type = "facility",
+                    value_type = "results",
+                    is_hts = FALSE,
+                    fy_pd = NULL,
                     baseurl = "https://final.datim.org/"){
 
   if(is.null(fy_pd))
