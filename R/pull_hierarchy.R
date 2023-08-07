@@ -137,6 +137,8 @@ hierarchy_rename <- function(df, country, username, password,
                            baseurl = baseurl) %>%
     dplyr::filter(countryname == country)
 
+  print(df_ou_info)
+
   # Rename columns
   if(NROW(df_ou_info) > 0 && df_ou_info$facility > 0){
     #identify levels

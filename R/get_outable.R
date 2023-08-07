@@ -467,7 +467,7 @@ get_levels <-
 #' @param org_type      Orgunit type (country_lvl, prioritization, community, facility_lvl)
 #' @param username      Datim Account username
 #' @param password      Datim Account Password
-#' @param baseurl      Datim Base URL
+#' @param baseurl       Datim Base URL
 #'
 #' @return uid
 #' @export

@@ -4,12 +4,19 @@
 \alias{get_levels}
 \title{Get all orgunits levels in org hierarchy}
 \usage{
-get_levels(username, password, baseurl = "https://final.datim.org/")
+get_levels(
+  username,
+  password,
+  reshape = FALSE,
+  baseurl = "https://final.datim.org/"
+)
 }
 \arguments{
 \item{username}{DATIM username, recommed using glamr::datim_user()`}
 
 \item{password}{DATIM password, recommend using glamr::datim_pwd()`}
+
+\item{reshape}{Reshape data as long? default is FALSE}
 
 \item{baseurl}{base API url, default = https://final.datim.org/}
 }

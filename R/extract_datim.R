@@ -326,6 +326,8 @@ datim_dim_url <- function(dimension,
 
 #' @title Execute Datim Query
 #'
+#'
+#'
 #' @param url       API Base url & all query parameters
 #' @param username  Datim username, recommend using `glamr::datim_user()`
 #' @param password  Datim password, recommend using `glamr::datim_pwd()`
@@ -356,21 +358,44 @@ datim_execute_query <- function(url,
 
   # Run query
   .data_json <- base::tryCatch({
-      url %>%
-        urltools::url_decode() %>%
-        gsub(" ", "%20", .) %>%
-        httr::GET(httr::authenticate(accnt$username, accnt$password)) %>%
+
+      # Execute Query
+      .res <- url %>%
+          urltools::url_decode() %>%
+          gsub(" ", "%20", .) %>%
+          httr::GET(httr::authenticate(accnt$username, accnt$password))
+
+      # Make sure execution went well
+      if (!exists(".res")) {
+        usethis::ui_stop(paste0("ERROR - could not execute query from url: ", test_url))
+      }
+
+      # Check response status
+      .status <- httr::http_status(.res)
+
+      usethis::ui_info(paste0("Query status: ", .res$status_code))
+
+      # Reject non 200 (OK) responses
+      if (.res$status_code != 200) {
+        usethis::ui_stop(paste0(.status$reason, " - ", .status$message))
+      }
+
+      # Get data from query response
+      .data <- .res %>%
         httr::content("text") %>%
         jsonlite::fromJSON(flatten = flatten)
+
+      return(.data)
+
     },
     warning = function(warn) {
-      base::message(crayon::red("Query execution warnings:"))
+      base::message(crayon::yellow("Query execution warnings:"))
       base::print(warn)
     },
     error = function(err) {
-      base::message(crayon::red("Unable to execute your query:"))
+      base::message(crayon::red(paste0("ERROR - could not execute query from url: ", url)))
       base::print(err)
-      return(NULL)
+      usethis::ui_stop(paste0("ERROR - could not execute query from url: ", url$message))
     })
 
   return(.data_json)
