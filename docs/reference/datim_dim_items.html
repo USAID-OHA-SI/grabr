@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">grabr</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.0.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.2.0</span>
       </span>
     </div>
 
@@ -71,11 +71,11 @@
     <div id="ref-usage">
     <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">datim_dim_items</span><span class="op">(</span></span>
 <span>  <span class="va">dimension</span>,</span>
+<span>  <span class="va">username</span>,</span>
+<span>  <span class="va">password</span>,</span>
 <span>  var <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  fields <span class="op">=</span> <span class="cn">NULL</span>,</span>
-<span>  url <span class="op">=</span> <span class="st">"https://final.datim.org/api/dimensions"</span>,</span>
-<span>  <span class="va">username</span>,</span>
-<span>  <span class="va">password</span></span>
+<span>  base_url <span class="op">=</span> <span class="st">"https://final.datim.org/"</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
 
@@ -85,24 +85,24 @@
 <dd><p>Dimension name</p></dd>
 
 
-<dt>var</dt>
-<dd><p>column name to pull values from, id or item</p></dd>
-
-
-<dt>fields</dt>
-<dd><p>list of column names to return, this will overight `var`</p></dd>
-
-
-<dt>url</dt>
-<dd><p>DATIM API end point</p></dd>
-
-
 <dt>username</dt>
 <dd><p>DATIM Account Username</p></dd>
 
 
 <dt>password</dt>
 <dd><p>DATIM Account passward</p></dd>
+
+
+<dt>var</dt>
+<dd><p>column name to pull values from, id or item</p></dd>
+
+
+<dt>fields</dt>
+<dd><p>list of column names to return, this will overwrite `var`</p></dd>
+
+
+<dt>base_url</dt>
+<dd><p>DATIM API end point</p></dd>
 
 </dl></div>
     <div id="value">

@@ -115,6 +115,9 @@
     <loc>https://usaid-oha-si.github.io/grabr/reference/datim_execute_query.html</loc>
   </url>
   <url>
+    <loc>https://usaid-oha-si.github.io/grabr/reference/datim_mechs.html</loc>
+  </url>
+  <url>
     <loc>https://usaid-oha-si.github.io/grabr/reference/datim_orgunits.html</loc>
   </url>
   <url>
@@ -166,6 +169,18 @@
     <loc>https://usaid-oha-si.github.io/grabr/reference/gdrive_metadata.html</loc>
   </url>
   <url>
+    <loc>https://usaid-oha-si.github.io/grabr/reference/gen_url.html</loc>
+  </url>
+  <url>
+    <loc>https://usaid-oha-si.github.io/grabr/reference/get_baseurl.html</loc>
+  </url>
+  <url>
+    <loc>https://usaid-oha-si.github.io/grabr/reference/get_datim_data.html</loc>
+  </url>
+  <url>
+    <loc>https://usaid-oha-si.github.io/grabr/reference/get_datim_targets.html</loc>
+  </url>
+  <url>
     <loc>https://usaid-oha-si.github.io/grabr/reference/get_knownissues.html</loc>
   </url>
   <url>
@@ -209,6 +224,18 @@
   </url>
   <url>
     <loc>https://usaid-oha-si.github.io/grabr/reference/gs_id_knownissues.html</loc>
+  </url>
+  <url>
+    <loc>https://usaid-oha-si.github.io/grabr/reference/hierarchy_clean.html</loc>
+  </url>
+  <url>
+    <loc>https://usaid-oha-si.github.io/grabr/reference/hierarchy_extract.html</loc>
+  </url>
+  <url>
+    <loc>https://usaid-oha-si.github.io/grabr/reference/hierarchy_identify_ctry.html</loc>
+  </url>
+  <url>
+    <loc>https://usaid-oha-si.github.io/grabr/reference/hierarchy_rename.html</loc>
   </url>
   <url>
     <loc>https://usaid-oha-si.github.io/grabr/reference/identify_levels.html</loc>
@@ -316,6 +343,15 @@
     <loc>https://usaid-oha-si.github.io/grabr/reference/print_knownissues.html</loc>
   </url>
   <url>
+    <loc>https://usaid-oha-si.github.io/grabr/reference/pull_hierarchy.html</loc>
+  </url>
+  <url>
+    <loc>https://usaid-oha-si.github.io/grabr/reference/pull_mech.html</loc>
+  </url>
+  <url>
+    <loc>https://usaid-oha-si.github.io/grabr/reference/pull_mer.html</loc>
+  </url>
+  <url>
     <loc>https://usaid-oha-si.github.io/grabr/reference/reexports.html</loc>
   </url>
   <url>
@@ -407,5 +443,8 @@
   </url>
   <url>
     <loc>https://usaid-oha-si.github.io/grabr/reference/validate_structure.html</loc>
+  </url>
+  <url>
+    <loc>https://usaid-oha-si.github.io/grabr/reference/var_exists.html</loc>
   </url>
 </urlset>

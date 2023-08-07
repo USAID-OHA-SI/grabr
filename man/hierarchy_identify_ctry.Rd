@@ -9,6 +9,9 @@ hierarchy_identify_ctry(df)
 \arguments{
 \item{df}{data frame created by `hierarchy_extract() %>% hierarchy_clean()`}
 }
+\value{
+Unique country names
+}
 \description{
 Extract country name from OU or country name
 }

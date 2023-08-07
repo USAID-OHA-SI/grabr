@@ -32,7 +32,7 @@ hierarchy_extract <- function(ou_uid, username, password,
                 "&fields=id,name,path,level,geometry&paging=false")
 
   #pull data from DATIM
-  df <- url %>%
+  url %>%
     datim_execute_query(username = accnt$username,
                         password = accnt$password,
                         flatten = FALSE) %>%
@@ -109,7 +109,7 @@ hierarchy_clean <- function(df){
   return(df)
 }
 
-#' Rename Hierarchy from Levels to OU/SNU1/PSNU/Facility
+#' @title Rename Hierarchy from Levels to OU/SNU1/PSNU/Facility
 #'
 #' @param df        data frame created by `hierarchy_extract() %>% hierarchy_clean()`
 #' @param country   county name, eg "Malawi" or "Nepal"
@@ -118,6 +118,7 @@ hierarchy_clean <- function(df){
 #' @param baseurl   API base url, default = https://final.datim.org/
 #'
 #' @export
+#' @return Cleaned/Renamed data
 
 hierarchy_rename <- function(df, country, username, password,
                              baseurl = "https://final.datim.org/"){
@@ -134,10 +135,13 @@ hierarchy_rename <- function(df, country, username, password,
   # Get and clean country levels
   df_ou_info <- get_levels(username = username,
                            password = password,
-                           baseurl = baseurl) %>%
-    dplyr::filter(countryname == country)
+                           baseurl = baseurl)
 
-  print(df_ou_info)
+  df_ou_info <- country %>%
+    purrr::map_dfr(function(.x) {
+      dplyr::filter(df_ou_info, countryname == .x)
+    })
+
 
   # Rename columns
   if(NROW(df_ou_info) > 0 && df_ou_info$facility > 0){
@@ -219,11 +223,12 @@ hierarchy_rename <- function(df, country, username, password,
 
 
 
-#' Extract country name from OU or country name
+#' @title Extract country name from OU or country name
 #'
 #' @param df data frame created by `hierarchy_extract() %>% hierarchy_clean()`
 #'
 #' @export
+#' @return Unique country names
 
 hierarchy_identify_ctry <- function(df){
 
@@ -231,8 +236,9 @@ hierarchy_identify_ctry <- function(df){
     country_name <- unique(df$orglvl_3)
 
   #for regional missions, need to pull country name from orglvl_4
-    if(stringr::str_detect(country_name, "Region"))
+    if(stringr::str_detect(country_name, "Region")) {
       country_name <- unique(df$orglvl_4) %>% setdiff(NA)
+    }
 
   return(country_name)
 }
@@ -294,34 +300,4 @@ pull_hierarchy <- function(ou_uid, username, password,
   }
 
   return(df)
-}
-
-
-#' Update Organization Hierarchy meta table
-#'
-#' @param savefolder folderpath to save, default = "out/DATIM"
-#' @param upload should the new table be pushed to Google Drive and s3? default = FALSE
-#'
-#' @export
-update_meta_orgs <- function(savefolder = "out/DATIM",
-                             upload = FALSE){
-
-  #pull updated hierarchy table
-  ouuids <- Wavelength::identify_ouuids(glamr::datim_user(), glamr::datim_pwd()) %>%
-    dplyr::filter(is.na(regional)) %>%
-    dplyr::pull(id)
-
-  df_orgs <- purrr::map_dfr(.x = ouuids,
-                            .f = ~ pull_hierarchy(.x, glamr::datim_user(),
-                                                  glamr::datim_pwd(),
-                                                  baseurl = "https://datim.org/"))
-
-  #save hierarchy
-  hfr_export(df_orgs, savefolder, type = "orghierarchy")
-
-  #upload to Google Drive and s3
-  if(upload == TRUE)
-    upload_meta_table("org")
-
-  invisible(df_orgs)
 }

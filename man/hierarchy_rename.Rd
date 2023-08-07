@@ -23,6 +23,9 @@ hierarchy_rename(
 
 \item{baseurl}{API base url, default = https://final.datim.org/}
 }
+\value{
+Cleaned/Renamed data
+}
 \description{
 Rename Hierarchy from Levels to OU/SNU1/PSNU/Facility
 }

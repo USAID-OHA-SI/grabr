@@ -326,8 +326,6 @@ datim_dim_url <- function(dimension,
 
 #' @title Execute Datim Query
 #'
-#'
-#'
 #' @param url       API Base url & all query parameters
 #' @param username  Datim username, recommend using `glamr::datim_user()`
 #' @param password  Datim password, recommend using `glamr::datim_pwd()`
@@ -353,6 +351,11 @@ datim_execute_query <- function(url,
                                 password,
                                 flatten = FALSE) {
 
+  # clean url
+  query_url %>%
+    urltools::url_decode() %>%
+    gsub(" ", "%20", .)
+
   # datim credentials
   accnt <- lazy_secrets("datim", username, password)
 
@@ -360,19 +363,18 @@ datim_execute_query <- function(url,
   .data_json <- base::tryCatch({
 
       # Execute Query
-      .res <- url %>%
-          urltools::url_decode() %>%
-          gsub(" ", "%20", .) %>%
+      .res <- query_url %>%
           httr::GET(httr::authenticate(accnt$username, accnt$password))
 
       # Make sure execution went well
       if (!exists(".res")) {
-        usethis::ui_stop(paste0("ERROR - could not execute query from url: ", test_url))
+        usethis::ui_stop(paste0("ERROR - could not execute query from url: ", query_url))
       }
 
       # Check response status
       .status <- httr::http_status(.res)
 
+      usethis::ui_info(paste0("Query url: ", query_url))
       usethis::ui_info(paste0("Query status: ", .res$status_code))
 
       # Reject non 200 (OK) responses
@@ -393,9 +395,9 @@ datim_execute_query <- function(url,
       base::print(warn)
     },
     error = function(err) {
-      base::message(crayon::red(paste0("ERROR - could not execute query from url: ", url)))
+      base::message(query_url)
       base::print(err)
-      usethis::ui_stop(paste0("ERROR - could not execute query from url: ", url$message))
+      usethis::ui_stop("ERROR - could not execute query")
     })
 
   return(.data_json)

@@ -60,11 +60,11 @@ pull_mech <- function(usaid_only = TRUE,
 
     #compile file name  and export data
     filename <- paste(
-      ou_sel,
-      "Mechanisms",
-      glamr::curr_date(),
-      sep = "_"
-    ) %>%
+        ou_sel,
+        "Mechanisms",
+        glamr::curr_date(),
+        sep = "_"
+      ) %>%
       paste0(".csv") %>%
       stringr::str_replace_all("_{2,}", "_")
 
@@ -77,25 +77,4 @@ pull_mech <- function(usaid_only = TRUE,
   }
 
   return(df)
-}
-
-
-
-
-#' Update USAID Mechanism meta table
-#'
-#' @param savefolder folderpath to save, default = "out/DATIM"
-#' @param upload should the new table be pushed to Google Drive and s3? default = FALSE
-#'
-#' @export
-update_meta_mechs <- function(savefolder = "out/DATIM", upload = FALSE){
-
-  #pull updated mechanism table
-  df_mechs <- pull_mech(folderpath_output = savefolder)
-
-  #upload to Google Drive and s3
-  if(upload == TRUE)
-    upload_meta_table("mech")
-
-  invisible(df_mechs)
 }
