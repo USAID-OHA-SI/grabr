@@ -1014,7 +1014,7 @@ datim_sqlviews <- function(username, password,
   # Filter if needed
   if (!base::is.null(view_name)) {
 
-    print(glue::glue("Searching for SQL View: {view_name} ..."))
+    usethis::ui_info("Searching for SQL View: {view_name} ...")
 
     data <- data %>%
       dplyr::filter(stringr::str_to_lower(name) == stringr::str_to_lower(view_name))
@@ -1054,7 +1054,7 @@ datim_sqlviews <- function(username, password,
         paste0(collapse = "&") %>%
         paste0("QUERY PARAMS: type=", query$type, "&", .)
 
-      print(print(glue::glue("SQL View Params: {q}")))
+      #print(print(glue::glue("SQL View Params: {q}")))
 
       if (query$type == "variable") {
         vq <- names(query$params) %>%
@@ -1062,7 +1062,7 @@ datim_sqlviews <- function(username, password,
           paste0(collapse = "&") %>%
           paste0("&var=", .)
 
-        print(glue::glue("SQL View variable query: {vq}"))
+        #print(glue::glue("SQL View variable query: {vq}"))
 
         dta_url <- dta_url %>% paste0(vq)
       }
@@ -1072,17 +1072,16 @@ datim_sqlviews <- function(username, password,
           paste0(collapse = "&") %>%
           paste0("&", .)
 
-        print(glue::glue("SQL View field query: {fq}"))
+        #print(glue::glue("SQL View field query: {fq}"))
 
         dta_url <- dta_url %>% paste0(fq)
       }
       else {
-        print(glue::glue("Error - Invalid query type: {query$type}"))
+        usethis::ui_stope("Error - Invalid query type: {query$type}")
       }
     }
 
-
-    print(glue::glue("SQL View url: {dta_url}"))
+    #print(glue::glue("SQL View url: {dta_url}"))
 
     # Query data
     data <- dta_url %>%
@@ -1090,10 +1089,10 @@ datim_sqlviews <- function(username, password,
 
     # Detect Errors
     if (!is.null(data$status)) {
-      print(glue::glue("Status: {data$status}"))
+      usethis::ui_info("Status: {data$status}")
 
       if(!is.null(data$message)) {
-        print(glue::glue("Message: {data$message}"))
+        usethis::ui_info("Message: {data$message}")
       }
 
       return(NULL)
@@ -1165,17 +1164,16 @@ datim_orgunits <- function(cntry, username, password,
   # Get Country ISO Code
   cntry_iso <- glamr::pepfar_country_list %>%
     dplyr::filter(country == cntry) %>%
-    dplyr::pull(country_iso)
+    dplyr::pull(country_iso) %>%
+    dplyr::first()
 
   # get distinct levels
-  cntry_levels <- glamr::pepfar_country_list %>%
-    dplyr::filter(country == cntry) %>%
-    dplyr::select(dplyr::ends_with("_lvl")) %>%
-    tidyr::pivot_longer(cols = dplyr::ends_with("_lvl"),
-                        names_to = "orgunit_label",
-                        values_to = "orgunit_level") %>%
-    dplyr::mutate(orgunit_label = stringr::str_remove(orgunit_label, "_lvl$"),
-                  orgunit_level = as.character(orgunit_level))
+  cntry_levels <- get_levels(
+      username = accnt$username,
+      password = accnt$password,
+      reshape = TRUE
+    ) %>%
+    dplyr::filter(countryname == cntry)
 
   # Get orgunits
   .orgs <- datim_sqlviews(

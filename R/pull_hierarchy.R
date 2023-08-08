@@ -132,12 +132,15 @@ hierarchy_rename <- function(df, country, username, password,
 
   stopifnot(curl::has_internet())
 
+  # datim credentials
+  accnt <- lazy_secrets("datim", username, password)
+
   if(!country %in% unique(df$orglvl_3))
     df <- dplyr::filter(df, orglvl_4 == country)
 
   # Get and clean country levels
-  df_ou_info <- get_levels(username = username,
-                           password = password,
+  df_ou_info <- get_levels(username = accnt$username,
+                           password = accnt$password,
                            baseurl = baseurl)
 
   df_ou_info <- country %>%
@@ -269,15 +272,25 @@ pull_hierarchy <- function(ou_uid, username, password,
                            folderpath_output = NULL){
 
   #print(ou_uid)
+  # datim credentials
+  accnt <- lazy_secrets("datim", username, password)
 
-  df <- hierarchy_extract(ou_uid, username, password, baseurl)
+  # Extract Org. Hierarchy
+  df <- hierarchy_extract(ou_uid = ou_uid,
+                          username = accnt$username,
+                          password = accnt$password,
+                          baseurl = baseurl)
 
+  # Clean and rename
   df <- hierarchy_clean(df)
 
   country_name <- hierarchy_identify_ctry(df)
 
   df <- purrr::map_dfr(.x = country_name,
-                       .f = ~ hierarchy_rename(df, .x, username, password, baseurl))
+                       .f = ~ hierarchy_rename(df, .x,
+                                               username = accnt$username,
+                                               password = accnt$password,
+                                               baseurl = baseurl))
 
   # Export
   if(!is.null(folderpath_output) && fs::dir_exists(folderpath_output)){
