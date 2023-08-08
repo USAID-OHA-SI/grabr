@@ -27,15 +27,18 @@ hierarchy_extract <- function(ou_uid, username, password,
   accnt <- lazy_secrets("datim", username, password)
 
   #compile url
-  url <- paste0(baseurl,
-                "api/organisationUnits?filter=path:like:", ou_uid,
-                "&fields=id,name,path,level,geometry&paging=false")
+  url <- baseurl %>%
+    get_baseurl() %>%
+    paste0("/api/organisationUnits?filter=path:like:", ou_uid,
+           "&fields=id,name,path,level,geometry&paging=false")
 
   #pull data from DATIM
   url %>%
-    datim_execute_query(username = accnt$username,
-                        password = accnt$password,
-                        flatten = FALSE) %>%
+    datim_execute_query(
+      username = accnt$username,
+      password = accnt$password,
+      flatten = FALSE
+    ) %>%
     purrr::pluck("organisationUnits") %>%
     tibble::as_tibble()
 }

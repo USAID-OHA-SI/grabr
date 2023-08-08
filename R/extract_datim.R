@@ -352,7 +352,7 @@ datim_execute_query <- function(url,
                                 flatten = FALSE) {
 
   # clean url
-  query_url %>%
+  query_url <- url %>%
     urltools::url_decode() %>%
     gsub(" ", "%20", .)
 
@@ -1148,7 +1148,8 @@ datim_orgunits <- function(cntry, username, password,
   if (missing(base_url) | is.null(base_url))
     base_url <- "https://final.datim.org/"
 
-  base_url <- get_baseurl(base_url)
+  # Clean url
+  base_url <- get_baseurl(base_url) %>% paste0("/")
 
   # Get PEPFAR Countries
   pepfar_countries <- get_outable(

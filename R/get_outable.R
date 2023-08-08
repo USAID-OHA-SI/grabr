@@ -23,7 +23,8 @@
 #'  load_secrets()
 #'  ou_table <- datim_outable() }
 
-get_outable <- function(username, password, baseurl = "https://final.datim.org/"){
+get_outable <- function(username, password,
+                        baseurl = "https://final.datim.org/"){
 
   accnt <- lazy_secrets("datim", username , password)
 
