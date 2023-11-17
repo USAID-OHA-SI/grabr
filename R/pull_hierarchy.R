@@ -26,9 +26,11 @@ hierarchy_extract <- function(ou_uid, username, password,
   # datim credentials
   accnt <- lazy_secrets("datim", username, password)
 
+  # Clean url
+  baseurl <- get_baseurl(baseurl)
+
   #compile url
   url <- baseurl %>%
-    get_baseurl() %>%
     paste0("/api/organisationUnits?filter=path:like:", ou_uid,
            "&fields=id,name,path,level,geometry&paging=false")
 
@@ -134,6 +136,9 @@ hierarchy_rename <- function(df, country, username, password,
 
   # datim credentials
   accnt <- lazy_secrets("datim", username, password)
+
+  # Clean url
+  baseurl <- get_baseurl(baseurl)
 
   if(!country %in% unique(df$orglvl_3))
     df <- dplyr::filter(df, orglvl_4 == country)
@@ -274,6 +279,9 @@ pull_hierarchy <- function(ou_uid, username, password,
   #print(ou_uid)
   # datim credentials
   accnt <- lazy_secrets("datim", username, password)
+
+  # Clean url
+  baseurl <- get_baseurl(baseurl)
 
   # Extract Org. Hierarchy
   df <- hierarchy_extract(ou_uid = ou_uid,
