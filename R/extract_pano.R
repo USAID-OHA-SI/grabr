@@ -229,7 +229,7 @@ pano_download <- function(item_url,
               httr::set_cookies("formsSessionState" = session))
 
   # Unzip
-  if (uncompress) {
+  if (uncompress & stringr::str_ends(dfile, ".zip")) {
     zip::unzip(dfile, overwrite = TRUE, exdir = dest)
   }
 }
