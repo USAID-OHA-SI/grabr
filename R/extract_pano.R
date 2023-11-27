@@ -661,7 +661,7 @@ pano_extract_msd <- function(operatingunit = NULL,
 #'                    archive = TRUE,
 #'                    dest_path = dir_mer)
 #' }
-pano_extract_msds <- function(operatingunit = NULL,
+pano_extract_msds <- function(operatingunit,
                               add_global = TRUE,
                               items = "mer",
                               archive = FALSE,
