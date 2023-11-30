@@ -6,6 +6,8 @@
 \usage{
 datim_query(
   ou,
+  username,
+  password,
   level = "prioritization",
   pe = "THIS_FINANCIAL_YEAR",
   ta = "PLHIV",
@@ -15,14 +17,16 @@ datim_query(
   property = "SHORTNAME",
   metadata = TRUE,
   hierarchy = TRUE,
-  baseurl = "https://final.datim.org/api",
-  username,
-  password,
+  baseurl = "https://final.datim.org/",
   verbose = FALSE
 )
 }
 \arguments{
 \item{ou}{Operatingunit}
+
+\item{username}{Datim username}
+
+\item{password}{Datim username}
 
 \item{level}{Organization hierarchy level}
 
@@ -45,10 +49,6 @@ default is "THIS_FINANCIAL_YEAR"}
 \item{hierarchy}{Should additional hirarchy level be included}
 
 \item{baseurl}{DATIM API End point url}
-
-\item{username}{Datim username}
-
-\item{password}{Datim username}
 
 \item{verbose}{Display all notifications}
 }

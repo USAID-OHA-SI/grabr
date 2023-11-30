@@ -81,9 +81,7 @@ identify_ouuids <- function(username, password,
 
   ous <- baseurl %>%
     paste0("api/organisationUnits?filter=level:eq:3") %>%
-    httr::GET(httr::authenticate(accnt$username, accnt$password)) %>%
-    httr::content("text") %>%
-    jsonlite::fromJSON(flatten=TRUE) %>%
+    datim_execute_query(accnt$username, accnt$password, flatten = TRUE) %>%
     purrr::pluck("organisationUnits")
 
   region_uids <- ous %>%
@@ -93,9 +91,7 @@ identify_ouuids <- function(username, password,
   ctrys <- purrr::map_dfr(.x = region_uids,
                           .f = ~ baseurl %>%
                             paste0("api/organisationUnits?filter=level:eq:4&filter=path:like:", .x) %>%
-                            httr::GET(httr::authenticate(accnt$username, accnt$password)) %>%
-                            httr::content("text") %>%
-                            jsonlite::fromJSON(flatten=TRUE) %>%
+                           datim_execute_query(accnt$username, accnt$password, flatten = TRUE) %>%
                             purrr::pluck("organisationUnits") %>%
                             dplyr::mutate(regional = TRUE))
 
@@ -144,9 +140,7 @@ identify_levels <- function(username, password,
 
   df_levels <- baseurl %>%
     paste0(.,"api/dataStore/dataSetAssignments/orgUnitLevels") %>%
-    httr::GET(httr::authenticate(accnt$username, accnt$password)) %>%
-    httr::content("text") %>%
-    jsonlite::fromJSON(flatten=TRUE) %>%
+    datim_execute_query(accnt$username, accnt$password, flatten = TRUE) %>%
     purrr::map_dfr(dplyr::bind_rows) %>%
     dplyr::mutate_if(is.character, ~ dplyr::na_if(., ""))
 
@@ -202,9 +196,7 @@ get_orguids <-
     orgs <- baseurl %>%
       paste0("api/organisationUnits",
              "?filter=level:eq:", lvl) %>%
-      httr::GET(httr::authenticate(accnt$username, accnt$password)) %>%
-      httr::content("text") %>%
-      jsonlite::fromJSON(flatten = TRUE) %>%
+      datim_execute_query(accnt$username, accnt$password, flatten = TRUE) %>%
       purrr::pluck("organisationUnits") %>%
       dplyr::rename(uid = id, orgunit = displayName) %>%
       tibble::as_tibble()
@@ -259,9 +251,7 @@ get_ouorgs <-
              "?filter=level:eq:", lvl,
              "&filter=path:like:", uid,
              "&paging=false&format=json") %>%
-      httr::GET(httr::authenticate(accnt$username, accnt$password)) %>%
-      httr::content("text") %>%
-      jsonlite::fromJSON(flatten = TRUE) %>%
+      datim_execute_query(accnt$username, accnt$password, flatten = TRUE) %>%
       purrr::pluck("organisationUnits")
 
     # Check data
@@ -415,6 +405,7 @@ get_ouuid <-
 #'
 #' @param username DATIM username, recommed using glamr::datim_user()`
 #' @param password DATIM password, recommend using glamr::datim_pwd()`
+#' @param reshape  Reshape data as long? default is FALSE
 #' @param baseurl  base API url, default = https://final.datim.org/
 #'
 #' @return df
@@ -431,18 +422,16 @@ get_ouuid <-
 get_levels <-
   function(username,
            password,
+           reshape = FALSE,
            baseurl = "https://final.datim.org/"){
 
     # Params
     accnt <- lazy_secrets("datim", username , password)
 
-
     # Query data
     df_levels <- baseurl %>%
       paste0(.,"api/dataStore/dataSetAssignments/orgUnitLevels") %>%
-      httr::GET(httr::authenticate(accnt$username, accnt$password)) %>%
-      httr::content("text") %>%
-      jsonlite::fromJSON(flatten = TRUE) %>%
+      datim_execute_query(accnt$username, accnt$password, flatten = TRUE) %>%
       purrr::map_dfr(dplyr::bind_rows) %>%
       dplyr::mutate_if(is.character, ~ dplyr::na_if(., ""))
 
@@ -458,6 +447,15 @@ get_levels <-
                     operatingunit_iso = iso3,
                     country_iso = iso4)
 
+    # Reshape
+    if (reshape) {
+      df_levels <- df_levels %>%
+        tidyr::pivot_longer(
+          cols = dplyr::any_of(c("country", "prioritization", "community", "facility")),
+          names_to = "label",
+          values_to = "level")
+    }
+
     return(df_levels)
   }
 
@@ -469,7 +467,7 @@ get_levels <-
 #' @param org_type      Orgunit type (country_lvl, prioritization, community, facility_lvl)
 #' @param username      Datim Account username
 #' @param password      Datim Account Password
-#' @param baseurl      Datim Base URL
+#' @param baseurl       Datim Base URL
 #'
 #' @return uid
 #' @export

@@ -14,6 +14,56 @@ check_internet <- function(){
 }
 
 
+#' Check if package exists
+#'
+#' @param pkg package name
+#'
+#' @return warning message if package is not installed
+#' @export
+#' @family utility
+
+package_check <- function(pkg){
+  if (!requireNamespace(pkg, quietly = TRUE)) {
+    stop(paste("Package", pkg,
+               "needed for this function to work. Please install it."),
+         call. = FALSE)
+  }
+}
+
+#' @title Get base url from a link
+#'
+#' @param url api end point
+#'
+#' @return Base url without trailing slash
+#' @export
+#' @family utility
+
+get_baseurl <- function(url) {
+
+  url_parts <- urltools::url_parse(url)
+
+  base_url <- ifelse(is.na(url_parts$scheme), "https", url_parts$scheme)
+
+  base_url %>%
+    paste0("://", url_parts$domain) %>%
+    stringr::str_remove("\\/*$")
+}
+
+#' Check if variable exist
+#'
+#' @param df data frame to check against
+#' @param var quoted variable of interest
+#' @export
+#' @family utility
+#' @examples
+#' \dontrun{
+#' var_exists(df, "val") }
+var_exists <- function(df, var) {
+
+  var %in% names(df)
+
+}
+
 #' Lazy checking/loading of credentials
 #'
 #' This function is useful within another function. It check whether a username

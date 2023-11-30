@@ -41,9 +41,16 @@ reference:
   - get_outable
   - get_ouuid
   - get_ouuids
+  - gen_url
+  - get_datim_data
+  - get_datim_targets
   - identify_levels
   - identify_ouuids
   - extract_datim
+  - hierarchy_extract
+  - hierarchy_clean
+  - hierarchy_rename
+  - hierarchy_identify_ctry
   - datim_dimensions
   - datim_dimension
   - datim_dim_items
@@ -55,6 +62,10 @@ reference:
   - datim_pops
   - datim_sqlviews
   - datim_orgunits
+  - datim_mechs
+  - pull_hierarchy
+  - pull_mech
+  - pull_mer
 
 - title: Panorama
   contents:
@@ -79,3 +90,11 @@ reference:
   - s3_remove
   - s3_unpack_keys
   - s3_upload
+
+- title: Utilities
+  contents:
+  - check_internet
+  - get_baseurl
+  - lazy_secrets
+  - package_check
+  - var_exists

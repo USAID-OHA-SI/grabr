@@ -4,14 +4,14 @@
 \alias{datim_orgunits}
 \title{Pull Orgunits SQLView}
 \usage{
-datim_orgunits(username, password, cntry, base_url = NULL)
+datim_orgunits(cntry, username, password, base_url = NULL)
 }
 \arguments{
+\item{cntry}{Country name}
+
 \item{username}{Datim username}
 
 \item{password}{Datim password}
-
-\item{cntry}{Country name}
 
 \item{base_url}{Datim API Base URL}
 }
@@ -20,4 +20,15 @@ OU Orgunit as data frame
 }
 \description{
 Pull Orgunits SQLView
+}
+\examples{
+\dontrun{
+  library(grabr)
+
+  datim_orgunits(
+   cntry = "Mozambique",
+   username = glamr::datim_user(),
+   password = glamr::datim_pwd()
+  )
+}
 }

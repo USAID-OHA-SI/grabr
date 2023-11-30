@@ -6,15 +6,20 @@
 \usage{
 datim_pops(
   ou,
+  username,
+  password,
   level = "country",
   fy = NULL,
   hierarchy = FALSE,
-  username,
-  password
+  baseurl = "https://final.datim.org/"
 )
 }
 \arguments{
 \item{ou}{Operatingunit}
+
+\item{username}{Datim account username}
+
+\item{password}{Datim account password}
 
 \item{level}{Organization level}
 
@@ -22,9 +27,7 @@ datim_pops(
 
 \item{hierarchy}{Should additional organizational hierarchy be added?, default is FALSE}
 
-\item{username}{Datim account username}
-
-\item{password}{Datim account password}
+\item{baseurl}{DATIM API base url}
 }
 \value{
 PLHIV and POP_EST Data

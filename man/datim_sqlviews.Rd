@@ -42,11 +42,11 @@ This function should be used to identify Datim SQLView and Extract Data
 \dontrun{
   library(grabr)
 
-  execute_datim_query(
-    url = 'https://www.datim.org/api/sqlViews/<uid>?format=json',
+  datim_sqlviews(
     username =glamr::datim_user(),
     password =glamr::datim_pwd(),
-    flatten = TRUE
+    view_name = "<name>",
+    dataset = TRUE
   )
 }
 
