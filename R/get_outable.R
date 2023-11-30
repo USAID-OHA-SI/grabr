@@ -503,6 +503,62 @@ get_levels <-
   }
 
 
+#' @title Clean org hierarchy levels
+#'
+#' @param .df_levels
+#' @return df
+#'
+#'
+#' @examples
+#' \dontrun{
+#'   library(gisr)
+#'
+#'   # Get PEPFAR Org Levels
+#'   clean_levels(df_lvls)
+#'  }
+#'
+clean_levels <-
+  function(.df_levels){
+
+    # Check for reshaped datasets
+    req_cols <- c("operatingunit", "countryname", "level", "label")
+
+    if (!all(req_cols %in% names(.df_levels))) {
+      base::cat(crayon::red(glue::glue("\nSkipped `clean_levels()` for missing key columns used for cleaning: level and label\n")))
+      return(.df_levels)
+    }
+
+    # SNU1
+    df_snu1 <- .df_levels %>%
+      dplyr::summarise(
+        level = ifelse(level[label == 'prioritization'] - level[label == 'country'] > 1,
+                       level[label == 'country'] + 1,
+                       level[label == 'prioritization']),
+        label = "snu1",
+        .by = -c(level, label))
+
+    # SNU2
+    df_snu2 <- .df_levels %>%
+      dplyr::bind_rows(df_snu1) %>%
+      dplyr::summarise(
+        level = ifelse(level[label == 'prioritization'] - level[label == 'snu1'] > 1,
+                       level[label == 'snu1'] + 1,
+                       NA_integer_),
+        label = "snu2",
+        .by = -c(level, label)) %>%
+      dplyr::filter(!is.na(level))
+
+    # Merge SNU1-2 back to the original data
+    .df_levels <- .df_levels %>%
+      dplyr::bind_rows(df_snu1, df_snu2)
+
+    # Sort
+    .df_levels %>%
+      dplyr::group_by(dplyr::across(-dplyr::all_of(c('level', 'label')))) %>%
+      dplyr::arrange(level, .by_group = TRUE) %>%
+      dplyr::ungroup()
+  }
+
 #' Get OU Org level
 #'
 #' @param operatingunit Operatingunit name
