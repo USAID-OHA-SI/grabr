@@ -9,7 +9,7 @@ datim_dim_url(
   items = NULL,
   username,
   password,
-  base_url = "https://final.datim.org/"
+  baseurl = "https://final.datim.org/"
 )
 }
 \arguments{
@@ -21,7 +21,7 @@ datim_dim_url(
 
 \item{password}{DATIM Account passward}
 
-\item{base_url}{DATIM API End point}
+\item{baseurl}{DATIM API End point}
 }
 \value{
 Valid DATIM Query Params url

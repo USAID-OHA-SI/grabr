@@ -5,33 +5,32 @@
 \title{Downloads All Global + OU Specific MSDs}
 \usage{
 pano_extract_msds(
-  operatingunit = NULL,
+  operatingunit,
+  add_global = TRUE,
   items = "mer",
   archive = FALSE,
   dest_path,
   username,
   password,
-  base_url = "https://pepfar-panorama.org"
+  baseurl = "https://pepfar-panorama.org"
 )
 }
 \arguments{
-\item{operatingunit}{PEPFAR Operating Unit. Default is set to NULL for
-global datasets}
+\item{operatingunit}{PEPFAR Operating Unit. Default is set to NULL for global datasets}
+
+\item{add_global}{Add global datasets in this extract? Default is TRUE}
 
 \item{items}{Panorama data set, default option is `mer`}
 
 \item{archive}{Logical, should the old files be archived? default=FALSE}
 
-\item{dest_path}{Directory path to download file. Default set to
-`glamr::si_path()`}
+\item{dest_path}{Directory path to download file. Default set to `glamr::si_path()`}
 
-\item{username}{Panorama username, recommend using `glamr::pano_user()`,
-which is the default if left blank}
+\item{username}{Panorama username, recommend using `glamr::pano_user()`}
 
-\item{password}{Panorama password, recommend using `glamr::pano_pwd()`,
-which is the default if left blank}
+\item{password}{Panorama password, recommend using `glamr::pano_pwd()`}
 
-\item{base_url}{Panorama base url, default="https://pepfar-panorama.org"}
+\item{baseurl}{Panorama base url, default="https://pepfar-panorama.org"}
 }
 \description{
 Downloads All Global + OU Specific MSDs

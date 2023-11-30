@@ -2,9 +2,9 @@
 % Please edit documentation in R/extract_datim.R
 \name{datim_mechs}
 \alias{datim_mechs}
-\title{Pull Orgunits}
+\title{Extract Mechanisms infos from Datim}
 \usage{
-datim_mechs(cntry, username, password, agency = "USAID", base_url = NULL)
+datim_mechs(cntry, username, password, agency = "USAID", baseurl = NULL)
 }
 \arguments{
 \item{cntry}{Country name}
@@ -15,13 +15,13 @@ datim_mechs(cntry, username, password, agency = "USAID", base_url = NULL)
 
 \item{agency}{Agency name}
 
-\item{base_url}{Datim API Base URL}
+\item{baseurl}{Datim API Base URL}
 }
 \value{
 OU Mechanisms as data frame
 }
 \description{
-Pull Orgunits
+Extract Mechanisms infos from Datim
 }
 \examples{
 \dontrun{

@@ -4,12 +4,7 @@
 \alias{datim_dimension}
 \title{Get PEPFAR/DATIM Dimension ID}
 \usage{
-datim_dimension(
-  name,
-  username,
-  password,
-  base_url = "https://final.datim.org/"
-)
+datim_dimension(name, username, password, baseurl = "https://final.datim.org/")
 }
 \arguments{
 \item{name}{Dimension name}
@@ -18,7 +13,7 @@ datim_dimension(
 
 \item{password}{DATIM Account passward, recommended using glamr::datim_pwd()`}
 
-\item{base_url}{DATIM API End point, default value is `https://final.datim.org/`}
+\item{baseurl}{DATIM API End point, default value is `https://final.datim.org/`}
 }
 \value{
 dimension uid

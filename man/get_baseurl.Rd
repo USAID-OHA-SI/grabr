@@ -7,7 +7,7 @@
 get_baseurl(url)
 }
 \arguments{
-\item{url}{api end point}
+\item{url}{DATIM API end points}
 }
 \value{
 Base url without trailing slash

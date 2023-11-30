@@ -12,7 +12,7 @@ pano_extract(
   unpack = FALSE,
   username,
   password,
-  base_url = "https://pepfar-panorama.org"
+  baseurl = "https://pepfar-panorama.org"
 )
 }
 \arguments{
@@ -31,7 +31,7 @@ current version if blank}
 
 \item{password}{Panorama password, recommend using `glamr::pano_pwd()`}
 
-\item{base_url}{Panorama base url}
+\item{baseurl}{Panorama base url}
 }
 \value{
 list of output files as data frame

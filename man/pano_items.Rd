@@ -4,7 +4,7 @@
 \alias{pano_items}
 \title{Extract data items from url}
 \usage{
-pano_items(page_url, session = NULL)
+pano_items(page_url, session)
 }
 \arguments{
 \item{page_url}{Current html page url}

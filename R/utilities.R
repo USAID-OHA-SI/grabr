@@ -55,7 +55,7 @@ get_baseurl <- function(url) {
   }
 
   # Remove any trailing slashes
-  base_url %>% stringr::str_remove("\\/*$|\\\*$")
+  base_url %>% stringr::str_remove("\\/*$|\\*$")
 }
 
 #' Check if variable exist

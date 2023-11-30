@@ -9,7 +9,7 @@ datim_dim_item(
   name,
   username,
   password,
-  base_url = "https://final.datim.org/"
+  baseurl = "https://final.datim.org/"
 )
 }
 \arguments{
@@ -21,7 +21,7 @@ datim_dim_item(
 
 \item{password}{DATIM Account password}
 
-\item{base_url}{DATIM API end point}
+\item{baseurl}{DATIM API end point}
 }
 \value{
 UID of item

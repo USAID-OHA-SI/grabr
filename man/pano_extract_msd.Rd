@@ -12,7 +12,8 @@ pano_extract_msd(
   level = c("psnu", "ou", "site", "nat"),
   dest_path,
   username,
-  password
+  password,
+  baseurl = "https://pepfar-panorama.org"
 )
 }
 \arguments{
@@ -38,6 +39,8 @@ which is the default if left blank}
 
 \item{password}{Panorama password, recommend using `glamr::pano_pwd()`,
 which is the default if left blank}
+
+\item{baseurl}{Pano base url}
 }
 \description{
 Downloads Country Specific MSDs

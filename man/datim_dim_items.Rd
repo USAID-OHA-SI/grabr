@@ -10,7 +10,7 @@ datim_dim_items(
   password,
   var = NULL,
   fields = NULL,
-  base_url = "https://final.datim.org/"
+  baseurl = "https://final.datim.org/"
 )
 }
 \arguments{
@@ -24,7 +24,7 @@ datim_dim_items(
 
 \item{fields}{list of column names to return, this will overwrite `var`}
 
-\item{base_url}{DATIM API end point}
+\item{baseurl}{DATIM API end point}
 }
 \value{
 Dimension's items as tibble or vector
