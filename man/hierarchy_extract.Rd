@@ -28,5 +28,6 @@ Pull Hierarchy Data from DATIM
 #get OU UID
   ouuid <- identify_ouuids() \%>\% dplyr::filter(ou == "Kenya")
 #pull hierarchy (paths are all UIDs)
-  df <- hierarchy_extract(ouuid, username = myuser, password = mypwd(myuser)) }
+  df <- hierarchy_extract(ouuid, username = myuser, password = mypwd(myuser))
+  }
 }

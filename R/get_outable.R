@@ -505,7 +505,7 @@ get_levels <-
 
 #' @title Clean org hierarchy levels
 #'
-#' @param .df_levels
+#' @param .df_levels Org levels as data frame
 #' @return df
 #'
 #'

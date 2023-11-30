@@ -6,6 +6,9 @@
 \usage{
 clean_levels(.df_levels)
 }
+\arguments{
+\item{.df_levels}{Org levels as data frame}
+}
 \value{
 df
 }
