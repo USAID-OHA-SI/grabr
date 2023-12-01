@@ -376,10 +376,8 @@ datim_execute_query <- function(url,
       usethis::ui_info(paste0("Query url: ", query_url))
       usethis::ui_info(paste0("Query status: ", .res$status_code))
 
-      query_url_base <- stringr::str_extract(query_url, '(?<=www\\.).*(?=/api)')
-
       if(.res$status_code == 401) {
-        usethis::ui_stop("No access to the url. Check that your credentials, used or stored, are current and that you have access to {query_url_base}")
+        usethis::ui_stop("No access to the url. Check that your credentials, used or stored, are current and that you have access to {get_baseurl(query_url)}")
       }
 
       # Reject non 200 (OK) responses
