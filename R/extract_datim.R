@@ -995,9 +995,6 @@ datim_sqlviews <- function(username, password,
   accnt <- lazy_secrets("datim", username, password)
 
   # Base url
-  if (missing(baseurl) | is.null(baseurl))
-    base_url <- "https://final.datim.org"
-
   baseurl <- get_baseurl(baseurl)
 
   # Other Options
@@ -1047,7 +1044,7 @@ datim_sqlviews <- function(username, password,
 
     dta_uid <- .data$uid
 
-    dta_url <- base_url %>%
+    dta_url <- baseurl %>%
       paste0(end_point, dta_uid, "/data", options, "&fields=*") #:identifiable, :nameable
 
     # Apply varialbe or field query if needed

@@ -40,6 +40,9 @@ package_check <- function(pkg){
 
 get_baseurl <- function(url) {
 
+  if (missing(url) | is.null(url))
+    url <- "https://final.datim.org"
+
   # Split url into subsections
   url_parts <- urltools::url_parse(url)
 
