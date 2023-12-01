@@ -18,29 +18,48 @@ pano_session <- function(username,
                          password,
                          baseurl = "https://pepfar-panorama.org") {
 
+  # Login form token
+  login_form <- base::paste0(baseurl, "/forms/generate_nonce")
 
+  # Login process
   login_url <- base::paste0(baseurl, "/forms/mstrauth/")
 
   # Check user's credentials
   accnt <- lazy_secrets("pano", username, password)
 
-  # Data for post submission
+  # Get token
+  login_token <- httr::GET(url = login_form)
+
+  login_token_req <- httr::content(login_token, as = "parsed")
+
+  token <- NULL
+
+  if (!base::is.null(login_token_req) & login_token_req$status == 1) {
+    token <- login_token_req$token_nonce
+  }else {
+    usethis::ui_stop("FORM ERROR - Unnable to generate login form token.")
+  }
+
+  # Data for login post submission
   login_body <- base::list(
     "project" = "PEPFAR",
     "username" = accnt$username,
-    "pw" = accnt$password
+    "pw" = accnt$password,
+    "nonce_code" = token
   )
 
+  # Send post request to server
   login_req <- httr::POST(url = login_url, body = login_body)
 
-  login_sess <- login_req %>%
-    httr::content("parsed")
+  login_sess <-  httr::content(login_req, as = "parsed")
 
+  # validate status
   if (!base::is.null(login_sess) & login_sess$status == 1) {
-    return(login_sess$mstr_session)
-  } else {
-    base::stop("ERROR - Unable to create a valid session")
+    return(invisible(login_sess$mstr_session))
   }
+
+  # Stop and display errors
+  usethis::ui_stop("LOGIN ERROR - Unable to create a valid session")
 }
 
 
