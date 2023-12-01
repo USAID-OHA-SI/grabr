@@ -1146,10 +1146,6 @@ datim_orgunits <- function(cntry, username, password,
   # datim credentials
   accnt <- lazy_secrets("datim", username, password)
 
-  # Base url
-  if (missing(baseurl) | is.null(baseurl))
-    baseurl <- "https://final.datim.org/"
-
   # Clean url
   baseurl <- get_baseurl(baseurl) %>% paste0("/")
 
@@ -1193,7 +1189,7 @@ datim_orgunits <- function(cntry, username, password,
   # Reshape & clean
   .orgs <- .orgs %>%
     dplyr::rename_with(.cols = contains("internal_id"),
-                       .fn = ~str_replace(., "internal_id", "uid")) %>%
+                       .fn = ~stringr::str_replace(., "internal_id", "uid")) %>%
     dplyr::select(orgunit_uid, orgunit_code, orgunit_name, orgunit_level,
                   orgunit_parent_uid, orgunit_parent, moh_id) %>%
     dplyr::mutate(orgunit_parent_level = as.character(as.integer(orgunit_level) - 1)) %>%
