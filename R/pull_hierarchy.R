@@ -76,6 +76,7 @@ hierarchy_clean <- function(df){
 
   #convert level names of the org hierarchy from UIDs to names
     df_key <- dplyr::select(df, name, id)
+
     df <- df %>%
       dplyr::mutate_at(dplyr::vars(dplyr::starts_with("orglvl")),
                        ~ plyr::mapvalues(., df_key$id, df_key$name, warn_missing = FALSE))

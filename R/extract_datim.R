@@ -588,7 +588,7 @@ datim_query <-
     dim_tr <- datim_dimension(name = dim_tr_name,
                               username = accnt$username,
                               password = accnt$password,
-                              base_url = baseurl)
+                              baseurl = baseurl)
 
     # Get value types
     if (!base::is.null(value)) {
@@ -598,7 +598,7 @@ datim_query <-
                                    name = .x,
                                    username = accnt$username,
                                    password = accnt$password,
-                                   base_url = baseurl)) %>%
+                                   baseurl = baseurl)) %>%
         base::unlist() %>%
         base::paste0(collapse = ";")
 
@@ -608,12 +608,12 @@ datim_query <-
                                       var = "item",
                                       username = accnt$username,
                                       password = accnt$password,
-                                      base_url = baseurl) %>%
+                                      baseurl = baseurl) %>%
         purrr::map(~datim_dim_item(dimension = "Targets / Results",
                                    name = .x,
                                    username = accnt$username,
                                    password = accnt$password,
-                                   base_url = baseurl)) %>%
+                                   baseurl = baseurl)) %>%
         base::unlist() %>%
         base::paste0(collapse = ";")
     }
@@ -622,13 +622,13 @@ datim_query <-
     dim_ta <- datim_dimension(name = "Technical Area",
                               username = accnt$username,
                               password = accnt$password,
-                              base_url = baseurl)
+                              baseurl = baseurl)
 
     dim_ta_ind <- datim_dim_item(dimension = "Technical Area",
                                  name = ta,
                                  username = accnt$username,
                                  password = accnt$password,
-                                 base_url = baseurl)
+                                 baseurl = baseurl)
 
     # Periods
     periods <- pe %>% base::paste(collapse = ";")
@@ -653,7 +653,7 @@ datim_query <-
                                   items = .x,
                                   username = accnt$username,
                                   password = accnt$password,
-                                  base_url = baseurl)) %>%
+                                  baseurl = baseurl)) %>%
         base::unlist() %>%
         base::paste(collapse = '&')
     }
@@ -671,7 +671,7 @@ datim_query <-
         purrr::map(~datim_dim_url(dimension = .x,
                                   username = accnt$username,
                                   password = accnt$password,
-                                  base_url = baseurl)) %>%
+                                  baseurl = baseurl)) %>%
         base::unlist() %>%
         base::paste(collapse = '&')
     }
@@ -996,7 +996,7 @@ datim_sqlviews <- function(username, password,
 
   # Base url
   if (missing(baseurl) | is.null(baseurl))
-    base_url <- "https://final.datim.org"
+    baseurl <- "https://final.datim.org"
 
   baseurl <- get_baseurl(baseurl)
 
@@ -1047,7 +1047,7 @@ datim_sqlviews <- function(username, password,
 
     dta_uid <- .data$uid
 
-    dta_url <- base_url %>%
+    dta_url <- baseurl %>%
       paste0(end_point, dta_uid, "/data", options, "&fields=*") #:identifiable, :nameable
 
     # Apply varialbe or field query if needed
