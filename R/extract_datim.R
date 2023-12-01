@@ -1139,7 +1139,7 @@ datim_sqlviews <- function(username, password,
 #'   )
 #' }
 datim_orgunits <- function(cntry, username, password,
-                           reshape = TRUE,
+                           reshape = FALSE,
                            baseurl = NULL) {
 
   # datim credentials
@@ -1207,10 +1207,11 @@ datim_orgunits <- function(cntry, username, password,
     dplyr::relocate(orgunit_label, .after = orgunit_level) %>%
     dplyr::left_join(
       dplyr::select(cntry_levels,
-                    orgunit_level = level,
+                    level,
                     orgunit_parent_label = label,
                     dplyr::everything()),
-      by = c("orgunit_parent_level" = "level")) %>%
+      by = c("orgunit_parent_level" = "level")
+    ) %>%
     dplyr::mutate(
       facilityuid = dplyr::case_when(
         orgunit_parent_label == "facility" ~ orgunit_parent_uid,
