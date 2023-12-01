@@ -1,4 +1,6 @@
-#' Pull Hierarchy Data from DATIM
+#' @title Pull Hierarchy Data from DATIM
+#'
+#' @note  Migratated from `Wavelength`
 #'
 #' @param ou_uid UID for the country, recommend using `identify_ouuids()`
 #' @param username DATIM username
@@ -48,11 +50,12 @@ hierarchy_extract <- function(ou_uid, username, password,
 
 
 
-#' Clean up DATIM Hierarchy Path
+#' @title Clean up DATIM Hierarchy Path
+#'
+#' @note  Migratated from `Wavelength`
 #'
 #' @param df data frame created by `hierarchy_extract()`
 #'
-#' @export
 
 hierarchy_clean <- function(df){
 
@@ -124,7 +127,6 @@ hierarchy_clean <- function(df){
 #' @param password  DATIM password, recommend using `mypwd()`
 #' @param baseurl   API base url, default = https://final.datim.org/
 #'
-#' @export
 #' @return Cleaned/Renamed data
 
 hierarchy_rename <- function(df, country, username, password,
@@ -240,7 +242,6 @@ hierarchy_rename <- function(df, country, username, password,
 #'
 #' @param df data frame created by `hierarchy_extract() %>% hierarchy_clean()`
 #'
-#' @export
 #' @return Unique country names
 
 hierarchy_identify_ctry <- function(df){
