@@ -34,7 +34,7 @@ pano_session <- function(username,
 
   token <- NULL
 
-  if (!base::is.null(login_token_req) & login_token_req$status == 1) {
+  if (!base::is.null(login_token_req) & base::is.list(login_token_req) & login_token_req$status == 1) {
     token <- login_token_req$token_nonce
   }else {
     usethis::ui_stop("FORM ERROR - Unnable to generate login form token.")
@@ -54,7 +54,7 @@ pano_session <- function(username,
   login_sess <-  httr::content(login_req, as = "parsed")
 
   # validate status
-  if (!base::is.null(login_sess) & login_sess$status == 1) {
+  if (!base::is.null(login_sess) & base::is.list(login_sess) & login_sess$status == 1) {
     return(invisible(login_sess$mstr_session))
   }
 
