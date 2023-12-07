@@ -85,7 +85,7 @@ pano_content <- function(page_url, session) {
 
   page <- httr::GET(page_url, httr::set_cookies("formsSessionState" = session))
 
-  if (!base::is.null(page) & !is.null(httr::content("text"))) {
+  if (!base::is.null(page) & !is.null(httr::content(page, "text"))) {
     page <- page %>%
       httr::content("text") %>%
       rvest::read_html()
