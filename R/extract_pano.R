@@ -2,7 +2,7 @@
 #'
 #' @param username Username for PEPFAR Panorama Account. Recommend using `pano_user()`
 #' @param password Password for PEPFAR Panorama Account. Recommend using `pano_pwd()`
-#' @param base_url PEPFAR Panorama base url
+#' @param baseurl  PEPFAR Panorama base url
 #'
 #' @return login session
 #' @export
@@ -16,31 +16,50 @@
 #'
 pano_session <- function(username,
                          password,
-                         base_url = "https://pepfar-panorama.org") {
+                         baseurl = "https://pepfar-panorama.org") {
 
+  # Login form token
+  login_form <- base::paste0(baseurl, "/forms/generate_nonce")
 
-  login_url <- base::paste0(base_url, "/forms/mstrauth/")
+  # Login process
+  login_url <- base::paste0(baseurl, "/forms/mstrauth/")
 
   # Check user's credentials
   accnt <- lazy_secrets("pano", username, password)
 
-  # Data for post submission
+  # Get token
+  login_token <- httr::GET(url = login_form)
+
+  login_token_req <- httr::content(login_token, as = "parsed")
+
+  token <- NULL
+
+  if (!base::is.null(login_token_req) & base::is.list(login_token_req) & login_token_req$status == 1) {
+    token <- login_token_req$token_nonce
+  }else {
+    usethis::ui_stop("FORM ERROR - Unnable to generate login form token.")
+  }
+
+  # Data for login post submission
   login_body <- base::list(
     "project" = "PEPFAR",
     "username" = accnt$username,
-    "pw" = accnt$password
+    "pw" = accnt$password,
+    "nonce_code" = token
   )
 
+  # Send post request to server
   login_req <- httr::POST(url = login_url, body = login_body)
 
-  login_sess <- login_req %>%
-    httr::content("parsed")
+  login_sess <-  httr::content(login_req, as = "parsed")
 
-  if (!base::is.null(login_sess) & login_sess$status == 1) {
-    return(login_sess$mstr_session)
-  } else {
-    base::stop("ERROR - Unable to create a valid session")
+  # validate status
+  if (!base::is.null(login_sess) & base::is.list(login_sess) & login_sess$status == 1) {
+    return(invisible(login_sess$mstr_session))
   }
+
+  # Stop and display errors
+  usethis::ui_stop("LOGIN ERROR - Unable to create a valid session")
 }
 
 
@@ -50,7 +69,6 @@ pano_session <- function(username,
 #' @param session  Valid and active login session
 #'
 #' @return html content
-#' @export
 #'
 #' @examples
 #' \dontrun{
@@ -66,7 +84,7 @@ pano_content <- function(page_url, session) {
 
   page <- httr::GET(page_url, httr::set_cookies("formsSessionState" = session))
 
-  if (!base::is.null(page)) {
+  if (!base::is.null(page) & !is.null(httr::content(page, "text"))) {
     page <- page %>%
       httr::content("text") %>%
       rvest::read_html()
@@ -84,7 +102,6 @@ pano_content <- function(page_url, session) {
 #' @param page_url  Curretn html page url
 #'
 #' @return html element
-#' @export
 #'
 #' @examples
 #' \dontrun{
@@ -141,7 +158,8 @@ pano_elements <- function(page_html,
 #' @title Extract data items from url
 #'
 #' @param page_url  Current html page url
-#' @param session   Pano active and valid session
+#' @param username Username for PEPFAR Panorama Account. Recommend using `pano_user()`
+#' @param password Password for PEPFAR Panorama Account. Recommend using `pano_pwd()`
 #'
 #' @return data items as data frame
 #' @export
@@ -156,15 +174,13 @@ pano_elements <- function(page_html,
 #'   items <- pano_items(page_url = url, session = s)
 #' }
 #'
-pano_items <- function(page_url, session = NULL) {
+pano_items <- function(page_url, username, password) {
 
   path <- page_url
-  sess <- session
+  baseurl = get_baseurl(page_url)
+  sess <- pano_session(username, password, baseurl)
 
-  if (base::is.null(sess)) {
-    sess <- pano_session()
-  }
-
+  # Extract items from page content
   items <- pano_content(page_url = path, session = sess) %>%
     pano_elements(page_url = path)
 
@@ -229,7 +245,7 @@ pano_download <- function(item_url,
               httr::set_cookies("formsSessionState" = session))
 
   # Unzip
-  if (uncompress) {
+  if (uncompress & stringr::str_ends(dfile, ".zip")) {
     zip::unzip(dfile, overwrite = TRUE, exdir = dest)
   }
 }
@@ -306,7 +322,7 @@ pano_unpack <- function(df_pano, session) {
 #' @param unpack       If TRUE, unpack nested directories
 #' @param username     Panorama username, recommend using `glamr::pano_user()`
 #' @param password     Panorama password, recommend using `glamr::pano_pwd()`
-#' @param base_url     Panorama base url
+#' @param baseurl     Panorama base url
 #'
 #' @return list of output files as data frame
 #' @export
@@ -325,11 +341,11 @@ pano_extract <- function(item = "mer",
                          unpack = FALSE,
                          username,
                          password,
-                         base_url = "https://pepfar-panorama.org") {
+                         baseurl = "https://pepfar-panorama.org") {
 
   # Links
   data_path <- "/forms/downloads"
-  data_url <- base::paste0(base_url, data_path)
+  data_url <- base::paste0(baseurl, data_path)
 
   # Search Item
   s_item <- stringr::str_to_lower(item)
@@ -368,7 +384,7 @@ pano_extract <- function(item = "mer",
   # Session
   sess <- pano_session(username = accnt$username,
                        password = accnt$password,
-                       base_url = base_url)
+                       baseurl = baseurl)
 
   # Extract Main directories
   dir_items <- pano_content(
@@ -508,6 +524,8 @@ pano_extract <- function(item = "mer",
 #'   which is the default if left blank
 #' @param password      Panorama password, recommend using `glamr::pano_pwd()`,
 #'   which is the default if left blank
+#' @param baseurl     Pano base url
+#'
 #' @export
 #'
 #' @examples
@@ -522,11 +540,11 @@ pano_extract_msd <- function(operatingunit = NULL,
                              level = c("psnu", "ou", "site", "nat"),
                              dest_path,
                              username,
-                             password) {
+                             password,
+                             baseurl = "https://pepfar-panorama.org") {
 
   # URL
-  base_url = "https://pepfar-panorama.org"
-  url <- base::file.path(base_url, "forms/downloads")
+  url <- base::file.path(baseurl, "forms/downloads")
 
   # Pano Access
   accnt <- lazy_secrets("pano", username, password)
@@ -561,7 +579,7 @@ pano_extract_msd <- function(operatingunit = NULL,
   #establish pano session
   sess <- pano_session(username = accnt$username,
                        password = accnt$password,
-                       base_url = base_url)
+                       baseurl = baseurl)
 
   # IDENTIFY CURRENT PERIOD
   recent_fldr <- url %>%
@@ -596,7 +614,8 @@ pano_extract_msd <- function(operatingunit = NULL,
                           version = {{version}},
                           fiscal_year = {{fiscal_year}},
                           quarter = {{quarter}},
-                          unpack = T)
+                          unpack = T,
+                          baseurl = baseurl)
 
   #add OU name(s) to the search parameters
   if(!is.null(operatingunit)){
@@ -630,8 +649,8 @@ pano_extract_msd <- function(operatingunit = NULL,
               function(.x) {
                 print(basename(.x))
                 pano_download(item_url = .x,
-                             session = sess,
-                             dest = dest_path)
+                              session = sess,
+                              dest = dest_path)
                 })
 
   #message
@@ -642,17 +661,14 @@ pano_extract_msd <- function(operatingunit = NULL,
 
 #' @title Downloads All Global + OU Specific MSDs
 #'
-#' @param operatingunit PEPFAR Operating Unit. Default is set to NULL for
-#'  global datasets
+#' @param operatingunit PEPFAR Operating Unit. Default is set to NULL for global datasets
+#' @param add_global    Add global datasets in this extract? Default is TRUE
 #' @param items         Panorama data set, default option is `mer`
 #' @param archive       Logical, should the old files be archived? default=FALSE
-#' @param dest_path     Directory path to download file. Default set to
-#'  `glamr::si_path()`
-#' @param username      Panorama username, recommend using `glamr::pano_user()`,
-#'   which is the default if left blank
-#' @param password      Panorama password, recommend using `glamr::pano_pwd()`,
-#'   which is the default if left blank
-#' @param base_url      Panorama base url, default="https://pepfar-panorama.org"
+#' @param dest_path     Directory path to download file. Default set to `glamr::si_path()`
+#' @param username      Panorama username, recommend using `glamr::pano_user()`
+#' @param password      Panorama password, recommend using `glamr::pano_pwd()`
+#' @param baseurl      Panorama base url, default="https://pepfar-panorama.org"
 #'
 #' @export
 #'
@@ -664,16 +680,17 @@ pano_extract_msd <- function(operatingunit = NULL,
 #'                    archive = TRUE,
 #'                    dest_path = dir_mer)
 #' }
-pano_extract_msds <- function(operatingunit = NULL,
+pano_extract_msds <- function(operatingunit,
+                              add_global = TRUE,
                               items = "mer",
                               archive = FALSE,
                               dest_path,
                               username,
                               password,
-                              base_url = "https://pepfar-panorama.org") {
+                              baseurl = "https://pepfar-panorama.org") {
 
   # URL
-  url <- base::file.path(base_url, "forms/downloads")
+  url <- base::file.path(baseurl, "forms/downloads")
 
   # Pano Access
   accnt <- lazy_secrets("pano", username, password)
@@ -693,7 +710,7 @@ pano_extract_msds <- function(operatingunit = NULL,
 
   sess <- pano_session(username = accnt$username,
                        password = accnt$password,
-                       base_url = base_url)
+                       baseurl = baseurl)
 
   # IDENTIFY CURRENT PERIOD
   recent_fldr <- url %>%
@@ -708,8 +725,10 @@ pano_extract_msds <- function(operatingunit = NULL,
   curr_fy <- stringr::str_extract(recent_fldr, "[:digit:]{4}") %>% as.numeric()
   curr_qtr <- stringr::str_extract(recent_fldr, "(?<=Q)[:digit:]") %>% as.numeric()
 
-  base::print(glue::glue("Download parameters\nItems: {toupper({items})}\\
-                         \nRelease: {curr_release}\nFiscal Year: {curr_fy}\\
+  base::print(glue::glue("Download parameters:\\
+                         \nItems: {toupper({items})}\\
+                         \nRelease: {curr_release}\\
+                         \nFiscal Year: {curr_fy}\\
                          \nQuarter: {curr_qtr}"))
 
   # Extract Data items
@@ -724,6 +743,7 @@ pano_extract_msds <- function(operatingunit = NULL,
   # Archive existing files
 
   # Identify archive folder
+
   dir_archive <- dest_path %>%
     base::dir(path = .,
               pattern = "archive",
@@ -731,6 +751,7 @@ pano_extract_msds <- function(operatingunit = NULL,
               ignore.case = TRUE)
 
   # Move files
+
   if(archive) {
 
     # Check for archive folder
@@ -748,7 +769,7 @@ pano_extract_msds <- function(operatingunit = NULL,
 
     files_old <- dest_path %>%
       base::list.files(path = .,
-                       pattern = "^MER_Structured_Datasets_",
+                       pattern = "^MER_Structured_Dataset|.*.xlsx$|.*.pdf$",
                        full.names = TRUE)
 
     files_old %>%
@@ -764,16 +785,30 @@ pano_extract_msds <- function(operatingunit = NULL,
     usethis::ui_done("Archiving completed!")
   }
 
-  # Global and OU MSDs
-  files_down <- items %>%
-    dplyr::filter(
-      stringr::str_detect(
-        stringr::str_to_lower(item),
-        base::paste0("_", stringr::str_to_lower(operatingunit), ".zip")) |
-      (stringr::str_detect(parent, glue::glue("{curr_release}$|{curr_release}/FY15-19$")) &
-         stringr::str_detect(item, "OU_IM|PSNU|PSNU_IM|PSNU_IM_DREAMS|NAT_SUBNAT")),
-      type == "file zip_file") %>%
-    dplyr::pull(path)
+  # Global and/or OU Specific MSD
+
+  if (add_global) {
+
+    files_down <- items %>%
+      dplyr::filter(
+        stringr::str_detect(
+          stringr::str_to_lower(item),
+          base::paste0("_(", stringr::str_to_lower(paste(operatingunit, collapse = "|")), ").zip")) |
+        (stringr::str_detect(parent, glue::glue("{curr_release}$|{curr_release}/FY15-20$")) &
+           stringr::str_detect(item, "OU_IM|PSNU|PSNU_IM|PSNU_IM_DREAMS|NAT_SUBNAT")),
+        type == "file zip_file") %>%
+      dplyr::pull(path)
+
+  } else {
+
+    files_down <- items %>%
+      dplyr::filter(
+        stringr::str_detect(
+          stringr::str_to_lower(item),
+          base::paste0("_(", stringr::str_to_lower(paste(operatingunit, collapse = "|")), ").zip")),
+        type == "file zip_file") %>%
+      dplyr::pull(path)
+  }
 
   # Notification
   usethis::ui_info("Downloading files [{length(files_down)}] ...")

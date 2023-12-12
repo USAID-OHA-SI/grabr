@@ -30,7 +30,7 @@ PEPFAR/Panorama releases, on the quarterly basis, global programs' Monitoring, E
 
 ### Pre-requisites
 
-```{r setup, echo = T, eval = T}
+```{r setup, echo = T, eval = F}
 library(tidyverse)
 library(glamr)
 library(grabr)
@@ -46,47 +46,25 @@ load_secrets()
 user <- pano_user()
 pass <- pano_pwd()
 
-sess <- pano_session(username = user, password = pass)
 ```
 
 ### Extract content from download page
 
-In order to extract the list of data items on the download page, we will need to get the html content of the page first. 
-
-```{r echo = T, eval = F}
-url <- "https://pepfar-panorama.org/forms/downloads/"
-
-cont <- pano_content(page_url = url, session = sess)
-
-cont
-```
-
-### Extract data items details
-
-The details of the data items are embeded into the html content. Most of them are listed as a hyperlink within a `<li>` element. The function `pano_elements()` allows us to extract all those items as a tibble.
-
-```{r echo = T, eval = F}
-dirs <- pano_elements(page_html = cont)
-
-dirs
-
-dir_mer_path <- dirs %>% 
-  filter(str_detect(item, "^MER")) %>% 
-  pull(path)
-
-mer_items <- pano_content(page_url = dir_mer_path, session = sess) %>% 
-  pano_elements(page_url = dir_mer_path)
-
-mer_items
-```
+In order to extract the list of data items on the download page, we will need an active session and the html content of the page. This can be achieved with `pano_items()`. Under the wood, a valid session is created, html elements extracted (`pano_content()`) and parsed out (`pano_elements()`) as data frame.
 
 `pano_items()` combines `pano_content()` and `pano_elements()` into 1 function for a quick access to data items list on a specific page.
 
 ```{r echo = T, eval = F}
-mer_items <- pano_items(page_url = dir_mer_path, session = sess) 
+
+url <- "https://pepfar-panorama.org/forms/downloads/"
+
+mer_items <- pano_items(page_url = dir_mer_path, 
+                        username = user,
+                        password = pass) 
 
 mer_items
 ```
+
 
 ### Download specific items from Panorama
 
@@ -108,13 +86,15 @@ pano_download(item_url = url, session = sess, dest = dest_path)
 
 ### Download mutiple items from Panorama
 
-`pano_extract()` is good for batch processing. Eg: download all MER data sets from Panorama. This function combine all the above steps into one.
+`pano_extract()` is good for batch processing. 
+
+Eg: download all MER data sets from Panorama. This function combine all the above steps into one.
 
 ```{r echo = T, eval = F}
 items <- pano_extract(item = "mer", 
                       version = "clean", 
-                      fiscal_year = 2021, 
-                      quarter = 2,
+                      fiscal_year = 2023, 
+                      quarter = 4,
                       username = user,
                       password = pass,
                       unpack = TRUE)
@@ -130,25 +110,27 @@ url_items <- items %>%
                       dest = dest_path))
 ```
 
-### Download MSD / OU Specific items from Panorama
+### Download specific MSD / OU Specific items from Panorama
 
 `pano_extract_msd()` is designed to facilitate the download of MSD files for specific operating units and at a specific org hierarchy level. Eg: download Zambia's Site x IM data sets from Panorama. 
 
 ```{r echo = T, eval = F}
   pano_extract_msd(operatingunit = "Zambia",
-                version = "clean",
-                fiscal_year = 2021,
-                quarter = 3,
-                level = "site",
-                dest_path = NULL)
+                   version = "clean",
+                   fiscal_year = 2021,
+                   quarter = 3,
+                   level = "site",
+                   dest_path = NULL)
 ```
 
 ### Download latest MSD / OU Specific items from Panorama
 
-`pano_extract_msds()` is designed to facilitate the download and management of latest MSD files for global and/or specific operating units. The function will move existing files to an `archive` folder before downloading current files.
+`pano_extract_msds()` is designed to facilitate the download and management of latest MSD files for global and/or specific operating units. The function will also move existing files to an `Archive` folder before downloading current files. Users are also able to include / exclude global datasets with `add_global = TRUE`.
 
 ```{r echo = T, eval = F}
   pano_extract_msds(operatingunit = "Zambia",
                     archive = TRUE,
-                    dest_path = si_path())
+                    dest_path = si_path(),
+                    username = pano_user(),
+                    password = pano_pwd())
 ```

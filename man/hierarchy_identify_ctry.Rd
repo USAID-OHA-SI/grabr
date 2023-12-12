@@ -7,7 +7,7 @@
 hierarchy_identify_ctry(df)
 }
 \arguments{
-\item{df}{data frame created by `hierarchy_extract() %>% hierarchy_clean()`}
+\item{df}{data frame}
 }
 \value{
 Unique country names

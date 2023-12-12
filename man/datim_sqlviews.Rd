@@ -11,7 +11,7 @@ datim_sqlviews(
   dataset = FALSE,
   datauid = NULL,
   query = NULL,
-  base_url = NULL
+  baseurl = NULL
 )
 }
 \arguments{
@@ -27,7 +27,7 @@ datim_sqlviews(
 
 \item{query}{SQLView Query params, a list containing type and params key value pairs}
 
-\item{base_url}{Datim API Base URL}
+\item{baseurl}{Datim API Base URL}
 }
 \value{
 SQLView uid or dataset as data frame
@@ -45,7 +45,7 @@ This function should be used to identify Datim SQLView and Extract Data
   datim_sqlviews(
     username =glamr::datim_user(),
     password =glamr::datim_pwd(),
-    view_name = "<name>",
+    view_name = "A list of OUs",
     dataset = TRUE
   )
 }

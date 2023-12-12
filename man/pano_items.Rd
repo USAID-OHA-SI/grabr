@@ -4,12 +4,14 @@
 \alias{pano_items}
 \title{Extract data items from url}
 \usage{
-pano_items(page_url, session = NULL)
+pano_items(page_url, username, password)
 }
 \arguments{
 \item{page_url}{Current html page url}
 
-\item{session}{Pano active and valid session}
+\item{username}{Username for PEPFAR Panorama Account. Recommend using `pano_user()`}
+
+\item{password}{Password for PEPFAR Panorama Account. Recommend using `pano_pwd()`}
 }
 \value{
 data items as data frame

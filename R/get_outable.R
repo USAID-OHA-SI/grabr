@@ -23,9 +23,13 @@
 #'  load_secrets()
 #'  ou_table <- datim_outable() }
 
-get_outable <- function(username, password, baseurl = "https://final.datim.org/"){
+get_outable <- function(username, password,
+                        baseurl = "https://final.datim.org/"){
 
   accnt <- lazy_secrets("datim", username , password)
+
+  # Clean url
+  baseurl <- get_baseurl(baseurl)
 
   df_uid <- identify_ouuids(accnt$username, accnt$password, baseurl)
 
@@ -79,8 +83,11 @@ identify_ouuids <- function(username, password,
 
   accnt <- lazy_secrets("datim", username , password)
 
+  # Clean url
+  baseurl <- get_baseurl(baseurl)
+
   ous <- baseurl %>%
-    paste0("api/organisationUnits?filter=level:eq:3") %>%
+    paste0("/api/organisationUnits?filter=level:eq:3") %>%
     datim_execute_query(accnt$username, accnt$password, flatten = TRUE) %>%
     purrr::pluck("organisationUnits")
 
@@ -90,7 +97,7 @@ identify_ouuids <- function(username, password,
 
   ctrys <- purrr::map_dfr(.x = region_uids,
                           .f = ~ baseurl %>%
-                            paste0("api/organisationUnits?filter=level:eq:4&filter=path:like:", .x) %>%
+                            paste0("/api/organisationUnits?filter=level:eq:4&filter=path:like:", .x) %>%
                            datim_execute_query(accnt$username, accnt$password, flatten = TRUE) %>%
                             purrr::pluck("organisationUnits") %>%
                             dplyr::mutate(regional = TRUE))
@@ -138,8 +145,11 @@ identify_levels <- function(username, password,
 
   accnt <- lazy_secrets("datim", username , password)
 
+  # Clean url
+  baseurl <- get_baseurl(baseurl)
+
   df_levels <- baseurl %>%
-    paste0(.,"api/dataStore/dataSetAssignments/orgUnitLevels") %>%
+    paste0(.,"/api/dataStore/dataSetAssignments/orgUnitLevels") %>%
     datim_execute_query(accnt$username, accnt$password, flatten = TRUE) %>%
     purrr::map_dfr(dplyr::bind_rows) %>%
     dplyr::mutate_if(is.character, ~ dplyr::na_if(., ""))
@@ -185,17 +195,20 @@ identify_levels <- function(username, password,
 #'
 get_orguids <-
   function(level = 3,
-           username, password, baseurl = "https://final.datim.org/"){
+           username, password,
+           baseurl = "https://final.datim.org/"){
 
     # Params
     lvl <- {{level}}
+
+    # Clean url
+    baseurl <- get_baseurl(baseurl)
 
     accnt <- lazy_secrets("datim", username , password)
 
     # Query ou
     orgs <- baseurl %>%
-      paste0("api/organisationUnits",
-             "?filter=level:eq:", lvl) %>%
+      paste0("/api/organisationUnits?filter=level:eq:", lvl) %>%
       datim_execute_query(accnt$username, accnt$password, flatten = TRUE) %>%
       purrr::pluck("organisationUnits") %>%
       dplyr::rename(uid = id, orgunit = displayName) %>%
@@ -245,9 +258,12 @@ get_ouorgs <-
 
     accnt <- lazy_secrets("datim", username , password)
 
+    # Clean url
+    baseurl <- get_baseurl(baseurl)
+
     # Query ou
     orgs <- baseurl %>%
-      paste0("api/organisationUnits",
+      paste0("/api/organisationUnits",
              "?filter=level:eq:", lvl,
              "&filter=path:like:", uid,
              "&paging=false&format=json") %>%
@@ -401,10 +417,12 @@ get_ouuid <-
 
 
 #' @title Get all orgunits levels in org hierarchy
+#'
 #' @note  Similar to `grabr::identify_levels()` and `grabr::get_outable()`
 #'
 #' @param username DATIM username, recommed using glamr::datim_user()`
 #' @param password DATIM password, recommend using glamr::datim_pwd()`
+#' @param expand   Fill in missing snu1 level? default is FALSE
 #' @param reshape  Reshape data as long? default is FALSE
 #' @param baseurl  base API url, default = https://final.datim.org/
 #'
@@ -422,15 +440,19 @@ get_ouuid <-
 get_levels <-
   function(username,
            password,
+           expand = FALSE,
            reshape = FALSE,
            baseurl = "https://final.datim.org/"){
 
-    # Params
+    # Access Params
     accnt <- lazy_secrets("datim", username , password)
+
+    # Clean url
+    baseurl <- get_baseurl(baseurl)
 
     # Query data
     df_levels <- baseurl %>%
-      paste0(.,"api/dataStore/dataSetAssignments/orgUnitLevels") %>%
+      paste0(.,"/api/dataStore/dataSetAssignments/orgUnitLevels") %>%
       datim_execute_query(accnt$username, accnt$password, flatten = TRUE) %>%
       purrr::map_dfr(dplyr::bind_rows) %>%
       dplyr::mutate_if(is.character, ~ dplyr::na_if(., ""))
@@ -440,25 +462,102 @@ get_levels <-
       dplyr::mutate(name4 = ifelse(is.na(name4), name3, name4),
                     iso4 = ifelse(is.na(iso4), iso3, iso4))
 
-    # rename
+    # rename columns
     df_levels <- df_levels %>%
       dplyr::rename(operatingunit = name3,
                     countryname = name4,
                     operatingunit_iso = iso3,
                     country_iso = iso4)
 
-    # Reshape
+    # Expand - Fill in missing snu1 levels
+
+    if (expand) {
+
+      df_levels <- df_levels %>%
+        dplyr::rowwise() %>%
+        dplyr::mutate(
+          snu1 = dplyr::case_when(
+            prioritization == country ~ country + 1,
+            prioritization - country == 1 ~ prioritization,
+            prioritization - country > 1 ~ country + 1,
+            prioritization - country < 1 ~ country + 1,
+            TRUE ~ NA_integer_
+          )
+        ) %>%
+        dplyr::ungroup()
+    }
+
+    # Reshape levels long
+
     if (reshape) {
+
       df_levels <- df_levels %>%
         tidyr::pivot_longer(
-          cols = dplyr::any_of(c("country", "prioritization", "community", "facility")),
+          cols = dplyr::where(is.numeric),
           names_to = "label",
-          values_to = "level")
+          values_to = "level") %>%
+        dplyr::filter(!is.na(level))
     }
 
     return(df_levels)
   }
 
+
+#' @title Clean org hierarchy levels
+#'
+#' @param .df_levels Org levels as data frame
+#' @return df
+#'
+#'
+#' @examples
+#' \dontrun{
+#'   library(gisr)
+#'
+#'   # Get PEPFAR Org Levels
+#'   clean_levels(df_lvls)
+#'  }
+#'
+clean_levels <-
+  function(.df_levels){
+
+    # Check for reshaped datasets
+    req_cols <- c("operatingunit", "countryname", "level", "label")
+
+    if (!all(req_cols %in% names(.df_levels))) {
+      base::cat(crayon::red(glue::glue("\nSkipped `clean_levels()` for missing key columns used for cleaning: level and label\n")))
+      return(.df_levels)
+    }
+
+    # SNU1
+    df_snu1 <- .df_levels %>%
+      dplyr::summarise(
+        level = ifelse(level[label == 'prioritization'] - level[label == 'country'] > 1,
+                       level[label == 'country'] + 1,
+                       level[label == 'prioritization']),
+        label = "snu1",
+        .by = -c(level, label))
+
+    # SNU2
+    df_snu2 <- .df_levels %>%
+      dplyr::bind_rows(df_snu1) %>%
+      dplyr::summarise(
+        level = ifelse(level[label == 'prioritization'] - level[label == 'snu1'] > 1,
+                       level[label == 'snu1'] + 1,
+                       NA_integer_),
+        label = "snu2",
+        .by = -c(level, label)) %>%
+      dplyr::filter(!is.na(level))
+
+    # Merge SNU1-2 back to the original data
+    .df_levels <- .df_levels %>%
+      dplyr::bind_rows(df_snu1, df_snu2)
+
+    # Sort
+    .df_levels %>%
+      dplyr::group_by(dplyr::across(-dplyr::all_of(c('level', 'label')))) %>%
+      dplyr::arrange(level, .by_group = TRUE) %>%
+      dplyr::ungroup()
+  }
 
 #' Get OU Org level
 #'

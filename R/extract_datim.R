@@ -3,7 +3,7 @@
 #' @param username DATIM Account Username
 #' @param password DATIM Account passward
 #' @param var      Column name to pull all values from, default is NULL, options are: id, dimension
-#' @param base_url DATIM API End point, , default value is `https://final.datim.org/`
+#' @param baseurl  DATIM API End point, , default value is `https://final.datim.org`
 #'
 #' @export
 #' @return Dimensions as tibble or list of ids / dimension names
@@ -17,13 +17,13 @@
 #'
 datim_dimensions <- function(username, password,
                              var = NULL,
-                             base_url = "https://final.datim.org/") {
+                             baseurl = "https://final.datim.org") {
 
   # datim credentials
   accnt <- lazy_secrets("datim", username, password)
 
   # Update URL + remove paging
-  url <- get_baseurl(base_url) %>%
+  url <- get_baseurl(baseurl) %>%
     paste0("/api/dimensions?paging=false")
 
   # Query datim
@@ -46,7 +46,7 @@ datim_dimensions <- function(username, password,
 #' @param name      Dimension name
 #' @param username  DATIM Account Username, recommended using glamr::datim_user()`
 #' @param password  DATIM Account passward, recommended using glamr::datim_pwd()`
-#' @param base_url  DATIM API End point, default value is `https://final.datim.org/`
+#' @param baseurl   DATIM API End point, default value is `https://final.datim.org/`
 #'
 #' @return dimension uid
 #' @export
@@ -60,7 +60,7 @@ datim_dimensions <- function(username, password,
 datim_dimension <- function(name,
                             username,
                             password,
-                            base_url = "https://final.datim.org/") {
+                            baseurl = "https://final.datim.org/") {
   # ID
   dim_id <- NULL
 
@@ -69,8 +69,8 @@ datim_dimension <- function(name,
 
   # Query dimensions
   .df_dims <- datim_dimensions(username = accnt$username,
-                              password = accnt$password,
-                              base_url = base_url)
+                               password = accnt$password,
+                               baseurl = baseurl)
 
   if (base::is.null(.df_dims) | base::nrow(.df_dims) == 0 | !name %in% .df_dims$dimension) {
     base::message(crayon::red(glue::glue("There is no '{name}' dimension. Check spelling.")))
@@ -93,7 +93,7 @@ datim_dimension <- function(name,
 #' @param password  DATIM Account passward
 #' @param var       column name to pull values from, id or item
 #' @param fields    list of column names to return, this will overwrite `var`
-#' @param base_url  DATIM API end point
+#' @param baseurl   DATIM API end point
 #'
 #' @export
 #' @return Dimension's items as tibble or vector
@@ -111,23 +111,22 @@ datim_dim_items <- function(dimension,
                             password,
                             var = NULL,
                             fields = NULL,
-                            base_url = "https://final.datim.org/"){
+                            baseurl = "https://final.datim.org/"){
 
   # datim credentials
   accnt <- lazy_secrets("datim", username, password)
 
   # clean up url / paging
-  url <- get_baseurl(baseurl)
+  baseurl <- get_baseurl(baseurl)
 
   # Get dimension id
   dim_id <- datim_dimension(name = dimension,
                             username = accnt$username,
                             password = accnt$password,
-                            base_url = url)
+                            baseurl = baseurl)
 
   # Update url with id and paging
-  url_dims <- get_baseurl(baseurl) %>%
-    glue::glue("{url}/{dim_id}/items?paging=false")
+  url_dims <- glue::glue("{baseurl}/api/dimensions/{dim_id}/items?paging=false")
 
   # Request specific fields
   if (!base::is.null(fields)) {
@@ -170,7 +169,7 @@ datim_dim_items <- function(dimension,
 #' @param name      Item name
 #' @param username  DATIM Account Username
 #' @param password  DATIM Account password
-#' @param base_url  DATIM API end point
+#' @param baseurl   DATIM API end point
 #'
 #' @export
 #' @return UID of item
@@ -187,7 +186,7 @@ datim_dim_items <- function(dimension,
 #'
 datim_dim_item <- function(dimension, name,
                            username, password,
-                           base_url = "https://final.datim.org/") {
+                           baseurl = "https://final.datim.org/") {
 
   item_id <- NULL
 
@@ -198,7 +197,7 @@ datim_dim_item <- function(dimension, name,
   items <- datim_dim_items(dimension = dimension,
                            username = accnt$username,
                            password = accnt$password,
-                           base_url = base_url)
+                           baseurl = baseurl)
 
   if (is.null(items) || nrow(items) == 0) {
     base::message(glue::glue("Dimension: {dimension}, response is null or empty"))
@@ -226,7 +225,7 @@ datim_dim_item <- function(dimension, name,
 #' @param items     Item name
 #' @param username  DATIM Account Username
 #' @param password  DATIM Account passward
-#' @param base_url  DATIM API End point
+#' @param baseurl   DATIM API End point
 #'
 #' @return Valid DATIM Query Params url
 #' @export
@@ -254,7 +253,7 @@ datim_dim_url <- function(dimension,
                           items = NULL,
                           username,
                           password,
-                          base_url = "https://final.datim.org/") {
+                          baseurl = "https://final.datim.org/") {
 
   # datim credentials
   accnt <- lazy_secrets("datim", username, password)
@@ -268,7 +267,7 @@ datim_dim_url <- function(dimension,
     dim_id <- datim_dimension(name = dimension,
                               username = accnt$username,
                               password = accnt$password,
-                              base_url = base_url)
+                              baseurl = baseurl)
 
     dim_query <- items %>%
       purrr::map(function(item) {
@@ -277,7 +276,7 @@ datim_dim_url <- function(dimension,
                               name = item,
                               username = accnt$username,
                               password = accnt$password,
-                              base_url = base_url) %>%
+                              baseurl = baseurl) %>%
           base::unlist() %>%
           base::paste(collapse = ';') %>%
           base::paste0("dimension=", dim_id, ":", .)
@@ -298,16 +297,16 @@ datim_dim_url <- function(dimension,
       dim_id <- datim_dimension(name = dim,
                                 username = accnt$username,
                                 password = accnt$password,
-                                base_url = base_url)
+                                baseurl = baseurl)
 
       dim_items <- datim_dim_items(dimension = dim,
                                    username = accnt$username,
                                    password = accnt$password,
-                                   base_url = base_url) %>%
+                                   baseurl = baseurl) %>%
         dplyr::pull(item) %>%
         purrr::map(~datim_dim_item(dimension = dim,
                                    name = .x,
-                                   base_url = base_url,
+                                   baseurl = baseurl,
                                    username = accnt$username,
                                    password = accnt$password)) %>%
         base::unlist() %>%
@@ -352,7 +351,7 @@ datim_execute_query <- function(url,
                                 flatten = FALSE) {
 
   # clean url
-  query_url %>%
+  query_url <- url %>%
     urltools::url_decode() %>%
     gsub(" ", "%20", .)
 
@@ -371,14 +370,14 @@ datim_execute_query <- function(url,
         usethis::ui_stop(paste0("ERROR - could not execute query from url: ", query_url))
       }
 
-      # Check response status
-      .status <- httr::http_status(.res)
-
-      usethis::ui_info(paste0("Query url: ", query_url))
-      usethis::ui_info(paste0("Query status: ", .res$status_code))
-
       # Reject non 200 (OK) responses
-      if (.res$status_code != 200) {
+      if (base::is.list(.res) && .res$status_code != 200) {
+
+        if(base::is.list(.res) && .res$status_code == 401) {
+          usethis::ui_stop("No access to the url. Check that your credentials, used or stored, are current and that you have access to {baseurl}")
+        }
+
+        .status <- httr::http_status(.res)
         usethis::ui_stop(paste0(.status$reason, " - ", .status$message))
       }
 
@@ -427,7 +426,8 @@ datim_process_query <- function(url,
   accnt <- lazy_secrets("datim", username, password)
 
   # run the query
-  res_json <- datim_execute_query(url, accnt$username, accnt$password)
+  res_json <- url %>%
+    datim_execute_query(accnt$username, accnt$password)
 
   # check for valid json result
   if (base::is.null(res_json)) {
@@ -584,7 +584,7 @@ datim_query <-
     dim_tr <- datim_dimension(name = dim_tr_name,
                               username = accnt$username,
                               password = accnt$password,
-                              base_url = baseurl)
+                              baseurl = baseurl)
 
     # Get value types
     if (!base::is.null(value)) {
@@ -594,7 +594,7 @@ datim_query <-
                                    name = .x,
                                    username = accnt$username,
                                    password = accnt$password,
-                                   base_url = baseurl)) %>%
+                                   baseurl = baseurl)) %>%
         base::unlist() %>%
         base::paste0(collapse = ";")
 
@@ -604,12 +604,12 @@ datim_query <-
                                       var = "item",
                                       username = accnt$username,
                                       password = accnt$password,
-                                      base_url = baseurl) %>%
+                                      baseurl = baseurl) %>%
         purrr::map(~datim_dim_item(dimension = "Targets / Results",
                                    name = .x,
                                    username = accnt$username,
                                    password = accnt$password,
-                                   base_url = baseurl)) %>%
+                                   baseurl = baseurl)) %>%
         base::unlist() %>%
         base::paste0(collapse = ";")
     }
@@ -618,13 +618,13 @@ datim_query <-
     dim_ta <- datim_dimension(name = "Technical Area",
                               username = accnt$username,
                               password = accnt$password,
-                              base_url = baseurl)
+                              baseurl = baseurl)
 
     dim_ta_ind <- datim_dim_item(dimension = "Technical Area",
                                  name = ta,
                                  username = accnt$username,
                                  password = accnt$password,
-                                 base_url = baseurl)
+                                 baseurl = baseurl)
 
     # Periods
     periods <- pe %>% base::paste(collapse = ";")
@@ -649,7 +649,7 @@ datim_query <-
                                   items = .x,
                                   username = accnt$username,
                                   password = accnt$password,
-                                  base_url = baseurl)) %>%
+                                  baseurl = baseurl)) %>%
         base::unlist() %>%
         base::paste(collapse = '&')
     }
@@ -667,7 +667,7 @@ datim_query <-
         purrr::map(~datim_dim_url(dimension = .x,
                                   username = accnt$username,
                                   password = accnt$password,
-                                  base_url = baseurl)) %>%
+                                  baseurl = baseurl)) %>%
         base::unlist() %>%
         base::paste(collapse = '&')
     }
@@ -963,7 +963,7 @@ extract_datim <- function(url, username, password) {
 #' @param dataset   Return SQLView dataset or uid? Default is false
 #' @param datauid   Data UID
 #' @param query     SQLView Query params, a list containing type and params key value pairs
-#' @param base_url  Datim API Base URL
+#' @param baseurl  Datim API Base URL
 #'
 #' @export
 #' @return SQLView uid or dataset as data frame
@@ -975,7 +975,7 @@ extract_datim <- function(url, username, password) {
 #'   datim_sqlviews(
 #'     username =glamr::datim_user(),
 #'     password =glamr::datim_pwd(),
-#'     view_name = "<name>",
+#'     view_name = "A list of OUs",
 #'     dataset = TRUE
 #'   )
 #' }
@@ -985,16 +985,16 @@ datim_sqlviews <- function(username, password,
                            dataset = FALSE,
                            datauid = NULL,
                            query = NULL,
-                           base_url = NULL) {
+                           baseurl = NULL) {
 
   # datim credentials
   accnt <- lazy_secrets("datim", username, password)
 
   # Base url
-  if (missing(base_url) | is.null(base_url))
-    base_url <- "https://final.datim.org"
+  if (missing(baseurl) | is.null(baseurl))
+    baseurl <- "https://final.datim.org"
 
-  base_url <- get_baseurl(base_url)
+  baseurl <- get_baseurl(baseurl)
 
   # Other Options
   end_point <- "/api/sqlViews/"
@@ -1002,10 +1002,10 @@ datim_sqlviews <- function(username, password,
   options <- "?format=json&paging=false"
 
   # API URL
-  api_url <- base_url %>% paste0(end_point, options)
+  api_url <- baseurl %>% paste0(end_point, options)
 
   # Query data
-  data <- api_url %>%
+  .data <- api_url %>%
     datim_execute_query(accnt$username, accnt$password, flatten = TRUE) %>%
     purrr::pluck("sqlViews") %>%
     tibble::as_tibble() %>%
@@ -1014,14 +1014,14 @@ datim_sqlviews <- function(username, password,
   # Filter if needed
   if (!base::is.null(view_name)) {
 
-    print(glue::glue("Searching for SQL View: {view_name} ..."))
+    #usethis::ui_info("Searching for SQL View: {view_name} ...")
 
-    data <- data %>%
+    .data <- .data %>%
       dplyr::filter(stringr::str_to_lower(name) == stringr::str_to_lower(view_name))
   }
 
   # Number of rows
-  rows = base::nrow(data)
+  rows = base::nrow(.data)
 
   # Return only ID when results is just 1 row
   if(rows == 0) {
@@ -1031,19 +1031,19 @@ datim_sqlviews <- function(username, password,
   # Flag non-unique sqlview names
   else if (rows > 1 && dataset == TRUE) {
     base::warning("There are more than 1 match for the requested SQL View data. Please try to be specific.")
-    print(data)
+    print(.data)
     return(NULL)
   }
   # Return only ID when results is just 1 row
   else if (rows == 1 && dataset == FALSE) {
-    return(data$uid)
+    return(.data$uid)
   }
   # Return SQLVIEW data
-  else if(base::nrow(data) == 1 && dataset == TRUE) {
+  else if(base::nrow(.data) == 1 && dataset == TRUE) {
 
-    dta_uid <- data$uid
+    dta_uid <- .data$uid
 
-    dta_url <- base_url %>%
+    dta_url <- baseurl %>%
       paste0(end_point, dta_uid, "/data", options, "&fields=*") #:identifiable, :nameable
 
     # Apply varialbe or field query if needed
@@ -1054,7 +1054,7 @@ datim_sqlviews <- function(username, password,
         paste0(collapse = "&") %>%
         paste0("QUERY PARAMS: type=", query$type, "&", .)
 
-      print(print(glue::glue("SQL View Params: {q}")))
+      #print(print(glue::glue("SQL View Params: {q}")))
 
       if (query$type == "variable") {
         vq <- names(query$params) %>%
@@ -1062,7 +1062,7 @@ datim_sqlviews <- function(username, password,
           paste0(collapse = "&") %>%
           paste0("&var=", .)
 
-        print(glue::glue("SQL View variable query: {vq}"))
+        #print(glue::glue("SQL View variable query: {vq}"))
 
         dta_url <- dta_url %>% paste0(vq)
       }
@@ -1072,41 +1072,40 @@ datim_sqlviews <- function(username, password,
           paste0(collapse = "&") %>%
           paste0("&", .)
 
-        print(glue::glue("SQL View field query: {fq}"))
+        #print(glue::glue("SQL View field query: {fq}"))
 
         dta_url <- dta_url %>% paste0(fq)
       }
       else {
-        print(glue::glue("Error - Invalid query type: {query$type}"))
+        usethis::ui_stop("Error - Invalid query type: {query$type}")
       }
     }
 
-
-    print(glue::glue("SQL View url: {dta_url}"))
+    #print(glue::glue("SQL View url: {dta_url}"))
 
     # Query data
-    data <- dta_url %>%
+    .data <- dta_url %>%
       datim_execute_query(accnt$username, accnt$password, flatten = TRUE)
 
     # Detect Errors
-    if (!is.null(data$status)) {
-      print(glue::glue("Status: {data$status}"))
+    if (!is.null(.data$status)) {
+      usethis::ui_info("Status: {data$status}")
 
-      if(!is.null(data$message)) {
-        print(glue::glue("Message: {data$message}"))
+      if(!is.null(.data$message)) {
+        usethis::ui_info("Message: {data$message}")
       }
 
       return(NULL)
     }
 
     # Headers
-    headers <- data %>%
+    headers <- .data %>%
       purrr::pluck("listGrid") %>%
       purrr::pluck("headers") %>%
       dplyr::pull(column)
 
     # Data
-    data <- data %>%
+    .data <- .data %>%
       purrr::pluck("listGrid") %>%
       purrr::pluck("rows") %>%
       tibble::as_tibble(.name_repair = "unique") %>%
@@ -1114,7 +1113,7 @@ datim_sqlviews <- function(username, password,
       magrittr::set_colnames(headers)
   }
 
-  return(data)
+  return(.data)
 }
 
 
@@ -1123,10 +1122,11 @@ datim_sqlviews <- function(username, password,
 #' @param cntry    Country name
 #' @param username Datim username
 #' @param password Datim password
-#' @param base_url Datim API Base URL
+#' @param reshape  Unpack parent org units
+#' @param baseurl Datim API Base URL, default to https://final.datim.org/
 #'
 #' @export
-#' @return OU Orgunit as data frame
+#' @return OU/Country Orgunits as a data frame
 #'
 #' @examples
 #' \dontrun{
@@ -1139,24 +1139,16 @@ datim_sqlviews <- function(username, password,
 #'   )
 #' }
 datim_orgunits <- function(cntry, username, password,
-                           base_url = NULL) {
+                           reshape = FALSE,
+                           baseurl = "https://final.datim.org/") {
 
   # datim credentials
   accnt <- lazy_secrets("datim", username, password)
 
-  # Base url
-  if (missing(base_url) | is.null(base_url))
-    base_url <- "https://final.datim.org/"
-
-  base_url <- get_baseurl(base_url)
+  # Clean url
+  baseurl <- get_baseurl(baseurl) %>% paste0("/")
 
   # Get PEPFAR Countries
-  pepfar_countries <- get_outable(
-    username = accnt$username,
-    password = accnt$password,
-    baseurl = base_url
-  )
-
   if(!cntry %in% glamr::pepfar_country_list$country) {
     usethis::ui_stop(glue::glue("Invalid country name: {cntry}"))
   }
@@ -1164,19 +1156,10 @@ datim_orgunits <- function(cntry, username, password,
   # Get Country ISO Code
   cntry_iso <- glamr::pepfar_country_list %>%
     dplyr::filter(country == cntry) %>%
-    dplyr::pull(country_iso)
+    dplyr::pull(country_iso) %>%
+    dplyr::first()
 
-  # get distinct levels
-  cntry_levels <- glamr::pepfar_country_list %>%
-    dplyr::filter(country == cntry) %>%
-    dplyr::select(dplyr::ends_with("_lvl")) %>%
-    tidyr::pivot_longer(cols = dplyr::ends_with("_lvl"),
-                        names_to = "orgunit_label",
-                        values_to = "orgunit_level") %>%
-    dplyr::mutate(orgunit_label = stringr::str_remove(orgunit_label, "_lvl$"),
-                  orgunit_level = as.character(orgunit_level))
-
-  # Get orgunits
+  # Get org units
   .orgs <- datim_sqlviews(
     username = accnt$username,
     password = accnt$password,
@@ -1186,25 +1169,208 @@ datim_orgunits <- function(cntry, username, password,
       type = "variable",
       params = list("OU" = cntry_iso)
     ),
-    base_url = base_url
+    baseurl = baseurl
   )
 
-  return(.orgs)
+  # Reshape and clean data
+  if (!reshape) return(.orgs)
 
-  # TODO - Clean and reshape orgunit
-  # .orgs %>%
-  #   clean_orgview(levels = cntry_levels) %>%
-  #   reshape_orgview(levels = cntry_levels) %>%
-  #   rename_orgview(levels = cntry_levels)
+  clean_orgunits(.orgs, cntry, username, password, baseurl)
 }
 
-#' @title Pull Orgunits
+#' @title Clean Orgunits SQLView
+#'
+#' @param .orgs    Raw data from `datim_orgunits()`
+#' @param cntry    Country name
+#' @param username Datim username
+#' @param password Datim password
+#' @param baseurl  Datim API Base URL
+#'
+#' @return OU/Country Orgunits as a data frame
+#'
+clean_orgunits <- function(.orgs, cntry, username, password, baseurl) {
+
+  # Country Org. Levels
+
+  .cntry_levels <- get_levels(
+      username = username,
+      password = password,
+      reshape = T
+    ) %>%
+    dplyr::filter(countryname == cntry) %>%
+    dplyr::arrange(level) %>%
+    dplyr::mutate(level = as.character(level))
+
+  # Initial Cleaning
+
+  .orgs <- .orgs %>%
+    dplyr::rename_with(.cols = tidyselect::contains("internal_id"),
+                       .fn = ~ stringr::str_replace(., "internal_id", "uid")) %>%
+    dplyr::rename_with(.cols = tidyselect::ends_with("parent"),
+                       .fn = ~paste0(., "_name")) %>%
+    dplyr::left_join(
+      dplyr::select(.cntry_levels, orgunit_level = level, orgunit_label = label),
+      by = "orgunit_level") %>%
+    dplyr::select(orgunit_uid, orgunit_code, orgunit_level, orgunit_label, orgunit_name,
+                  orgunit_parent_uid, orgunit_parent_name,
+                  moh_id, tidyselect::everything())
+
+  # Set a reference data sets
+
+  .df_ref_orgs <- .orgs %>%
+    dplyr::select(orgunit_uid, orgunit_name,
+                  orgunit_level, orgunit_label,
+                  orgunit_parent_uid, orgunit_parent_name)
+
+  .df_ref_orgs <- .df_ref_orgs %>%
+    dplyr::left_join(
+      .df_ref_orgs[, c("orgunit_uid", "orgunit_name",
+                       "orgunit_level", "orgunit_label")],
+      by = c("orgunit_parent_uid" = "orgunit_uid",
+             "orgunit_parent_name" = "orgunit_name"),
+      keep = FALSE,
+      suffix = c("", "_parent")) %>%
+    dplyr::rename_with(
+      .cols = tidyselect::ends_with("_parent"),
+      .fn = ~ stringr::str_remove(str_replace(., "orgunit_", "orgunit_parent_"), "_parent$")
+    )
+
+  # Set addtional datasets
+
+  .df_ext_orgs <- .orgs %>%
+    dplyr::select(orgunit_uid, orgunit_code, moh_id)
+
+  # Add full hierarchy
+
+  .orgs_clean <- .orgs %>%
+    dplyr::distinct(orgunit_level, orgunit_label) %>%
+    dplyr::arrange(desc(orgunit_level)) %>%
+    purrr::pmap(function(orgunit_level, orgunit_label){
+
+      org_level = orgunit_level
+      org_label = orgunit_label
+
+      # Get a orgs for current levels
+      .df_lvl <- .orgs %>%
+        dplyr::select(orgunit_uid, orgunit_name, orgunit_level, orgunit_label) %>%
+        dplyr::filter(orgunit_level == org_level, orgunit_label == org_label)
+
+      # Append all parents
+      .orgs %>%
+        dplyr::arrange(desc(orgunit_level)) %>%
+        dplyr::filter(orgunit_level != max(orgunit_level)) %>%
+        dplyr::distinct(orgunit_level, orgunit_label) %>%
+        purrr::pwalk(function(orgunit_level, orgunit_label) {
+
+          parent_level <- orgunit_level
+          parent_label <- orgunit_label
+
+          # Get Previous org level / label
+          child_label <-.orgs %>%
+            dplyr::distinct(orgunit_level, orgunit_label) %>%
+            dplyr::arrange(desc(orgunit_level)) %>%
+            dplyr::mutate(child_label = lag(orgunit_label, 1)) %>%
+            dplyr::filter(orgunit_label == parent_label, !is.na(child_label)) %>%
+            dplyr::pull(child_label)
+
+          #print(paste0("Parent <==> ", parent_label, " [", child_label, "]"))
+
+          # Build dynamic join columns
+
+          juid <- NULL
+          jname <- NULL
+          jlvl <- NULL
+          jlbl <- NULL
+
+          if (child_label == "facility" & any(stringr::str_detect(names(.df_lvl), "orgunit_"))) {
+            juid = "orgunit_uid"
+            jname = "orgunit_name"
+            jlvl = "orgunit_level"
+            jlbl = "orgunit_label"
+          }
+          else if (child_label != "facility" && any(stringr::str_detect(names(.df_lvl), child_label))) {
+            juid <- paste0(child_label, "_uid")
+            jname <- paste0(child_label, "_name")
+            jlvl <- paste0(child_label, "_level")
+            jlbl <- paste0(child_label, "_label")
+          }
+
+          # Add parent elements
+
+          #print(paste0(c(juid, jname, jlvl, jlbl), collapse = "; "))
+
+          if (!is.null(juid) & org_level < parent_level) {
+
+            #print(paste0(org_label, " >>> ", parent_label))
+
+            .df_lvl <<- .df_lvl %>%
+              dplyr::left_join(dplyr::filter(.df_ref_orgs, orgunit_label == child_label),
+                               by = c("orgunit_uid", "orgunit_name",
+                                      "orgunit_level", "orgunit_label"),
+                               relationship = "many-to-one") %>%
+              dplyr::mutate(dplyr::across(tidyselect::matches("orgunit_parent_(uid|level|label)"), ~ "~")) %>%
+              dplyr::mutate(dplyr::across(tidyselect::matches("orgunit_parent_(name)"),
+                                   ~ paste0("Orgunit is above ", parent_label, " level"))) %>%
+              dplyr::rename_with(.cols = tidyselect::contains("_parent_"),
+                                 .fn = ~ stringr::str_replace(., "orgunit_parent", parent_label))
+          }
+          else if (!is.null(juid) & org_level == parent_level) {
+
+            #print(paste0(org_label, " === ", parent_label))
+
+            .df_lvl <<- .df_lvl %>%
+              dplyr::left_join(filter(.df_ref_orgs, orgunit_label == child_label),
+                               by = c("orgunit_uid", "orgunit_name",
+                                      "orgunit_level", "orgunit_label"),
+                               relationship = "many-to-one") %>%
+              dplyr::mutate(
+                orgunit_parent_uid = orgunit_uid,
+                orgunit_parent_name = orgunit_name,
+                orgunit_parent_level = orgunit_level,
+                orgunit_parent_label = orgunit_label
+              ) %>%
+              dplyr::rename_with(.cols = tidyselect::contains("_parent_"),
+                                 .fn = ~ stringr::str_replace(., "orgunit_parent", parent_label))
+          }
+          else if (!is.null(juid)) {
+
+            #print(paste0(org_label, " <<< ", parent_label))
+
+            .df_lvl <<- .df_lvl %>%
+              dplyr::left_join(filter(.df_ref_orgs, orgunit_label == child_label),
+                               by = stats::setNames(c("orgunit_uid", "orgunit_name",
+                                                      "orgunit_level", "orgunit_label"),
+                                                    c(juid, jname, jlvl, jlbl)),
+                               relationship = "many-to-one") %>%
+              dplyr::rename_with(.cols = tidyselect::contains("_parent_"),
+                                 .fn = ~ stringr::str_replace(., "orgunit_parent", parent_label))
+          }
+
+        })
+
+      return(.df_lvl)
+
+    }) %>%
+    purrr::list_rbind() %>%
+    dplyr::rename(level = orgunit_level, orgunit_type = orgunit_label) %>%
+    dplyr::rename_with(.fn = ~ stringr::str_remove(., "_name$")) %>%
+    dplyr::rename_with(.fn = ~ stringr::str_replace(., "prioritization", "psnu")) %>%
+    dplyr::rename_with(.fn = ~ stringr::str_replace(., "_uid$", "uid")) %>%
+    dplyr::select(-tidyselect::contains(c("_level", "_label"))) %>%
+    dplyr::left_join(.df_ext_orgs, by = c("orgunituid" = "orgunit_uid")) %>%
+    dplyr::relocate(orgunit_code, moh_id, .after = orgunituid)
+
+  return(.orgs_clean)
+}
+
+
+#' @title Extract Mechanisms infos from Datim
 #'
 #' @param cntry    Country name
 #' @param username Datim username
 #' @param password Datim password
 #' @param agency   Agency name
-#' @param base_url Datim API Base URL
+#' @param baseurl  Datim API Base URL
 #'
 #' @export
 #' @return OU Mechanisms as data frame
@@ -1221,7 +1387,7 @@ datim_orgunits <- function(cntry, username, password,
 #' }
 datim_mechs <- function(cntry, username, password,
                         agency = "USAID",
-                        base_url = NULL) {
+                        baseurl = NULL) {
 
   user_params <- list("ou" = cntry)
 
@@ -1236,7 +1402,7 @@ datim_mechs <- function(cntry, username, password,
       type = "field",
       params = user_params
     ),
-    base_url = base_url
+    baseurl = baseurl
   )
 
   # Reshape Results - mech code, award number, and name separations chars

@@ -32,7 +32,7 @@ package_check <- function(pkg){
 
 #' @title Get base url from a link
 #'
-#' @param url api end point
+#' @param url DATIM API end points
 #'
 #' @return Base url without trailing slash
 #' @export
@@ -40,13 +40,25 @@ package_check <- function(pkg){
 
 get_baseurl <- function(url) {
 
+  if (missing(url) | is.null(url))
+    url <- "https://final.datim.org"
+
+  # Split url into subsections
   url_parts <- urltools::url_parse(url)
 
+  # Combine scheme and domain
   base_url <- ifelse(is.na(url_parts$scheme), "https", url_parts$scheme)
 
-  base_url %>%
-    paste0("://", url_parts$domain) %>%
-    stringr::str_remove("\\/*$")
+  base_url <- base_url %>% paste0("://", url_parts$domain)
+
+  # Add port if nay
+  if (!is.na(url_parts$port)) {
+    base_url <- base_url %>%
+      paste0(":", url_parts$port)
+  }
+
+  # Remove any trailing slashes
+  base_url %>% stringr::str_remove("\\/*$|\\*$")
 }
 
 #' Check if variable exist

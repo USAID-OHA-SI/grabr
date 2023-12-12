@@ -1,18 +1,21 @@
-#' Pull Hierarchy Data from DATIM
+#' @title Pull Hierarchy Data from DATIM
 #'
-#' @param ou_uid UID for the country, recommend using `identify_ouuids()`
-#' @param username DATIM username
-#' @param password DATIM password, recommend using `mypwd()`
+#' @description internal funciton to extract orgunit hierarchy
+#'
+#' @note  Migratated from Wavelength
+#'
+#' @param ou_uid UID for the country, recommend using identify_ouuids
+#' @param username DATIM username, recommend using datim_user
+#' @param password DATIM password, recommend using datim_pwd
 #' @param baseurl API base url, default = https://final.datim.org/
-#'
-#' @export
 #'
 #' @examples
 #' \dontrun{
 #' #get OU UID
 #'   ouuid <- identify_ouuids() %>% dplyr::filter(ou == "Kenya")
 #' #pull hierarchy (paths are all UIDs)
-#'   df <- hierarchy_extract(ouuid, username = myuser, password = mypwd(myuser)) }
+#'   df <- hierarchy_extract(ouuid, username = myuser, password = datim_pwd(myuser))
+#'   }
 
 hierarchy_extract <- function(ou_uid, username, password,
                               baseurl = "https://final.datim.org/"){
@@ -26,27 +29,35 @@ hierarchy_extract <- function(ou_uid, username, password,
   # datim credentials
   accnt <- lazy_secrets("datim", username, password)
 
+  # Clean url
+  baseurl <- get_baseurl(baseurl)
+
   #compile url
-  url <- paste0(baseurl,
-                "api/organisationUnits?filter=path:like:", ou_uid,
-                "&fields=id,name,path,level,geometry&paging=false")
+  url <- baseurl %>%
+    paste0("/api/organisationUnits?filter=path:like:", ou_uid,
+           "&fields=id,name,path,level,geometry&paging=false")
 
   #pull data from DATIM
   url %>%
-    datim_execute_query(username = accnt$username,
-                        password = accnt$password,
-                        flatten = FALSE) %>%
+    datim_execute_query(
+      username = accnt$username,
+      password = accnt$password,
+      flatten = FALSE
+    ) %>%
     purrr::pluck("organisationUnits") %>%
     tibble::as_tibble()
 }
 
 
 
-#' Clean up DATIM Hierarchy Path
+#' @title Clean up DATIM Hierarchy Path
 #'
-#' @param df data frame created by `hierarchy_extract()`
+#' @description Internal function to Clean Hierarchy
 #'
-#' @export
+#' @note  Migratated from Wavelength
+#'
+#' @param df data frame created by hierarchy_extract()
+#'
 
 hierarchy_clean <- function(df){
 
@@ -70,6 +81,7 @@ hierarchy_clean <- function(df){
 
   #convert level names of the org hierarchy from UIDs to names
     df_key <- dplyr::select(df, name, id)
+
     df <- df %>%
       dplyr::mutate_at(dplyr::vars(dplyr::starts_with("orglvl")),
                        ~ plyr::mapvalues(., df_key$id, df_key$name, warn_missing = FALSE))
@@ -109,16 +121,20 @@ hierarchy_clean <- function(df){
   return(df)
 }
 
-#' @title Rename Hierarchy from Levels to OU/SNU1/PSNU/Facility
+#' @title Rename Hierarchy
 #'
-#' @param df        data frame created by `hierarchy_extract() %>% hierarchy_clean()`
+#' @note Rename from Levels to OU/SNU1/PSNU/Facility
+#'
+#' @description Internal function to Rename Hierarchy
+#'
+#' @param df        data frame created by hierarchy_extract and hierarchy_clean
 #' @param country   county name, eg "Malawi" or "Nepal"
-#' @param username  DATIM username
-#' @param password  DATIM password, recommend using `mypwd()`
+#' @param username  DATIM username, recommend using datim_user
+#' @param password  DATIM password, recommend using datim_pwd
 #' @param baseurl   API base url, default = https://final.datim.org/
 #'
-#' @export
 #' @return Cleaned/Renamed data
+#'
 
 hierarchy_rename <- function(df, country, username, password,
                              baseurl = "https://final.datim.org/"){
@@ -129,12 +145,18 @@ hierarchy_rename <- function(df, country, username, password,
 
   stopifnot(curl::has_internet())
 
+  # datim credentials
+  accnt <- lazy_secrets("datim", username, password)
+
+  # Clean url
+  baseurl <- get_baseurl(baseurl)
+
   if(!country %in% unique(df$orglvl_3))
     df <- dplyr::filter(df, orglvl_4 == country)
 
   # Get and clean country levels
-  df_ou_info <- get_levels(username = username,
-                           password = password,
+  df_ou_info <- get_levels(username = accnt$username,
+                           password = accnt$password,
                            baseurl = baseurl)
 
   df_ou_info <- country %>%
@@ -225,10 +247,10 @@ hierarchy_rename <- function(df, country, username, password,
 
 #' @title Extract country name from OU or country name
 #'
-#' @param df data frame created by `hierarchy_extract() %>% hierarchy_clean()`
+#' @param df data frame
 #'
-#' @export
 #' @return Unique country names
+#'
 
 hierarchy_identify_ctry <- function(df){
 
@@ -244,11 +266,13 @@ hierarchy_identify_ctry <- function(df){
 }
 
 
-#' Compile PEPFAR Hierarchy
+#' @title Extract PEPFAR Org Hierarchy
 #'
-#' @param ou_uid UID for the country, recommend using `identify_ouuids()`
-#' @param username DATIM username
-#' @param password DATIM password, recommend using `mypwd()`
+#' @note This function is migrated from Wavelength and is similar to datim_orgunits
+#'
+#' @param ou_uid UID for the country, recommend using identify_ouuids
+#' @param username DATIM username, recommend using datim_user
+#' @param password DATIM password, recommend using datim_pwd
 #' @param baseurl API base url, default = https://final.datim.org/
 #' @param folderpath_output provide the full path to the folder for saving
 #'
@@ -259,22 +283,35 @@ hierarchy_identify_ctry <- function(df){
 #' #get OU UID
 #'   ouuid <- identify_ouuids() %>% dplyr::filter(ou == "Kenya")
 #' #pull hierarchy (paths are all UIDs)
-#'   df <- pull_hierarchy(ouuid, username = myuser, password = mypwd(myuser)) }
+#'   df <- datim_pull_hierarchy(ouuid, username = myuser, password = mypwd(myuser)) }
 
-pull_hierarchy <- function(ou_uid, username, password,
-                           baseurl = "https://final.datim.org/",
-                           folderpath_output = NULL){
+datim_pull_hierarchy <- function(ou_uid, username, password,
+                                 baseurl = "https://final.datim.org/",
+                                 folderpath_output = NULL){
 
   #print(ou_uid)
+  # datim credentials
+  accnt <- lazy_secrets("datim", username, password)
 
-  df <- hierarchy_extract(ou_uid, username, password, baseurl)
+  # Clean url
+  baseurl <- get_baseurl(baseurl)
 
+  # Extract Org. Hierarchy
+  df <- hierarchy_extract(ou_uid = ou_uid,
+                          username = accnt$username,
+                          password = accnt$password,
+                          baseurl = baseurl)
+
+  # Clean and rename
   df <- hierarchy_clean(df)
 
   country_name <- hierarchy_identify_ctry(df)
 
   df <- purrr::map_dfr(.x = country_name,
-                       .f = ~ hierarchy_rename(df, .x, username, password, baseurl))
+                       .f = ~ hierarchy_rename(df, .x,
+                                               username = accnt$username,
+                                               password = accnt$password,
+                                               baseurl = baseurl))
 
   # Export
   if(!is.null(folderpath_output) && fs::dir_exists(folderpath_output)){

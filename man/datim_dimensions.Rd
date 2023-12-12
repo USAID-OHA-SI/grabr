@@ -8,7 +8,7 @@ datim_dimensions(
   username,
   password,
   var = NULL,
-  base_url = "https://final.datim.org/"
+  baseurl = "https://final.datim.org"
 )
 }
 \arguments{
@@ -18,7 +18,7 @@ datim_dimensions(
 
 \item{var}{Column name to pull all values from, default is NULL, options are: id, dimension}
 
-\item{base_url}{DATIM API End point, , default value is `https://final.datim.org/`}
+\item{baseurl}{DATIM API End point, , default value is `https://final.datim.org`}
 }
 \value{
 Dimensions as tibble or list of ids / dimension names

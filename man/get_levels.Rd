@@ -7,6 +7,7 @@
 get_levels(
   username,
   password,
+  expand = FALSE,
   reshape = FALSE,
   baseurl = "https://final.datim.org/"
 )
@@ -15,6 +16,8 @@ get_levels(
 \item{username}{DATIM username, recommed using glamr::datim_user()`}
 
 \item{password}{DATIM password, recommend using glamr::datim_pwd()`}
+
+\item{expand}{Fill in missing snu1 level? default is FALSE}
 
 \item{reshape}{Reshape data as long? default is FALSE}
 
