@@ -30,7 +30,7 @@ PEPFAR/Panorama releases, on the quarterly basis, global programs' Monitoring, E
 
 ### Pre-requisites
 
-```{r setup, echo = T, eval = T}
+```{r setup, echo = T, eval = F}
 library(tidyverse)
 library(glamr)
 library(grabr)
