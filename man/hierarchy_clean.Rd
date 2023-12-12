@@ -10,7 +10,7 @@ hierarchy_clean(df)
 \item{df}{data frame created by `hierarchy_extract()`}
 }
 \description{
-Clean up DATIM Hierarchy Path
+Internal function to Clean Hierarchy
 }
 \note{
 Migratated from `Wavelength`

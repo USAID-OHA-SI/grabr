@@ -17,9 +17,9 @@ hierarchy_rename(
 
 \item{country}{county name, eg "Malawi" or "Nepal"}
 
-\item{username}{DATIM username}
+\item{username}{DATIM username, recommend using `datim_user()`}
 
-\item{password}{DATIM password, recommend using `mypwd()`}
+\item{password}{DATIM password, recommend using `datim_pwd()`}
 
 \item{baseurl}{API base url, default = https://final.datim.org/}
 }
@@ -27,5 +27,5 @@ hierarchy_rename(
 Cleaned/Renamed data
 }
 \description{
-Rename Hierarchy from Levels to OU/SNU1/PSNU/Facility
+Internal function to Rename Hierarchy
 }

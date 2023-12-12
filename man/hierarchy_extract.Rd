@@ -21,7 +21,7 @@ hierarchy_extract(
 \item{baseurl}{API base url, default = https://final.datim.org/}
 }
 \description{
-Pull Hierarchy Data from DATIM
+internal funciton to extract orgunit hierarchy
 }
 \note{
 Migratated from `Wavelength`

@@ -4,7 +4,13 @@
 \alias{datim_orgunits}
 \title{Pull Orgunits SQLView}
 \usage{
-datim_orgunits(cntry, username, password, reshape = FALSE, baseurl = NULL)
+datim_orgunits(
+  cntry,
+  username,
+  password,
+  reshape = FALSE,
+  baseurl = "https://final.datim.org/"
+)
 }
 \arguments{
 \item{cntry}{Country name}
@@ -18,7 +24,7 @@ datim_orgunits(cntry, username, password, reshape = FALSE, baseurl = NULL)
 \item{baseurl}{Datim API Base URL, default to https://final.datim.org/}
 }
 \value{
-OU Orgunit as data frame
+OU/Country Orgunits as a data frame
 }
 \description{
 Pull Orgunits SQLView
