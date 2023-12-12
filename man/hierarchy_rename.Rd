@@ -2,7 +2,7 @@
 % Please edit documentation in R/pull_hierarchy.R
 \name{hierarchy_rename}
 \alias{hierarchy_rename}
-\title{Rename Hierarchy from Levels to OU/SNU1/PSNU/Facility}
+\title{Rename Hierarchy}
 \usage{
 hierarchy_rename(
   df,
@@ -13,13 +13,13 @@ hierarchy_rename(
 )
 }
 \arguments{
-\item{df}{data frame created by `hierarchy_extract() %>% hierarchy_clean()`}
+\item{df}{data frame created by hierarchy_extract and hierarchy_clean}
 
 \item{country}{county name, eg "Malawi" or "Nepal"}
 
-\item{username}{DATIM username, recommend using `datim_user()`}
+\item{username}{DATIM username, recommend using datim_user}
 
-\item{password}{DATIM password, recommend using `datim_pwd()`}
+\item{password}{DATIM password, recommend using datim_pwd}
 
 \item{baseurl}{API base url, default = https://final.datim.org/}
 }
@@ -28,4 +28,7 @@ Cleaned/Renamed data
 }
 \description{
 Internal function to Rename Hierarchy
+}
+\note{
+Rename from Levels to OU/SNU1/PSNU/Facility
 }

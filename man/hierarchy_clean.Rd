@@ -7,11 +7,11 @@
 hierarchy_clean(df)
 }
 \arguments{
-\item{df}{data frame created by `hierarchy_extract()`}
+\item{df}{data frame created by hierarchy_extract()}
 }
 \description{
 Internal function to Clean Hierarchy
 }
 \note{
-Migratated from `Wavelength`
+Migratated from Wavelength
 }

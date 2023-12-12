@@ -2,11 +2,11 @@
 #'
 #' @description internal funciton to extract orgunit hierarchy
 #'
-#' @note  Migratated from `Wavelength`
+#' @note  Migratated from Wavelength
 #'
-#' @param ou_uid UID for the country, recommend using `identify_ouuids()`
-#' @param username DATIM username
-#' @param password DATIM password, recommend using `mypwd()`
+#' @param ou_uid UID for the country, recommend using identify_ouuids
+#' @param username DATIM username, recommend using datim_user
+#' @param password DATIM password, recommend using datim_pwd
 #' @param baseurl API base url, default = https://final.datim.org/
 #'
 #' @examples
@@ -14,7 +14,7 @@
 #' #get OU UID
 #'   ouuid <- identify_ouuids() %>% dplyr::filter(ou == "Kenya")
 #' #pull hierarchy (paths are all UIDs)
-#'   df <- hierarchy_extract(ouuid, username = myuser, password = mypwd(myuser))
+#'   df <- hierarchy_extract(ouuid, username = myuser, password = datim_pwd(myuser))
 #'   }
 
 hierarchy_extract <- function(ou_uid, username, password,
@@ -54,9 +54,9 @@ hierarchy_extract <- function(ou_uid, username, password,
 #'
 #' @description Internal function to Clean Hierarchy
 #'
-#' @note  Migratated from `Wavelength`
+#' @note  Migratated from Wavelength
 #'
-#' @param df data frame created by `hierarchy_extract()`
+#' @param df data frame created by hierarchy_extract()
 #'
 
 hierarchy_clean <- function(df){
@@ -121,14 +121,16 @@ hierarchy_clean <- function(df){
   return(df)
 }
 
-#' @title Rename Hierarchy from Levels to OU/SNU1/PSNU/Facility
+#' @title Rename Hierarchy
+#'
+#' @note Rename from Levels to OU/SNU1/PSNU/Facility
 #'
 #' @description Internal function to Rename Hierarchy
 #'
-#' @param df        data frame created by `hierarchy_extract() %>% hierarchy_clean()`
+#' @param df        data frame created by hierarchy_extract and hierarchy_clean
 #' @param country   county name, eg "Malawi" or "Nepal"
-#' @param username  DATIM username, recommend using `datim_user()`
-#' @param password  DATIM password, recommend using `datim_pwd()`
+#' @param username  DATIM username, recommend using datim_user
+#' @param password  DATIM password, recommend using datim_pwd
 #' @param baseurl   API base url, default = https://final.datim.org/
 #'
 #' @return Cleaned/Renamed data
@@ -245,7 +247,7 @@ hierarchy_rename <- function(df, country, username, password,
 
 #' @title Extract country name from OU or country name
 #'
-#' @param df data frame created by `hierarchy_extract() %>% hierarchy_clean()`
+#' @param df data frame
 #'
 #' @return Unique country names
 #'
@@ -266,11 +268,11 @@ hierarchy_identify_ctry <- function(df){
 
 #' @title Extract PEPFAR Org Hierarchy
 #'
-#' @note This function is migrated from `Wavelength::pull_hierarchy()` and is similar to `datim_orgunits()``
+#' @note This function is migrated from Wavelength and is similar to datim_orgunits
 #'
-#' @param ou_uid UID for the country, recommend using `identify_ouuids()`
-#' @param username DATIM username
-#' @param password DATIM password, recommend using `mypwd()`
+#' @param ou_uid UID for the country, recommend using identify_ouuids
+#' @param username DATIM username, recommend using datim_user
+#' @param password DATIM password, recommend using datim_pwd
 #' @param baseurl API base url, default = https://final.datim.org/
 #' @param folderpath_output provide the full path to the folder for saving
 #'

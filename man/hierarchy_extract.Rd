@@ -12,11 +12,11 @@ hierarchy_extract(
 )
 }
 \arguments{
-\item{ou_uid}{UID for the country, recommend using `identify_ouuids()`}
+\item{ou_uid}{UID for the country, recommend using identify_ouuids}
 
-\item{username}{DATIM username}
+\item{username}{DATIM username, recommend using datim_user}
 
-\item{password}{DATIM password, recommend using `mypwd()`}
+\item{password}{DATIM password, recommend using datim_pwd}
 
 \item{baseurl}{API base url, default = https://final.datim.org/}
 }
@@ -24,13 +24,13 @@ hierarchy_extract(
 internal funciton to extract orgunit hierarchy
 }
 \note{
-Migratated from `Wavelength`
+Migratated from Wavelength
 }
 \examples{
 \dontrun{
 #get OU UID
   ouuid <- identify_ouuids() \%>\% dplyr::filter(ou == "Kenya")
 #pull hierarchy (paths are all UIDs)
-  df <- hierarchy_extract(ouuid, username = myuser, password = mypwd(myuser))
+  df <- hierarchy_extract(ouuid, username = myuser, password = datim_pwd(myuser))
   }
 }

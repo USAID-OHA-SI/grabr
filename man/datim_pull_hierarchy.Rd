@@ -13,11 +13,11 @@ datim_pull_hierarchy(
 )
 }
 \arguments{
-\item{ou_uid}{UID for the country, recommend using `identify_ouuids()`}
+\item{ou_uid}{UID for the country, recommend using identify_ouuids}
 
-\item{username}{DATIM username}
+\item{username}{DATIM username, recommend using datim_user}
 
-\item{password}{DATIM password, recommend using `mypwd()`}
+\item{password}{DATIM password, recommend using datim_pwd}
 
 \item{baseurl}{API base url, default = https://final.datim.org/}
 
@@ -27,7 +27,7 @@ datim_pull_hierarchy(
 Extract PEPFAR Org Hierarchy
 }
 \note{
-This function is migrated from `Wavelength::pull_hierarchy()` and is similar to `datim_orgunits()``
+This function is migrated from Wavelength and is similar to datim_orgunits
 }
 \examples{
 \dontrun{
