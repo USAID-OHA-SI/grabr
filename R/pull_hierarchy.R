@@ -7,8 +7,6 @@
 #' @param password DATIM password, recommend using `mypwd()`
 #' @param baseurl API base url, default = https://final.datim.org/
 #'
-#' @export
-#'
 #' @examples
 #' \dontrun{
 #' #get OU UID
@@ -258,7 +256,9 @@ hierarchy_identify_ctry <- function(df){
 }
 
 
-#' Compile PEPFAR Hierarchy
+#' @title Extract PEPFAR Org Hierarchy
+#'
+#' @note This function is migrated from `Wavelength::pull_hierarchy()` and is similar to `datim_orgunits()``
 #'
 #' @param ou_uid UID for the country, recommend using `identify_ouuids()`
 #' @param username DATIM username
@@ -273,11 +273,11 @@ hierarchy_identify_ctry <- function(df){
 #' #get OU UID
 #'   ouuid <- identify_ouuids() %>% dplyr::filter(ou == "Kenya")
 #' #pull hierarchy (paths are all UIDs)
-#'   df <- pull_hierarchy(ouuid, username = myuser, password = mypwd(myuser)) }
+#'   df <- datim_pull_hierarchy(ouuid, username = myuser, password = mypwd(myuser)) }
 
-pull_hierarchy <- function(ou_uid, username, password,
-                           baseurl = "https://final.datim.org/",
-                           folderpath_output = NULL){
+datim_pull_hierarchy <- function(ou_uid, username, password,
+                                 baseurl = "https://final.datim.org/",
+                                 folderpath_output = NULL){
 
   #print(ou_uid)
   # datim credentials
