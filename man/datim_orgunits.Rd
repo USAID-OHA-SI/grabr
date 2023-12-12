@@ -4,7 +4,7 @@
 \alias{datim_orgunits}
 \title{Pull Orgunits SQLView}
 \usage{
-datim_orgunits(cntry, username, password, reshape = TRUE, baseurl = NULL)
+datim_orgunits(cntry, username, password, reshape = FALSE, baseurl = NULL)
 }
 \arguments{
 \item{cntry}{Country name}

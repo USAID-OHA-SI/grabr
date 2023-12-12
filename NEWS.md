@@ -1,5 +1,6 @@
 # grabr 1.2.0
 * Update `datim_*` functions to use `datim_execute_query()` that uses `tryCatch` for errors [2023-08-04] 
+* Add `clean_orgunits()` to clean orgunits from `datim_orgunits()` [2023-12-12]
 * Add `get_baseurl()` to clean up urls and remove trailing slashes [2023-08-04]
 * Copied `pull_hierarchy()`, `pull_mech()` and `pull_mer()` along with their respective dependencies to this package [2023-08-04]
 

@@ -23,6 +23,9 @@ hierarchy_extract(
 \description{
 Pull Hierarchy Data from DATIM
 }
+\note{
+Migratated from `Wavelength`
+}
 \examples{
 \dontrun{
 #get OU UID

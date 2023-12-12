@@ -12,3 +12,6 @@ hierarchy_clean(df)
 \description{
 Clean up DATIM Hierarchy Path
 }
+\note{
+Migratated from `Wavelength`
+}
