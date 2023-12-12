@@ -69,7 +69,6 @@ pano_session <- function(username,
 #' @param session  Valid and active login session
 #'
 #' @return html content
-#' @export
 #'
 #' @examples
 #' \dontrun{
@@ -103,7 +102,6 @@ pano_content <- function(page_url, session) {
 #' @param page_url  Curretn html page url
 #'
 #' @return html element
-#' @export
 #'
 #' @examples
 #' \dontrun{
@@ -160,7 +158,8 @@ pano_elements <- function(page_html,
 #' @title Extract data items from url
 #'
 #' @param page_url  Current html page url
-#' @param session   Pano active and valid session
+#' @param username Username for PEPFAR Panorama Account. Recommend using `pano_user()`
+#' @param password Password for PEPFAR Panorama Account. Recommend using `pano_pwd()`
 #'
 #' @return data items as data frame
 #' @export
@@ -175,10 +174,11 @@ pano_elements <- function(page_html,
 #'   items <- pano_items(page_url = url, session = s)
 #' }
 #'
-pano_items <- function(page_url, session) {
+pano_items <- function(page_url, username, password) {
 
   path <- page_url
-  sess <- session
+  baseurl = get_baseurl(page_url)
+  sess <- pano_session(username, password, baseurl)
 
   # Extract items from page content
   items <- pano_content(page_url = path, session = sess) %>%
