@@ -330,7 +330,7 @@ datim_dim_url <- function(dimension,
 #' @param password  Datim password, recommend using `glamr::datim_pwd()`
 #' @param flatten   Should query json result be flatten? Default is false
 #'
-#' @return returns query results as json object
+#' @return returns query results as json object, or NULL when error occurs.
 #' @export
 #'
 #' @examples
@@ -355,6 +355,8 @@ datim_execute_query <- function(url,
     urltools::url_decode() %>%
     gsub(" ", "%20", .)
 
+  baseurl <- get_baseurl(query_url)
+
   # datim credentials
   accnt <- lazy_secrets("datim", username, password)
 
@@ -367,18 +369,17 @@ datim_execute_query <- function(url,
 
       # Make sure execution went well
       if (!exists(".res")) {
-        usethis::ui_stop(paste0("ERROR - could not execute query from url: ", query_url))
+        usethis::ui_stop(paste0("UNABLE TO EXECUTE QUERY: ", query_url))
       }
 
       # Reject non 200 (OK) responses
-      if (base::is.list(.res) && .res$status_code != 200) {
-
-        if(base::is.list(.res) && .res$status_code == 401) {
-          usethis::ui_stop("No access to the url. Check that your credentials, used or stored, are current and that you have access to {baseurl}")
-        }
+      if (base::is.list(.res) & "status_code" %in% names(.res) & .res$status_code != 200L) {
 
         .status <- httr::http_status(.res)
-        usethis::ui_stop(paste0(.status$reason, " - ", .status$message))
+
+        base::message(paste0("UNSUCCESSFUL REQUEST: ", stringr::str_to_upper(.status$reason), " - ", .status$message))
+
+        return(NULL)
       }
 
       # Get data from query response
@@ -390,13 +391,12 @@ datim_execute_query <- function(url,
 
     },
     warning = function(warn) {
-      base::message(crayon::yellow("Query execution warnings:"))
+      base::message(crayon::yellow("WARNINGS: "))
       base::print(warn)
     },
     error = function(err) {
-      base::message(query_url)
       base::print(err)
-      usethis::ui_stop("ERROR - could not execute query")
+      usethis::ui_stop("UNABLE TO EXECUTE QUERY.")
     })
 
   return(.data_json)
@@ -409,7 +409,7 @@ datim_execute_query <- function(url,
 #' @param username  Datim username, recommend using `glamr::datim_user()`
 #' @param password  Datim password, recommend using `glamr::datim_pwd()`
 #'
-#' @return Data as tibble
+#' @return Data as tibble or NULL when error occurs.
 #' @export
 #'
 #' @examples

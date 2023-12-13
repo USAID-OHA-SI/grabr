@@ -104,8 +104,6 @@ get_datim_data <- function(url, username, password) {
 #' @param is_hts is the API for HTS indicators (HTS_TST or HTS_TST_POS), default = FALSE
 #' @param baseurl API base url, default = https://final.datim.org/
 #'
-#' @export
-#'
 #' @examples
 #' \dontrun{
 #'  #get OU UID
