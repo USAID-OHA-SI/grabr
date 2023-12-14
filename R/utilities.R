@@ -1,3 +1,8 @@
+#' PEPFAR Panorama Base URL
+#' @name PEPFAR Panorama base url
+#'
+pano_url = "https://pepfar-panorama.org"
+
 #' Check internet connection
 #'
 #' @return A boolean or stops
