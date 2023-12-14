@@ -217,24 +217,30 @@ pano_items <- function(page_url, username, password) {
 #'   pano_download(item_url = url, session = s, dest = "./Data/")}
 #'
 pano_download <- function(item_url,
-                          username = NULL,
-                          password = NULL,
+                          username,
+                          password,
                           session = NULL,
                           dest = NULL,
                           uncompress = FALSE) {
 
   # Generate session if not present
-  if (is.null(session) & !is.null(username) & !is.null(password)) {
-    session <- pano_session(username, password)
+  if (is.null(session)) {
+    accnt <- lazy_secrets("pano", username, password)
+    session <- pano_session(accnt$username, accnt$password)
   }
-  else if (is.null(session) & (is.null(username) | is.null(password))) {
-    usethis::ui_stop("No credential provided - enter a valid session or username/password")
-  }
+
+  # Generate session if not present
+  # if (is.null(session) & !is.null(username) & !is.null(password)) {
+  #   session <- pano_session(username, password)
+  # }
+  # else if (is.null(session) & (is.null(username) | is.null(password))) {
+  #   usethis::ui_stop("No credential provided - enter a valid session or username/password")
+  # }
 
   # Default destination folder
   if (base::is.null(dest)) {
     usethis::ui_warn("Missing destination path - file will be placed in the recommanded SI/MER Data Path")
-    dest = glamr::si_path("path_msd")
+    dest <- glamr::si_path("path_msd")
   }
 
   if(!base::dir.exists(dest)) {
