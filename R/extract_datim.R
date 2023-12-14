@@ -377,9 +377,9 @@ datim_execute_query <- function(url,
 
         .status <- httr::http_status(.res)
 
-        base::message(paste0("UNSUCCESSFUL REQUEST: ", stringr::str_to_upper(.status$reason), " - ", .status$message))
+        base::message(paste0(stringr::str_to_upper(.status$reason), " - ", .status$message))
 
-        return(NULL)
+        usethis::ui_stop("REQUEST FAILED")
       }
 
       # Get data from query response
@@ -1204,7 +1204,7 @@ clean_orgunits <- function(.orgs, cntry, username, password, baseurl) {
   # Initial Cleaning
 
   .orgs <- .orgs %>%
-    dplyr::filter(orgunit_level %in% .cntry_levels$orgunit_level) %>%
+    dplyr::filter(orgunit_level %in% .cntry_levels$level) %>%
     dplyr::rename_with(.cols = tidyselect::contains("internal_id"),
                        .fn = ~ stringr::str_replace(., "internal_id", "uid")) %>%
     dplyr::rename_with(.cols = tidyselect::ends_with("parent"),
