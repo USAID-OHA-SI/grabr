@@ -192,7 +192,9 @@ pano_items <- function(page_url, username, password) {
 #' @title Download file from PEPFAR Panorama
 #'
 #' @param item_url   URL for the item to be downlaoded
-#' @param session    Login session
+#' @param username   Username for PEPFAR Panorama Account. Recommend using `pano_user()`
+#' @param password   Password for PEPFAR Panorama Account. Recommend using `pano_pwd()`
+#' @param session    Login session, only used within other `pano_extract_*()`
 #' @param dest       Location and name of the destination file
 #' @param uncompress If yes, the downloaded zip file will be decompressed. Default is FALSE
 #'
@@ -201,34 +203,42 @@ pano_items <- function(page_url, username, password) {
 #'
 #' @examples
 #' \dontrun{
+#'
 #'   library(tidyverse)
 #'   library(grabr)
+#'   library(glamr)
 #'
-#'   s <- pano_session("<my-pano-user>", "<my-password>")
 #'   url <- "https://pepfar-panorama.org/forms/downloads"
 #'
-#'   cont <- pano_content(page_url = url, session = s)
-#'
-#'   elts <- pano_elements(page_html = cont, page_url = url)
+#'   elts <- pano_items(page_html = url, username = 'pano_user(), password = pano_pwd())
 #'
 #'   f_url <- elts %>% filter(type == "file zipfile") %>% pull(path) %>% first()
 #'
-#'   pano_download(item_url = f_url, session = s, dest = "./Data/")}
+#'   pano_download(item_url = url, session = s, dest = "./Data/")}
 #'
 pano_download <- function(item_url,
-                          session,
+                          username = NULL,
+                          password = NULL,
+                          session = NULL,
                           dest = NULL,
                           uncompress = FALSE) {
 
+  # Generate session if not present
+  if (is.null(session) & !is.null(username) & !is.null(password)) {
+    session <- pano_session(username, password)
+  }
+  else if (is.null(session) & (is.null(username) | is.null(password))) {
+    usethis::ui_stop("No credential provided - enter a valid session or username/password")
+  }
+
   # Default destination folder
   if (base::is.null(dest)) {
-    usethis::ui_warn("Missing destination path - file will be placed in {glamr::si_path('path_msd')}")
+    usethis::ui_warn("Missing destination path - file will be placed in the recommanded SI/MER Data Path")
     dest = glamr::si_path("path_msd")
   }
 
   if(!base::dir.exists(dest)) {
     base::cat(crayon::red("\nDestination is not a valid directory\n"))
-    base::cat(dest)
     base::stop("Invalid Directory")
   }
 
