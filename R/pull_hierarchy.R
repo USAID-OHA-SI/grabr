@@ -7,6 +7,7 @@
 #' @param ou_uid UID for the country, recommend using identify_ouuids
 #' @param username DATIM username, recommend using datim_user
 #' @param password DATIM password, recommend using datim_pwd
+#' @param add_geom Add geometry column to the output, default is false
 #' @param baseurl API base url, default = https://final.datim.org/
 #'
 #' @examples
@@ -18,6 +19,7 @@
 #'   }
 
 hierarchy_extract <- function(ou_uid, username, password,
+                              add_geom = FALSE,
                               baseurl = "https://final.datim.org/"){
 
   package_check("curl")
@@ -35,7 +37,14 @@ hierarchy_extract <- function(ou_uid, username, password,
   #compile url
   url <- baseurl %>%
     paste0("/api/organisationUnits?filter=path:like:", ou_uid,
-           "&fields=id,name,path,level,geometry&paging=false")
+           "&fields=id,name,path,level")
+
+  # Geometry column is optional
+  if (add_geom) {
+    url <- paste0(url, ",geometry")
+  }
+
+  url <- paste0(url, "&paging=false")
 
   #pull data from DATIM
   url %>%
@@ -273,6 +282,7 @@ hierarchy_identify_ctry <- function(df){
 #' @param ou_uid UID for the country, recommend using identify_ouuids
 #' @param username DATIM username, recommend using datim_user
 #' @param password DATIM password, recommend using datim_pwd
+#' @param add_geom Add geometry column to the output, default is false
 #' @param baseurl API base url, default = https://final.datim.org/
 #' @param folderpath_output provide the full path to the folder for saving
 #'
@@ -286,6 +296,7 @@ hierarchy_identify_ctry <- function(df){
 #'   df <- datim_pull_hierarchy(ouuid, username = myuser, password = mypwd(myuser)) }
 
 datim_pull_hierarchy <- function(ou_uid, username, password,
+                                 add_geom = FALSE,
                                  baseurl = "https://final.datim.org/",
                                  folderpath_output = NULL){
 
@@ -300,6 +311,7 @@ datim_pull_hierarchy <- function(ou_uid, username, password,
   df <- hierarchy_extract(ou_uid = ou_uid,
                           username = accnt$username,
                           password = accnt$password,
+                          add_geom = add_geom,
                           baseurl = baseurl)
 
   # Clean and rename
