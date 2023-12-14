@@ -1232,7 +1232,7 @@ clean_orgunits <- function(.orgs, cntry, username, password, baseurl) {
       suffix = c("", "_parent")) %>%
     dplyr::rename_with(
       .cols = tidyselect::ends_with("_parent"),
-      .fn = ~ stringr::str_remove(str_replace(., "orgunit_", "orgunit_parent_"), "_parent$")
+      .fn = ~ stringr::str_remove(stringr::str_replace(., "orgunit_", "orgunit_parent_"), "_parent$")
     )
 
   # Set addtional datasets
@@ -1319,7 +1319,7 @@ clean_orgunits <- function(.orgs, cntry, username, password, baseurl) {
             #print(paste0(org_label, " === ", parent_label))
 
             .df_lvl <<- .df_lvl %>%
-              dplyr::left_join(filter(.df_ref_orgs, orgunit_label == child_label),
+              dplyr::left_join(dplyr::filter(.df_ref_orgs, orgunit_label == child_label),
                                by = c("orgunit_uid", "orgunit_name",
                                       "orgunit_level", "orgunit_label"),
                                relationship = "many-to-one") %>%
@@ -1337,7 +1337,7 @@ clean_orgunits <- function(.orgs, cntry, username, password, baseurl) {
             #print(paste0(org_label, " <<< ", parent_label))
 
             .df_lvl <<- .df_lvl %>%
-              dplyr::left_join(filter(.df_ref_orgs, orgunit_label == child_label),
+              dplyr::left_join(dplyr::filter(.df_ref_orgs, orgunit_label == child_label),
                                by = stats::setNames(c("orgunit_uid", "orgunit_name",
                                                       "orgunit_level", "orgunit_label"),
                                                     c(juid, jname, jlvl, jlbl)),
