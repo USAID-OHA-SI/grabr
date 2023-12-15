@@ -160,6 +160,7 @@ pano_elements <- function(page_html,
 #' @param page_url  Current html page url
 #' @param username Username for PEPFAR Panorama Account. Recommend using `pano_user()`
 #' @param password Password for PEPFAR Panorama Account. Recommend using `pano_pwd()`
+#' @param session    Login session, only used within other `pano_extract_*()`
 #'
 #' @return data items as data frame
 #' @export
@@ -174,22 +175,22 @@ pano_elements <- function(page_html,
 #'   items <- pano_items(page_url = url, session = s)
 #' }
 #'
-pano_items <- function(page_url, username, password) {
+pano_items <- function(page_url, username, password, session = NULL) {
 
-  # Get Accnt
-  accnt <- lazy_secrets("pano")
+  # Clean url page
+  path <- page_url
+  baseurl = get_baseurl(page_url)
 
   # Check URL is from PANO
   if (stringr::str_detect(page_url, pano_url, negate = TRUE)) {
     usethis::ui_stop("LINK IS NOT PANO RELATED")
   }
 
-  # Clean url page
-  path <- page_url
-  baseurl = get_baseurl(page_url)
-
-  # Create session
-  sess <- pano_session(accnt$username, accnt$password, baseurl)
+  # Generate session if not present
+  if (is.null(session)) {
+    accnt <- lazy_secrets("pano", username, password)
+    sess <- pano_session(accnt$username, accnt$password)
+  }
 
   # Extract items from page content
   items <- pano_content(page_url = path, session = sess) %>%
@@ -206,7 +207,7 @@ pano_items <- function(page_url, username, password) {
 #' @param username   Username for PEPFAR Panorama Account. Recommend using `pano_user()`
 #' @param password   Password for PEPFAR Panorama Account. Recommend using `pano_pwd()`
 #' @param session    Login session, only used within other `pano_extract_*()`
-#' @param dest       Location and name of the destination file
+#' @param dest_path  Location and name of the destination file
 #' @param uncompress If yes, the downloaded zip file will be decompressed. Default is FALSE
 #'
 #' @return file content as binary
@@ -231,7 +232,7 @@ pano_download <- function(item_url,
                           username,
                           password,
                           session = NULL,
-                          dest = NULL,
+                          dest_path = NULL,
                           uncompress = FALSE) {
 
   # Generate session if not present
@@ -249,12 +250,12 @@ pano_download <- function(item_url,
   # }
 
   # Default destination folder
-  if (base::is.null(dest)) {
+  if (base::is.null(dest_path)) {
     usethis::ui_warn("Missing destination path - file will be placed in the recommanded SI/MER Data Path")
     dest <- glamr::si_path("path_msd")
   }
 
-  if(!base::dir.exists(dest)) {
+  if(!base::dir.exists(dest_path)) {
     base::cat(crayon::red("\nDestination is not a valid directory\n"))
     base::stop("Invalid Directory")
   }
@@ -263,7 +264,7 @@ pano_download <- function(item_url,
   dfile <- item_url %>%
     base::basename() %>%
     urltools::url_decode() %>%
-    base::file.path(dest, .)
+    base::file.path(dest_path, .)
 
   # Download file
   item_url %>%
@@ -349,10 +350,12 @@ pano_unpack <- function(df_pano, session) {
 #' @param unpack       If TRUE, unpack nested directories
 #' @param username     Panorama username, recommend using `glamr::pano_user()`
 #' @param password     Panorama password, recommend using `glamr::pano_pwd()`
+#' @param session    Login session, only used within other `pano_extract_*()`
 #' @param baseurl     Panorama base url
 #'
 #' @return list of output files as data frame
 #' @export
+#'
 #' @examples
 #' \dontrun{
 #'   library(tidyverse)
@@ -368,11 +371,18 @@ pano_extract <- function(item = "mer",
                          unpack = FALSE,
                          username,
                          password,
+                         session = NULL,
                          baseurl = "https://pepfar-panorama.org") {
 
   # Links
   data_path <- "/forms/downloads"
   data_url <- base::paste0(baseurl, data_path)
+
+  # Generate session if not present
+  if (is.null(session)) {
+    accnt <- lazy_secrets("pano", username, password)
+    sess <- pano_session(accnt$username, accnt$password)
+  }
 
   # Search Item
   s_item <- stringr::str_to_lower(item)
@@ -405,13 +415,6 @@ pano_extract <- function(item = "mer",
 
   # Search key
   s_dir <- base::paste0(s_item, " FY", fiscal_year, " Q", quarter, " ", stringr::str_to_sentence(version))
-
-  accnt <- lazy_secrets("pano", username, password)
-
-  # Session
-  sess <- pano_session(username = accnt$username,
-                       password = accnt$password,
-                       baseurl = baseurl)
 
   # Extract Main directories
   dir_items <- pano_content(
@@ -623,8 +626,10 @@ pano_extract_msd <- function(operatingunit = NULL,
   #fill missing param with current state
   if(missing(version))
     version <- curr_version
+
   if(missing(fiscal_year))
     fiscal_year <- curr_fy
+
   if(missing(quarter))
     quarter <- curr_qtr
 
@@ -634,7 +639,6 @@ pano_extract_msd <- function(operatingunit = NULL,
                          \nLevel: {toupper({level})}\\
                          \nRelease: {version}\nFiscal Year: {fiscal_year}\\
                          \nQuarter: {quarter}"))
-
 
   # Data items
   df_pano <- pano_extract(item = "mer",
@@ -677,12 +681,11 @@ pano_extract_msd <- function(operatingunit = NULL,
                 print(basename(.x))
                 pano_download(item_url = .x,
                               session = sess,
-                              dest = dest_path)
+                              dest_path = dest_path)
                 })
 
   #message
   usethis::ui_done("All done!...:)")
-
 }
 
 
@@ -844,7 +847,7 @@ pano_extract_msds <- function(operatingunit,
   files_down %>%
     purrr::walk(function(.x) {
       base::print(basename(.x))
-      pano_download(item_url = .x, session = sess, dest = dest_path)
+      pano_download(item_url = .x, session = sess, dest_path = dest_path)
     })
 
   usethis::ui_done("All done!...:)")
