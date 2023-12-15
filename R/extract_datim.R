@@ -1212,7 +1212,7 @@ clean_orgunits <- function(.orgs, cntry, username, password, baseurl) {
                        .fn = ~paste0(., "_name")) %>%
     dplyr::left_join(
       dplyr::select(.cntry_levels, orgunit_level = level, orgunit_label = label),
-      by = "orgunit_level") %>%
+      by = c("orgunit_level", "orgunit_label")) %>%
     dplyr::select(orgunit_uid, orgunit_code, orgunit_level, orgunit_label, orgunit_name,
                   orgunit_parent_uid, orgunit_parent_name,
                   moh_id, tidyselect::everything())
@@ -1226,18 +1226,22 @@ clean_orgunits <- function(.orgs, cntry, username, password, baseurl) {
 
   .df_ref_orgs <- .df_ref_orgs %>%
     dplyr::left_join(
-      .df_ref_orgs[, c("orgunit_uid", "orgunit_name",
-                       "orgunit_level", "orgunit_label")],
+      dplyr::select(.df_ref_orgs,
+                    orgunit_uid, orgunit_name,
+                    orgunit_level, orgunit_label),
       by = c("orgunit_parent_uid" = "orgunit_uid",
              "orgunit_parent_name" = "orgunit_name"),
       keep = FALSE,
-      suffix = c("", "_parent")) %>%
+      suffix = c("", "_parent")
+    ) %>%
     dplyr::rename_with(
       .cols = tidyselect::ends_with("_parent"),
-      .fn = ~ stringr::str_remove(stringr::str_replace(., "orgunit_", "orgunit_parent_"), "_parent$")
+      .fn = ~ stringr::str_remove(
+        stringr::str_replace(., "orgunit_", "orgunit_parent_"), "_parent$"
+      )
     )
 
-  # Set addtional datasets
+  # Set additional dataset
 
   .df_ext_orgs <- .orgs %>%
     dplyr::select(orgunit_uid, orgunit_code, moh_id)
@@ -1259,9 +1263,9 @@ clean_orgunits <- function(.orgs, cntry, username, password, baseurl) {
 
       # Append all parents
       .orgs %>%
-        dplyr::arrange(desc(orgunit_level)) %>%
         dplyr::filter(orgunit_level != max(orgunit_level)) %>%
         dplyr::distinct(orgunit_level, orgunit_label) %>%
+        dplyr::arrange(desc(orgunit_level)) %>%
         purrr::pwalk(function(orgunit_level, orgunit_label) {
 
           parent_level <- orgunit_level
