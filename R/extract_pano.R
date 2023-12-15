@@ -176,9 +176,20 @@ pano_elements <- function(page_html,
 #'
 pano_items <- function(page_url, username, password) {
 
+  # Get Accnt
+  accnt <- lazy_secrets("pano")
+
+  # Check URL is from PANO
+  if (stringr::str_detect(page_url, pano_url, negate = TRUE)) {
+    usethis::ui_stop("LINK IS NOT PANO RELATED")
+  }
+
+  # Clean url page
   path <- page_url
   baseurl = get_baseurl(page_url)
-  sess <- pano_session(username, password, baseurl)
+
+  # Create session
+  sess <- pano_session(accnt$username, accnt$password, baseurl)
 
   # Extract items from page content
   items <- pano_content(page_url = path, session = sess) %>%

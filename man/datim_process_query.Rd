@@ -14,7 +14,7 @@ datim_process_query(url, username, password)
 \item{password}{Datim password, recommend using `glamr::datim_pwd()`}
 }
 \value{
-Data as tibble
+Data as tibble or NULL when error occurs.
 }
 \description{
 Process Datim Query results

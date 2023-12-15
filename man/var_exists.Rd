@@ -20,7 +20,6 @@ var_exists(df, "val") }
 }
 \seealso{
 Other utility: 
-\code{\link{get_baseurl}()},
-\code{\link{package_check}()}
+\code{\link{get_baseurl}()}
 }
 \concept{utility}

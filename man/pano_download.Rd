@@ -4,12 +4,23 @@
 \alias{pano_download}
 \title{Download file from PEPFAR Panorama}
 \usage{
-pano_download(item_url, session, dest = NULL, uncompress = FALSE)
+pano_download(
+  item_url,
+  username,
+  password,
+  session = NULL,
+  dest = NULL,
+  uncompress = FALSE
+)
 }
 \arguments{
 \item{item_url}{URL for the item to be downlaoded}
 
-\item{session}{Login session}
+\item{username}{Username for PEPFAR Panorama Account. Recommend using `pano_user()`}
+
+\item{password}{Password for PEPFAR Panorama Account. Recommend using `pano_pwd()`}
+
+\item{session}{Login session, only used within other `pano_extract_*()`}
 
 \item{dest}{Location and name of the destination file}
 
@@ -20,21 +31,4 @@ file content as binary
 }
 \description{
 Download file from PEPFAR Panorama
-}
-\examples{
-\dontrun{
-  library(tidyverse)
-  library(grabr)
-
-  s <- pano_session("<my-pano-user>", "<my-password>")
-  url <- "https://pepfar-panorama.org/forms/downloads"
-
-  cont <- pano_content(page_url = url, session = s)
-
-  elts <- pano_elements(page_html = cont, page_url = url)
-
-  f_url <- elts \%>\% filter(type == "file zipfile") \%>\% pull(path) \%>\% first()
-
-  pano_download(item_url = f_url, session = s, dest = "./Data/")}
-
 }

@@ -8,6 +8,7 @@ hierarchy_extract(
   ou_uid,
   username,
   password,
+  add_geom = FALSE,
   baseurl = "https://final.datim.org/"
 )
 }
@@ -17,6 +18,8 @@ hierarchy_extract(
 \item{username}{DATIM username, recommend using datim_user}
 
 \item{password}{DATIM password, recommend using datim_pwd}
+
+\item{add_geom}{Add geometry column to the output, default is false}
 
 \item{baseurl}{API base url, default = https://final.datim.org/}
 }
