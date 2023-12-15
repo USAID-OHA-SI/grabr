@@ -189,11 +189,11 @@ pano_items <- function(page_url, username, password, session = NULL) {
   # Generate session if not present
   if (is.null(session)) {
     accnt <- lazy_secrets("pano", username, password)
-    sess <- pano_session(accnt$username, accnt$password)
+    session <- pano_session(accnt$username, accnt$password)
   }
 
   # Extract items from page content
-  items <- pano_content(page_url = path, session = sess) %>%
+  items <- pano_content(page_url = path, session = session) %>%
     pano_elements(page_url = path)
 
   return(items)
