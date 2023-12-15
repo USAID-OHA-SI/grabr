@@ -12,6 +12,7 @@ pano_extract(
   unpack = FALSE,
   username,
   password,
+  session = NULL,
   baseurl = "https://pepfar-panorama.org"
 )
 }
@@ -30,6 +31,8 @@ current version if blank}
 \item{username}{Panorama username, recommend using `glamr::pano_user()`}
 
 \item{password}{Panorama password, recommend using `glamr::pano_pwd()`}
+
+\item{session}{Login session, only used within other `pano_extract_*()`}
 
 \item{baseurl}{Panorama base url}
 }

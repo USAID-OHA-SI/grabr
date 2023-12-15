@@ -9,7 +9,7 @@ pano_download(
   username,
   password,
   session = NULL,
-  dest = NULL,
+  dest_path = NULL,
   uncompress = FALSE
 )
 }
@@ -22,7 +22,7 @@ pano_download(
 
 \item{session}{Login session, only used within other `pano_extract_*()`}
 
-\item{dest}{Location and name of the destination file}
+\item{dest_path}{Location and name of the destination file}
 
 \item{uncompress}{If yes, the downloaded zip file will be decompressed. Default is FALSE}
 }
