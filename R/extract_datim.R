@@ -1009,13 +1009,14 @@ datim_sqlviews <- function(username, password,
     datim_execute_query(accnt$username, accnt$password, flatten = TRUE) %>%
     purrr::pluck("sqlViews")
 
-  .data <- base::suppressMessages(tibble::tibble(.data)) %>%
-    dplyr::rename(uid = id, name = displayName)
+  base::suppressMessages(
+    .data <- tibble::tibble(.data, quiet = TRUE)
+  )
+
+  .data <- dplyr::rename(.data, uid = id, name = displayName)
 
   # Filter if needed
   if (!base::is.null(view_name)) {
-
-    #usethis::ui_info("Searching for SQL View: {view_name} ...")
 
     .data <- .data %>%
       dplyr::filter(stringr::str_to_lower(name) == stringr::str_to_lower(view_name))
@@ -1063,8 +1064,6 @@ datim_sqlviews <- function(username, password,
           paste0(collapse = "&") %>%
           paste0("&var=", .)
 
-        #print(glue::glue("SQL View variable query: {vq}"))
-
         dta_url <- dta_url %>% paste0(vq)
       }
       else if (query$type == "field") {
@@ -1073,16 +1072,12 @@ datim_sqlviews <- function(username, password,
           paste0(collapse = "&") %>%
           paste0("&", .)
 
-        #print(glue::glue("SQL View field query: {fq}"))
-
         dta_url <- dta_url %>% paste0(fq)
       }
       else {
         usethis::ui_stop("Error - Invalid query type: {query$type}")
       }
     }
-
-    #print(glue::glue("SQL View url: {dta_url}"))
 
     # Query data
     .data <- dta_url %>%
@@ -1108,8 +1103,13 @@ datim_sqlviews <- function(username, password,
     # Data
     .data <- .data %>%
       purrr::pluck("listGrid") %>%
-      purrr::pluck("rows") %>%
-      tibble::as_tibble(.name_repair = "unique") %>%
+      purrr::pluck("rows")
+
+    base::suppressMessages(
+      .data <- tibble::as_tibble(.data, .name_repair = "unique")
+    )
+
+   .data <- .data %>%
       janitor::clean_names() %>%
       magrittr::set_colnames(headers)
   }
