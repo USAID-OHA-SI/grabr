@@ -1007,8 +1007,9 @@ datim_sqlviews <- function(username, password,
   # Query data
   .data <- api_url %>%
     datim_execute_query(accnt$username, accnt$password, flatten = TRUE) %>%
-    purrr::pluck("sqlViews") %>%
-    tibble::as_tibble() %>%
+    purrr::pluck("sqlViews")
+
+  .data <- base::suppressMessages(tibble::tibble(.data)) %>%
     dplyr::rename(uid = id, name = displayName)
 
   # Filter if needed
