@@ -1,10 +1,14 @@
+# grabr <img src="man/figures/logo.png" align="right" height="120" />
+
+OHA/SI API package
+
 <!-- badges: start -->
-[![Lifecycle: stable](https://img.shields.io/badge/lifecycle-stable-brightgreen.svg)](https://lifecycle.r-lib.org/articles/stages.html#stable)
 [![R-CMD-check](https://github.com/USAID-OHA-SI/grabr/workflows/R-CMD-check/badge.svg)](https://github.com/USAID-OHA-SI/grabr/actions)
+[![grabr status badge](https://usaid-oha-si.r-universe.dev/badges/grabr)](https://usaid-oha-si.r-universe.dev/grabr)
+[![Lifecycle: stable](https://img.shields.io/badge/lifecycle-stable-brightgreen.svg)](https://lifecycle.r-lib.org/articles/stages.html#stable)
+[![:name status badge](https://usaid-oha-si.r-universe.dev/badges/:name)](https://usaid-oha-si.r-universe.dev/)
 <!-- badges: end -->
 
-# grabr <img src="man/figures/logo.png" align="right" height="120" />
-OHA/SI API package
 
 ## Overview
 
@@ -13,16 +17,17 @@ This package provides a series of base functions useful to the OHA/SI team. Thes
 
 ## Installation
 
-`grabr` is not on CRAN, so you will have to install it directly from GitHub using `remotes`.
-
-If you do not have `remotes` installed, you will have to run the `install.packages("remotes")` line in the code below as well.
+`grabr` is not on CRAN, so you will have to install it directly from [rOpenSci](https://usaid-oha-si.r-universe.dev/packages) or [GitHub](https://github.com/USAID-OHA-SI/) using the code found below.
 
 ``` r
 ## SETUP
 
-  #install package with vignettes
-    install.packages("remotes")
-    remotes::install_github("USAID-OHA-SI/grabr", build_vignettes = TRUE)
+ #install from rOpenSci
+    install.packages('grabr', repos = c('https://usaid-oha-si.r-universe.dev', 'https://cloud.r-project.org'))
+    
+  #alt: install from GitHub using pak
+    #install.packages("pak")
+    #pak::pak("USAID-OHA-SI/grabr")
     
   #load the package
     library(grabr)

@@ -1,5 +1,6 @@
-# grabr 1.2.0
-* Exclude `pano_session()`, `pano_content()` and `pano_elements()` form list of funciton exported [2023-12-12]
+# grabr 1.2
+* Change instructions to install from rOpenSci [2024-01-04]
+* Exclude `pano_session()`, `pano_content()` and `pano_elements()` form list of function exported [2023-12-12]
 * Update `datim_*` functions to use `datim_execute_query()` that uses `tryCatch` for errors [2023-08-04] 
 * Add `clean_orgunits()` to clean orgunits from `datim_orgunits()` [2023-12-12]
 * Add `get_baseurl()` to clean up urls and remove trailing slashes [2023-08-04]
