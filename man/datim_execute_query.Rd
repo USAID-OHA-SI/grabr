@@ -16,7 +16,7 @@ datim_execute_query(url, username, password, flatten = FALSE)
 \item{flatten}{Should query json result be flatten? Default is false}
 }
 \value{
-returns query results as json object
+returns query results as json object, or NULL when error occurs.
 }
 \description{
 Execute Datim Query
