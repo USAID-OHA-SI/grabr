@@ -3,7 +3,7 @@ pkgdown: 2.0.7
 pkgdown_sha: ~
 articles:
   data-extraction-from-panorama: data-extraction-from-panorama.html
-last_built: 2023-12-14T14:18Z
+last_built: 2024-01-04T20:39Z
 urls:
   reference: https://usaid-oha-si.github.io/grabr/reference
   article: https://usaid-oha-si.github.io/grabr/articles
