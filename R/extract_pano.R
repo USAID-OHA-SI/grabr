@@ -466,7 +466,7 @@ pano_extract <- function(item = "mer",
 
     dir_items <- dir_items %>%
       dplyr::pull(path) %>%
-      purrr::map_dfr(~pano_items(page_url = .x, session = session))
+      purrr::map_dfr(~pano_items(page_url = .x, username = accnt$username, password = accnt$password))
 
     # Dir structure change for previous Mer Items
     if (s_item == "mer"){
@@ -478,7 +478,7 @@ pano_extract <- function(item = "mer",
             stringr::str_to_lower(item),
             stringr::str_to_lower(s_prev_subdir))) %>%
         dplyr::pull(path) %>%
-        purrr::map_dfr(~pano_items(page_url = .x, session = session))
+        purrr::map_dfr(~pano_items(page_url = .x, username = accnt$username, password = accnt$password))
     }
   }
 
@@ -495,7 +495,7 @@ pano_extract <- function(item = "mer",
   # Extract immediate items
   df_items <- dir_items %>%
     dplyr::pull(path) %>%
-    purrr::map_dfr(~pano_items(page_url = .x, session = session))
+    purrr::map_dfr(~pano_items(page_url = .x, username = accnt$username, password = accnt$password))
 
   # Check for valid data
   if (base::is.null(df_items) | base::nrow(df_items) == 0) {
