@@ -25,6 +25,9 @@
     <loc>https://usaid-oha-si.github.io/grabr/news/index.html</loc>
   </url>
   <url>
+    <loc>https://usaid-oha-si.github.io/grabr/reference/PEPFAR-Panorama-base-url.html</loc>
+  </url>
+  <url>
     <loc>https://usaid-oha-si.github.io/grabr/reference/check_internet.html</loc>
   </url>
   <url>
@@ -140,9 +143,6 @@
   </url>
   <url>
     <loc>https://usaid-oha-si.github.io/grabr/reference/lazy_secrets.html</loc>
-  </url>
-  <url>
-    <loc>https://usaid-oha-si.github.io/grabr/reference/package_check.html</loc>
   </url>
   <url>
     <loc>https://usaid-oha-si.github.io/grabr/reference/pano_content.html</loc>

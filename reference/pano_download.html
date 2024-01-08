@@ -10,7 +10,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">grabr</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.2.2</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.2.3</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -59,10 +59,10 @@
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">pano_download</span><span class="op">(</span></span>
 <span>  <span class="va">item_url</span>,</span>
-<span>  username <span class="op">=</span> <span class="cn">NULL</span>,</span>
-<span>  password <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  <span class="va">username</span>,</span>
+<span>  <span class="va">password</span>,</span>
 <span>  session <span class="op">=</span> <span class="cn">NULL</span>,</span>
-<span>  dest <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  dest_path <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  uncompress <span class="op">=</span> <span class="cn">FALSE</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
@@ -85,7 +85,7 @@
 <dd><p>Login session, only used within other `pano_extract_*()`</p></dd>
 
 
-<dt>dest</dt>
+<dt>dest_path</dt>
 <dd><p>Location and name of the destination file</p></dd>
 
 
