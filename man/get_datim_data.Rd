@@ -7,7 +7,7 @@
 get_datim_data(url, username, password)
 }
 \arguments{
-\item{url}{supply url forAPI call, recommend using`gen_url()`}
+\item{url}{supply url forAPI call, recommend using `gen_url()`}
 
 \item{username}{DATIM username}
 
