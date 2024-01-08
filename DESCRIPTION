@@ -36,7 +36,8 @@ Imports:
     tidyr,
     tidyselect,
     usethis,
-    urltools
+    urltools,
+    stats
 Suggests: 
     fs,
     zip,
