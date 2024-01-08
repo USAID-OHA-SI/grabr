@@ -1,4 +1,5 @@
 # grabr 1.2
+* Resolve bug with `pano_items` which still used `session` as a parameter affecting `pano_extract` upstread [2024-01-08]
 * Change instructions to install from rOpenSci [2024-01-04]
 * Exclude `pano_session()`, `pano_content()` and `pano_elements()` form list of function exported [2023-12-12]
 * Update `datim_*` functions to use `datim_execute_query()` that uses `tryCatch` for errors [2023-08-04] 
