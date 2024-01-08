@@ -17,7 +17,6 @@ Get base url from a link
 }
 \seealso{
 Other utility: 
-\code{\link{package_check}()},
 \code{\link{var_exists}()}
 }
 \concept{utility}

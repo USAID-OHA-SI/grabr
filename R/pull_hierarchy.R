@@ -118,6 +118,7 @@ hierarchy_clean <- function(df){
             dplyr::rename(longitude = "coordinates_1", latitude = "coordinates_2") %>%
             dplyr::mutate_at(dplyr::vars("longitude", "latitude"), as.double) %>%
             dplyr::select(id, latitude, longitude)
+
           #bind coordinates onto hierarchy table
           df <- dplyr::left_join(df, sites, by = "id")
         }
