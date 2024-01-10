@@ -1167,7 +1167,16 @@ datim_orgunits <- function(cntry, username, password,
   # Reshape and clean data
   if (!reshape) return(.orgs)
 
-  clean_orgunits(.orgs, cntry, username, password, baseurl)
+  # Get levels
+  .df_levels <- get_levels(username = username,
+                           password = password,
+                           expand = T,
+                           reshape = T,
+                           baseurl = baseurl) %>%
+    dplyr::filter(countryname == cntry)
+
+  # Clean orgunits
+  clean_orgunits(.orgs, .org_levels = .df_levels)
 }
 
 #' @title Clean Orgunits SQLView
