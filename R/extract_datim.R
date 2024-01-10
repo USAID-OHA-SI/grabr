@@ -1007,9 +1007,13 @@ datim_sqlviews <- function(username, password,
   # Query data
   .data <- api_url %>%
     datim_execute_query(accnt$username, accnt$password, flatten = TRUE) %>%
-    purrr::pluck("sqlViews") %>%
-    tibble::as_tibble(.name_repair = "unique") %>%
-    dplyr::rename(uid = id, name = displayName)
+    purrr::pluck("sqlViews")
+
+  suppressMessages(
+    .data <- .data %>% tibble::as_tibble(.name_repair = "unique")
+  )
+
+  .data <- .data %>% dplyr::rename(uid = id, name = displayName)
 
   # Filter if needed
   if (!base::is.null(view_name)) {
@@ -1099,8 +1103,13 @@ datim_sqlviews <- function(username, password,
     # Data
     .data <- .data %>%
       purrr::pluck("listGrid") %>%
-      purrr::pluck("rows") %>%
-      tibble::as_tibble(.name_repair = "unique") %>%
+      purrr::pluck("rows")
+
+    suppressMessages(
+      .data <- .data %>% tibble::as_tibble(.name_repair = "unique")
+    )
+
+    .data <- .data %>%
       janitor::clean_names() %>%
       magrittr::set_colnames(headers)
   }
