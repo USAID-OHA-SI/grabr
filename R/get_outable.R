@@ -471,7 +471,7 @@ get_levels <-
 
     # Expand - Fill in missing snu1 levels
 
-    if (expand) {
+    if (isTRUE(expand)) {
 
       df_levels <- df_levels %>%
         dplyr::rowwise() %>%
@@ -489,7 +489,7 @@ get_levels <-
 
     # Reshape levels long
 
-    if (reshape) {
+    if (isTRUE(reshape)) {
 
       df_levels <- df_levels %>%
         tidyr::pivot_longer(
@@ -686,8 +686,8 @@ get_ouorglabel <- function(operatingunit,
 
   df_lvls <- df_lvls %>%
     dplyr::filter(operatingunit == operatingunit,
-           countryname == country,
-           level == org_level)
+                  countryname == country,
+                  level == org_level)
 
   if (base::is.null(df_lvls) | base::nrow(df_lvls) == 0) {
     return(glue::glue("orglvl_{org_level}"))
