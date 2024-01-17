@@ -531,6 +531,9 @@ datim_query <-
            baseurl = "https://final.datim.org/",
            verbose = FALSE){
 
+    # Clean url
+    baseurl <- get_baseurl(baseurl)
+
     # datim credentials
     accnt <- lazy_secrets("datim", username, password)
 
@@ -570,7 +573,7 @@ datim_query <-
 
     # ou/org level
     url_core <-
-      paste0(baseurl, "/analytics?",
+      paste0(baseurl, "/api/analytics?",
              "dimension=ou:", ou_uid, ";LEVEL-", org_lvl)
 
     # Notifications
