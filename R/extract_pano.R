@@ -244,7 +244,7 @@ pano_download <- function(item_url,
   # Default destination folder
   if (base::is.null(dest_path)) {
     usethis::ui_warn("Missing destination path - file will be placed in the recommanded SI/MER Data Path")
-    dest <- glamr::si_path("path_msd")
+    dest_path <- glamr::si_path("path_msd")
   }
 
   if(!base::dir.exists(dest_path)) {
@@ -266,7 +266,7 @@ pano_download <- function(item_url,
 
   # Unzip
   if (uncompress & stringr::str_ends(dfile, ".zip")) {
-    zip::unzip(dfile, overwrite = TRUE, exdir = dest)
+    zip::unzip(dfile, overwrite = TRUE, exdir = dest_path)
   }
 }
 

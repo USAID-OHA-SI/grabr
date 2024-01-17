@@ -4,21 +4,15 @@
 \alias{clean_orgunits}
 \title{Clean Orgunits SQLView}
 \usage{
-clean_orgunits(.orgs, cntry, username, password, baseurl)
+clean_orgunits(.orgs, .org_levels)
 }
 \arguments{
-\item{.orgs}{Raw data from `datim_orgunits()`}
+\item{.orgs}{Raw country orgunits data from `datim_orgunits()`}
 
-\item{cntry}{Country name}
-
-\item{username}{Datim username}
-
-\item{password}{Datim password}
-
-\item{baseurl}{Datim API Base URL}
+\item{.org_levels}{Expanded and Reshaped country orgunits levels}
 }
 \value{
-OU/Country Orgunits as a data frame
+Cleaned OU/Country Orgunits as a data frame
 }
 \description{
 Clean Orgunits SQLView

@@ -531,6 +531,9 @@ datim_query <-
            baseurl = "https://final.datim.org/",
            verbose = FALSE){
 
+    # Clean url
+    baseurl <- get_baseurl(baseurl)
+
     # datim credentials
     accnt <- lazy_secrets("datim", username, password)
 
@@ -570,7 +573,7 @@ datim_query <-
 
     # ou/org level
     url_core <-
-      paste0(baseurl, "/analytics?",
+      paste0(baseurl, "/api/analytics?",
              "dimension=ou:", ou_uid, ";LEVEL-", org_lvl)
 
     # Notifications
@@ -1007,14 +1010,16 @@ datim_sqlviews <- function(username, password,
   # Query data
   .data <- api_url %>%
     datim_execute_query(accnt$username, accnt$password, flatten = TRUE) %>%
-    purrr::pluck("sqlViews") %>%
-    tibble::as_tibble() %>%
-    dplyr::rename(uid = id, name = displayName)
+    purrr::pluck("sqlViews")
+
+  suppressMessages(
+    .data <- .data %>% tibble::as_tibble(.name_repair = "unique")
+  )
+
+  .data <- .data %>% dplyr::rename(uid = id, name = displayName)
 
   # Filter if needed
   if (!base::is.null(view_name)) {
-
-    #usethis::ui_info("Searching for SQL View: {view_name} ...")
 
     .data <- .data %>%
       dplyr::filter(stringr::str_to_lower(name) == stringr::str_to_lower(view_name))
@@ -1062,8 +1067,6 @@ datim_sqlviews <- function(username, password,
           paste0(collapse = "&") %>%
           paste0("&var=", .)
 
-        #print(glue::glue("SQL View variable query: {vq}"))
-
         dta_url <- dta_url %>% paste0(vq)
       }
       else if (query$type == "field") {
@@ -1072,16 +1075,12 @@ datim_sqlviews <- function(username, password,
           paste0(collapse = "&") %>%
           paste0("&", .)
 
-        #print(glue::glue("SQL View field query: {fq}"))
-
         dta_url <- dta_url %>% paste0(fq)
       }
       else {
         usethis::ui_stop("Error - Invalid query type: {query$type}")
       }
     }
-
-    #print(glue::glue("SQL View url: {dta_url}"))
 
     # Query data
     .data <- dta_url %>%
@@ -1107,8 +1106,13 @@ datim_sqlviews <- function(username, password,
     # Data
     .data <- .data %>%
       purrr::pluck("listGrid") %>%
-      purrr::pluck("rows") %>%
-      tibble::as_tibble(.name_repair = "unique") %>%
+      purrr::pluck("rows")
+
+    suppressMessages(
+      .data <- .data %>% tibble::as_tibble(.name_repair = "unique")
+    )
+
+    .data <- .data %>%
       janitor::clean_names() %>%
       magrittr::set_colnames(headers)
   }
@@ -1175,176 +1179,185 @@ datim_orgunits <- function(cntry, username, password,
   # Reshape and clean data
   if (!reshape) return(.orgs)
 
-  clean_orgunits(.orgs, cntry, username, password, baseurl)
+  # Get levels
+  .df_levels <- get_levels(username = username,
+                           password = password,
+                           expand = T,
+                           reshape = T,
+                           baseurl = baseurl) %>%
+    dplyr::filter(countryname == cntry)
+
+  # Clean orgunits
+  clean_orgunits(.orgs, .org_levels = .df_levels)
 }
 
 #' @title Clean Orgunits SQLView
 #'
-#' @param .orgs    Raw data from `datim_orgunits()`
-#' @param cntry    Country name
-#' @param username Datim username
-#' @param password Datim password
-#' @param baseurl  Datim API Base URL
+#' @param .orgs        Raw country orgunits data from `datim_orgunits()`
+#' @param .org_levels  Expanded and Reshaped country orgunits levels
 #'
-#' @return OU/Country Orgunits as a data frame
+#' @return Cleaned OU/Country Orgunits as a data frame
 #'
-clean_orgunits <- function(.orgs, cntry, username, password, baseurl) {
+clean_orgunits <- function(.orgs, .org_levels) {
 
-  # Country Org. Levels
+  # Country OrgH Levels
 
-  .cntry_levels <- get_levels(
-      username = username,
-      password = password,
-      reshape = T
-    ) %>%
-    dplyr::filter(countryname == cntry) %>%
+  .cntry_levels <- .org_levels %>%
     dplyr::arrange(level) %>%
-    dplyr::mutate(level = as.character(level))
+    dplyr::mutate(level = as.character(level)) %>%
+    dplyr::mutate(
+      collevel = paste0("orgunit_", level),
+      colname = case_when(
+        label == "prioritization" ~ "psnu",
+        TRUE ~ label
+      )
+    )
 
-  # Initial Cleaning
+  # Country reference data
+
+  .ref_cntries <- .org_levels %>%
+    dplyr::select(operatingunit, countryname) %>%
+    dplyr::distinct_all()
+
+  # Initial names leaning
 
   .orgs <- .orgs %>%
-    dplyr::filter(orgunit_level %in% .cntry_levels$level) %>%
     dplyr::rename_with(.cols = tidyselect::contains("internal_id"),
                        .fn = ~ stringr::str_replace(., "internal_id", "uid")) %>%
     dplyr::rename_with(.cols = tidyselect::ends_with("parent"),
-                       .fn = ~paste0(., "_name")) %>%
-    dplyr::left_join(
-      dplyr::select(.cntry_levels, orgunit_level = level, orgunit_label = label),
-      by = "orgunit_level") %>%
-    dplyr::select(orgunit_uid, orgunit_code, orgunit_level, orgunit_label, orgunit_name,
-                  orgunit_parent_uid, orgunit_parent_name,
-                  moh_id, tidyselect::everything())
+                       .fn = ~paste0(., "_name"))
 
-  # Set a reference data sets
+  # Set a reference data set
 
   .df_ref_orgs <- .orgs %>%
-    dplyr::select(orgunit_uid, orgunit_name,
-                  orgunit_level, orgunit_label,
+    dplyr::select(orgunit_uid, orgunit_name, orgunit_level,
                   orgunit_parent_uid, orgunit_parent_name)
+
+  # Add parent levels to the reference data set
 
   .df_ref_orgs <- .df_ref_orgs %>%
     dplyr::left_join(
-      .df_ref_orgs[, c("orgunit_uid", "orgunit_name",
-                       "orgunit_level", "orgunit_label")],
+      dplyr::select(.df_ref_orgs, orgunit_uid, orgunit_name, orgunit_level),
       by = c("orgunit_parent_uid" = "orgunit_uid",
              "orgunit_parent_name" = "orgunit_name"),
       keep = FALSE,
-      suffix = c("", "_parent")) %>%
+      suffix = c("", "_parent")
+    ) %>%
     dplyr::rename_with(
       .cols = tidyselect::ends_with("_parent"),
-      .fn = ~ stringr::str_remove(stringr::str_replace(., "orgunit_", "orgunit_parent_"), "_parent$")
+      .fn = ~ stringr::str_remove(
+        stringr::str_replace(., "orgunit_", "orgunit_parent_"), "_parent$"
+      )
     )
 
-  # Set addtional datasets
-
+  # Set additional dataset
   .df_ext_orgs <- .orgs %>%
     dplyr::select(orgunit_uid, orgunit_code, moh_id)
 
-  # Add full hierarchy
-
-  .orgs_clean <- .orgs %>%
-    dplyr::distinct(orgunit_level, orgunit_label) %>%
+  # Set levels reference
+  .levels <- .orgs %>%
+    dplyr::distinct(orgunit_level) %>%
     dplyr::arrange(desc(orgunit_level)) %>%
-    purrr::pmap(function(orgunit_level, orgunit_label){
+    dplyr::mutate(child_level = dplyr::lag(orgunit_level, 1)) %>%
+    dplyr::rename(parent_level = orgunit_level)
 
-      org_level = orgunit_level
-      org_label = orgunit_label
+  # Add full hierarchy based on child/parent mapping
+  .orgs_clean <- .levels %>%
+    dplyr::select(org_level = parent_level) %>%
+    purrr::pmap(function(org_level){
 
-      # Get a orgs for current levels
+      #print(paste0("HIERARCHY ==> orgunit ", org_level))
+
+      # Get orgunits for current levels
       .df_lvl <- .orgs %>%
-        dplyr::select(orgunit_uid, orgunit_name, orgunit_level, orgunit_label) %>%
-        dplyr::filter(orgunit_level == org_level, orgunit_label == org_label)
+        dplyr::select(orgunit_uid, orgunit_name, orgunit_level) %>%
+        dplyr::filter(orgunit_level == org_level)
 
-      # Append all parents
-      .orgs %>%
-        dplyr::arrange(desc(orgunit_level)) %>%
-        dplyr::filter(orgunit_level != max(orgunit_level)) %>%
-        dplyr::distinct(orgunit_level, orgunit_label) %>%
-        purrr::pwalk(function(orgunit_level, orgunit_label) {
+      # Append all parents based on child/parent mapping to find next level
+      .levels %>%
+        dplyr::filter(parent_level != max(parent_level, na.rm = T)) %>%
+        purrr::pwalk(function(parent_level, child_level) {
 
-          parent_level <- orgunit_level
-          parent_label <- orgunit_label
-
-          # Get Previous org level / label
-          child_label <-.orgs %>%
-            dplyr::distinct(orgunit_level, orgunit_label) %>%
-            dplyr::arrange(desc(orgunit_level)) %>%
-            dplyr::mutate(child_label = lag(orgunit_label, 1)) %>%
-            dplyr::filter(orgunit_label == parent_label, !is.na(child_label)) %>%
-            dplyr::pull(child_label)
-
-          #print(paste0("Parent <==> ", parent_label, " [", child_label, "]"))
+          #print(paste0("+ orgunit_", parent_level))
+          #print(min(.levels$child_level, na.rm = T))
 
           # Build dynamic join columns
+          cols <- c("uid", "name", "level")
 
-          juid <- NULL
-          jname <- NULL
-          jlvl <- NULL
-          jlbl <- NULL
+          cuid <- NULL
+          cname <- NULL
+          clvl <- NULL
 
-          if (child_label == "facility" & any(stringr::str_detect(names(.df_lvl), "orgunit_"))) {
-            juid = "orgunit_uid"
-            jname = "orgunit_name"
-            jlvl = "orgunit_level"
-            jlbl = "orgunit_label"
-          }
-          else if (child_label != "facility" && any(stringr::str_detect(names(.df_lvl), child_label))) {
-            juid <- paste0(child_label, "_uid")
-            jname <- paste0(child_label, "_name")
-            jlvl <- paste0(child_label, "_level")
-            jlbl <- paste0(child_label, "_label")
+          if (child_level == max(.levels$child_level, na.rm = T)) {
+            cuid = "orgunit_uid"
+            cname = "orgunit_name"
+            clvl = "orgunit_level"
+          } else {
+            cuid <- paste0('orgunit_', child_level, "_uid")
+            cname <- paste0('orgunit_', child_level, "_name")
+            clvl <- paste0('orgunit_', child_level, "_level")
           }
 
-          # Add parent elements
+          # Get a label of current level
+          ref_label <- .cntry_levels %>%
+            dplyr::filter(level == parent_level) %>%
+            dplyr::pull(label) %>%
+            base::paste0(collapse = ", ")
 
-          #print(paste0(c(juid, jname, jlvl, jlbl), collapse = "; "))
+          ref_label <- ifelse(ref_label == "", "Unknown", ref_label) %>%
+            paste0("[", ., "]")
 
-          if (!is.null(juid) & org_level < parent_level) {
+          #print(paste0("Join by: df_lvl_orgs$", cuid, " = df_ref_orgs$orgunit_uid"))
 
-            #print(paste0(org_label, " >>> ", parent_label))
+          # Add parent orgunits
+
+          if (!is.null(cuid) && org_level < parent_level) {
+
+            #print(paste0(org_level, " >>> ", parent_level))
 
             .df_lvl <<- .df_lvl %>%
-              dplyr::left_join(dplyr::filter(.df_ref_orgs, orgunit_label == child_label),
-                               by = c("orgunit_uid", "orgunit_name",
-                                      "orgunit_level", "orgunit_label"),
+              dplyr::left_join(dplyr::filter(.df_ref_orgs, orgunit_level == child_level),
+                               by = c("orgunit_uid", "orgunit_name", "orgunit_level"),
                                relationship = "many-to-one") %>%
-              dplyr::mutate(dplyr::across(tidyselect::matches("orgunit_parent_(uid|level|label)"), ~ "~")) %>%
+              dplyr::mutate(dplyr::across(tidyselect::matches("orgunit_parent_(uid|level)"), ~ "~")) %>%
               dplyr::mutate(dplyr::across(tidyselect::matches("orgunit_parent_(name)"),
-                                   ~ paste0("Orgunit is above ", parent_label, " level"))) %>%
+                                          ~ paste0("Orgunit is above ", ref_label, " level"))) %>%
               dplyr::rename_with(.cols = tidyselect::contains("_parent_"),
-                                 .fn = ~ stringr::str_replace(., "orgunit_parent", parent_label))
-          }
-          else if (!is.null(juid) & org_level == parent_level) {
+                                 .fn = ~ stringr::str_replace(string = .,
+                                                              pattern = "orgunit_parent",
+                                                              replacement = paste0('orgunit_', parent_level)))
 
-            #print(paste0(org_label, " === ", parent_label))
+          }
+          else if (!is.null(cuid) && org_level == parent_level) {
+
+            #print(paste0(org_level, " === ", parent_level))
 
             .df_lvl <<- .df_lvl %>%
-              dplyr::left_join(dplyr::filter(.df_ref_orgs, orgunit_label == child_label),
-                               by = c("orgunit_uid", "orgunit_name",
-                                      "orgunit_level", "orgunit_label"),
-                               relationship = "many-to-one") %>%
               dplyr::mutate(
                 orgunit_parent_uid = orgunit_uid,
                 orgunit_parent_name = orgunit_name,
-                orgunit_parent_level = orgunit_level,
-                orgunit_parent_label = orgunit_label
+                orgunit_parent_level = orgunit_level
               ) %>%
               dplyr::rename_with(.cols = tidyselect::contains("_parent_"),
-                                 .fn = ~ stringr::str_replace(., "orgunit_parent", parent_label))
-          }
-          else if (!is.null(juid)) {
+                                 .fn = ~ stringr::str_replace(string = .,
+                                                              pattern = "orgunit_parent",
+                                                              replacement = paste0('orgunit_', parent_level)))
 
-            #print(paste0(org_label, " <<< ", parent_label))
+          }
+          else if (!is.null(cuid) && org_level > parent_level) {
+
+            #print(paste0(org_level, " <<< ", parent_level))
 
             .df_lvl <<- .df_lvl %>%
-              dplyr::left_join(dplyr::filter(.df_ref_orgs, orgunit_label == child_label),
-                               by = stats::setNames(c("orgunit_uid", "orgunit_name",
-                                                      "orgunit_level", "orgunit_label"),
-                                                    c(juid, jname, jlvl, jlbl)),
-                               relationship = "many-to-one") %>%
+              dplyr::left_join(
+                dplyr::filter(.df_ref_orgs, orgunit_level == child_level),
+                by = stats::setNames(c("orgunit_uid", "orgunit_name", "orgunit_level"),
+                                     c(cuid, cname, clvl)),
+                relationship = "many-to-one") %>%
               dplyr::rename_with(.cols = tidyselect::contains("_parent_"),
-                                 .fn = ~ stringr::str_replace(., "orgunit_parent", parent_label))
+                                 .fn = ~ stringr::str_replace(string = .,
+                                                              pattern = "orgunit_parent",
+                                                              replacement = paste0('orgunit_', parent_level)))
           }
 
         })
@@ -1353,13 +1366,79 @@ clean_orgunits <- function(.orgs, cntry, username, password, baseurl) {
 
     }) %>%
     purrr::list_rbind() %>%
-    dplyr::rename(level = orgunit_level, orgunit_type = orgunit_label) %>%
-    dplyr::rename_with(.fn = ~ stringr::str_remove(., "_name$")) %>%
-    dplyr::rename_with(.fn = ~ stringr::str_replace(., "prioritization", "psnu")) %>%
-    dplyr::rename_with(.fn = ~ stringr::str_replace(., "_uid$", "uid")) %>%
-    dplyr::select(-tidyselect::contains(c("_level", "_label"))) %>%
-    dplyr::left_join(.df_ext_orgs, by = c("orgunituid" = "orgunit_uid")) %>%
-    dplyr::relocate(orgunit_code, moh_id, .after = orgunituid)
+    dplyr::rename(level = orgunit_level)
+
+  # Rename and/or duplicate columns
+  .cntry_levels %>%
+    dplyr::select(collevel, colname) %>%
+    purrr::pwalk(function(collevel, colname) {
+
+      #print(paste0(collevel, " ==> ", colname))
+
+      clevel <- collevel
+      cname <- colname
+
+      # Identify additional orgs to be added
+      cnames <- .cntry_levels %>%
+        dplyr::filter(collevel == clevel, colname != cname) %>%
+        dplyr::pull(colname)
+
+      # Rename columns
+      .orgs_clean <<- .orgs_clean %>%
+        dplyr::rename_with(.cols = tidyselect::starts_with(collevel),
+                           .fn = ~ stringr::str_replace(., collevel, colname))
+
+      # Copy and rename additional org levels needed
+
+      if (length(cnames) >= 1) {
+
+        # missing columns given admin level is used across multiple labels
+        mis_cols <- cnames %>%
+          purrr::map(~paste0(.x, c("_uid", "_name", "_level"))) %>%
+          unlist()
+
+        if (!all(mis_cols %in% names(.orgs_clean))) {
+
+          usethis::ui_info(paste0("Copying `", colname, "` as `", paste0(cnames, collapse = ", "), "` orgunit"))
+
+          .orgs_clean <<- cnames %>%
+            purrr::map(function(.x) {
+
+              colnew <- .x
+
+              .orgs_clean %>%
+                dplyr::select(tidyselect::contains(colname)) %>%
+                dplyr::rename_with(.cols = tidyselect::starts_with(colname),
+                                   .fn = ~ stringr::str_replace(., colname, colnew))
+            }) %>%
+            purrr::list_cbind() %>%
+            dplyr::bind_cols(.orgs_clean, .)
+        }
+      }
+
+      # Remove placeholder from names
+      .orgs_clean <<- .orgs_clean %>%
+        dplyr::mutate(dplyr::across(.cols = dplyr::contains(colname),
+                                    .fns = ~stringr::str_replace(., "\\[.*\\]", colname)))
+    })
+
+  # Drop non-matching orgs levels and re-order
+  .orgs_clean <- .orgs_clean %>%
+    dplyr::select(-tidyselect::matches("orgunit_\\d{1}_")) %>% # TODO: these are likely SNU2
+    dplyr::left_join(.df_ext_orgs, by = "orgunit_uid") %>%
+    dplyr::left_join(.ref_cntries, by = c("country_name" = "countryname")) %>%
+    dplyr::rename_with(.cols = tidyselect::ends_with("_uid"),
+                       .fn = ~ stringr::str_remove(., "_")) %>%
+    dplyr::rename_with(.cols = tidyselect::ends_with("_name"),
+                       .fn = ~ stringr::str_remove(., "_name")) %>%
+    dplyr::select(orgunituid, orgunit, level,
+                  tidyselect::starts_with("community"),
+                  tidyselect::starts_with("psnu"),
+                  tidyselect::starts_with("snu1"),
+                  tidyselect::starts_with("country"),
+                  tidyselect::starts_with("operatingunit"),
+                  tidyselect::everything()) %>%
+    tidyr::fill(tidyselect::starts_with("country"), .direction = "down")
 
   return(.orgs_clean)
 }

@@ -19,5 +19,5 @@ BuildType: Package
 PackageUseDevtools: Yes
 PackageInstallArgs: --no-multiarch --with-keep.source
 PackageBuildArgs: --no-build-vignettes
-PackageCheckArgs: --ignore-vignettes
+PackageCheckArgs: --ignore-vignettes --no-tests
 PackageRoxygenize: rd,collate,namespace

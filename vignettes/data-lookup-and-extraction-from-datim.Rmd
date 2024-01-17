@@ -1,0 +1,144 @@
+---
+title: "Look up and extract organization hierarchy"
+author: "Baboyma Kagniniwa"
+date: "2024-01-16"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Data Extraction from Panorama}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  warning = FALSE,
+  message = FALSE,
+  eval = FALSE,
+  fig.retina = 2
+)
+```
+
+## Introduction
+
+This vignette is crafted to provides an overview on how to look up key details about organizational hierarchy (`Orgunits`) and other data elements, and extract data from DATIM through the DHIS2 API. 
+
+We've wrapped some of our recurring Datim queries and data munging codes into functions and made sure to take away the need to users to to have to remember UIDs. An example of such function, is `get_ouuid()` which is built on top of `get_outable()`.
+
+## Functions reference
+
+All the functions dedicated to Datim Queries are listed on the [package's page](https://usaid-oha-si.github.io/grabr/reference/index.html) and start with either `datim_*()` or `get_*()`.
+
+1. Functions dedicated to look up tasks
+
+- `get_ouuid()` provides the uid for the specified OU
+- `get_ouorglabel()` provides the label of the org level. Eg. Zambia's psnu is at level #5 
+- `get_ouorglevel()` is the opposite of `get_ouorglabel`. Provides the level of the orgunit label
+
+2. Functions dedicated to queries
+
+- `get_outable()` returns PEPFAR OU/Countries along with their UIDs and Code 
+- `get_levels()` returns organizational hierarchy levels
+- `get_ouorgs()` returns OU's Orgunits at a specific level  
+
+## Look ups
+
+Below are a couple of ways we've used the look up functions. Most of SI Backstop's work are country specific so our data acquisition and munging are gears toward that. This also serve us very well in terms of supporting our `code re-usability and sharing` principle.
+
+Let say Analyst A supports `Nigeria` or `Mozambique` and `Zambia`, and wants to get the operating unit's uid(s).
+
+```{r}
+
+  suppressPackageStartupMessages({
+    library(tidyverse)
+    library(grabr)
+    library(glue)
+  })
+
+  cntry <- "Nigeria"
+  
+  cntries <- c("Mozambique", "Zambia")
+
+  get_ouuid(operatingunit = cntry) 
+  
+  cntries %>% map(get_ouuid) %>% unlist()
+  
+```
+
+These are could also be accomplished through `filter` and `pull` functions, but image having to query datim using OU UIDs as a query parameter. `get_ouuid()` has mainly been used for mapping related tasks given that VcPolygons dataset contains only uid and geometry information.
+
+There are other situations where one would want to confirm levels or labels (type) of interest before querying Datim resources. In the examples below, we look up orgunit labels based on levels, and vis-versa. The results can then be used to query orgunits from Datim and through DHIS2 API. 
+
+```{r} 
+  # Look up org levels
+  get_ouorglabel(operatingunit = cntry, org_level = 4)
+
+  1:3 %>% map(~get_ouorglabel(operatingunit = cntry, org_level = .x)) %>% unlist()
+  
+  # Look up org types
+  get_ouorglevel(operatingunit = cntry, org_type = "prioritization")
+  
+  c("community", "facility") %>% 
+    map(~get_ouorglevel(operatingunit = cntry, org_type = .x)) %>% unlist()
+```
+
+## Queries
+
+`grabr` package focuses primarily on data queries through DATIM / DHIS2 API. The functions allows users to extract data directly from [Data Dimensions](https://docs.dhis2.org/en/use/user-guides/dhis-core-version-master/understanding-the-data-model/about-data-dimensions.html?h=dimensions+master), [SQLView Resources](https://docs.dhis2.org/en/develop/using-the-api/dhis-core-version-master/visualizations.html#webapi_sql_views), and [Analytics](https://docs.dhis2.org/en/develop/using-the-api/dhis-core-version-master/analytics.html). 
+
+Dimensions are the core building blocks in DHIS2 data model and DATIM has 4 of them: 1) Data Element & Category Option Combos (`what`), 2) Organisation units (`where`), 3) Reporting period (`when`), and 2) Attribution Option Combos (`who`).  
+
+Let explore the dimensions 
+
+```{r}
+  # List all dimensions
+  df_dims <- datim_dimensions()
+
+  df_dims %>% glimpse()
+  
+  df_dims %>% filter(str_detect(dimension, "Age"))
+  
+  # List options available within a dimension
+  datim_dim_items(dimension = "Funding Agency")
+  
+  # Get specific dimension uid
+  datim_dim_item(dimension = "Funding Agency", name = "USAID")
+```
+
+Yes, you can query dimensions and extract specific uids. So what? Knowing the dimensions available within Datim enables users to be more specific with their queries. `datim_query()` do leverage these dimensions to build a query string for specific need. 
+
+```{r}
+
+  # query PLHIV number
+  datim_pops(ou = cntry)
+
+  # More detailed requests with dimension names (converted into uid)
+  datim_query(
+    ou = cntry,                    # Operating unit
+    level = "country",             # org level
+    pe = "2022Oct",                 # periods
+    ta = "PLHIV",                  # From dimension: Technical Area
+    value = "MER Targets",         # From dimension: Targets / Results
+    disaggs = "Age/Sex/HIVStatus", # From dimension: Disaggregation Type
+    dimensions = c("Sex"),         # Additional dimension: Sex
+    baseurl = "https://datim.org/",
+    verbose = TRUE
+  )
+
+```
+
+SQLViews contain relevant data sets we use as reference for `HFR` and `CIRG` data validation.
+Working versions of some of the data dimensions are also available through the SQLViews. 
+
+```{r}
+
+  df_views <- datim_sqlviews()
+
+  df_views %>% glimpse()
+  
+  df_views %>% filter(str_detect(name, "Data Exchange"))
+  
+  datim_sqlviews(view_name = "Data Exchange: Organisation Units", dataset = FALSE)
+
+```
