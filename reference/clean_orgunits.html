@@ -25,6 +25,7 @@
   <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" id="dropdown-articles">Articles</a>
   <div class="dropdown-menu" aria-labelledby="dropdown-articles">
     <a class="dropdown-item" href="../articles/data-extraction-from-panorama.html">Data Extraction from Panorama</a>
+    <a class="dropdown-item" href="../articles/data-lookup-and-extraction-from-datim.html">Look up and extract organization hierarchy</a>
   </div>
 </li>
 <li class="nav-item">
@@ -57,36 +58,24 @@
 
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">clean_orgunits</span><span class="op">(</span><span class="va">.orgs</span>, <span class="va">cntry</span>, <span class="va">username</span>, <span class="va">password</span>, <span class="va">baseurl</span><span class="op">)</span></span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">clean_orgunits</span><span class="op">(</span><span class="va">.orgs</span>, <span class="va">.org_levels</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div class="section level2">
     <h2 id="arguments">Arguments<a class="anchor" aria-label="anchor" href="#arguments"></a></h2>
     <dl><dt>.orgs</dt>
-<dd><p>Raw data from `datim_orgunits()`</p></dd>
+<dd><p>Raw country orgunits data from `datim_orgunits()`</p></dd>
 
 
-<dt>cntry</dt>
-<dd><p>Country name</p></dd>
-
-
-<dt>username</dt>
-<dd><p>Datim username</p></dd>
-
-
-<dt>password</dt>
-<dd><p>Datim password</p></dd>
-
-
-<dt>baseurl</dt>
-<dd><p>Datim API Base URL</p></dd>
+<dt>.org_levels</dt>
+<dd><p>Expanded and Reshaped country orgunits levels</p></dd>
 
 </dl></div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
     
 
-<p>OU/Country Orgunits as a data frame</p>
+<p>Cleaned OU/Country Orgunits as a data frame</p>
     </div>
 
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
