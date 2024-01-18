@@ -1,4 +1,5 @@
 # grabr 1.2.0
+* Adding new articles for data look up and extraction
 * Resolve bug with `pano_items` which still used `session` as a parameter affecting `pano_extract` upstread [2024-01-08]
 * Change instructions to install from rOpenSci [2024-01-04]
 * Exclude `pano_session()`, `pano_content()` and `pano_elements()` form list of function exported [2023-12-12]
