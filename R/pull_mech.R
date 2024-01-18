@@ -15,6 +15,8 @@ pull_mech <- function(usaid_only = TRUE,
                       ou_sel = NULL,
                       folderpath_output = NULL){
 
+  .Deprecated("datim_mechs")
+
   package_check("curl")
 
   stopifnot(curl::has_internet())

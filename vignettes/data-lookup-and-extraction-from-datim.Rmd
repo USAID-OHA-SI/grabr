@@ -38,9 +38,13 @@ All the functions dedicated to Datim Queries are listed on the [package's page](
 
 2. Functions dedicated to queries
 
-- `get_outable()` returns PEPFAR OU/Countries along with their UIDs and Code 
-- `get_levels()` returns organizational hierarchy levels
-- `get_ouorgs()` returns OU's Orgunits at a specific level  
+- `get_outable()`     returns PEPFAR OU/Countries along with their UIDs and Code 
+- `get_levels()`      returns organizational hierarchy levels
+- `get_ouorgs()`      returns OU's Orgunits at a specific level  
+- `datim_sqlviews()`  returns list of sqlviews, or uid/data of a specific view
+- `datim_orgunits()`  returns organisation units
+- `datim_mechs()`     returns implementing mechanisms
+- etc ...
 
 ## Look ups
 
@@ -57,6 +61,10 @@ Let say Analyst A supports `Nigeria` or `Mozambique` and `Zambia`, and wants to 
   })
 
   cntry <- "Nigeria"
+  
+  cntry_iso <- glamr::pepfar_country_xwalk %>% 
+    filter(country == cntry) %>% 
+    pull(iso3c)
   
   cntries <- c("Mozambique", "Zambia")
 
@@ -89,7 +97,7 @@ There are other situations where one would want to confirm levels or labels (typ
 
 Dimensions are the core building blocks in DHIS2 data model and DATIM has 4 of them: 1) Data Element & Category Option Combos (`what`), 2) Organisation units (`where`), 3) Reporting period (`when`), and 2) Attribution Option Combos (`who`).  
 
-Let explore the dimensions 
+### Dimensions 
 
 ```{r}
   # List all dimensions
@@ -128,6 +136,8 @@ Yes, you can query dimensions and extract specific uids. So what? Knowing the di
 
 ```
 
+### SQLViews
+
 SQLViews contain relevant data sets we use as reference for `HFR` and `CIRG` data validation.
 Working versions of some of the data dimensions are also available through the SQLViews. 
 
@@ -138,7 +148,43 @@ Working versions of some of the data dimensions are also available through the S
   df_views %>% glimpse()
   
   df_views %>% filter(str_detect(name, "Data Exchange"))
-  
-  datim_sqlviews(view_name = "Data Exchange: Organisation Units", dataset = FALSE)
 
 ```
+
+SQLView - Organisation Units
+
+Given the size of Organisation Units dataset, only filtered queries are allowed. 
+Users will need to add OU/Countries ISO3 code as a variable parameter to their query.
+
+```{r}
+  # check the uid of Organisation Units
+  datim_sqlviews(view_name = "Data Exchange: Organisation Units", dataset = FALSE)
+
+  # Extract Organisation Units data for a specific country - All levels with child / parent links
+  df_cntry <- datim_sqlviews(view_name = "Data Exchange: Organisation Units", 
+                             dataset = TRUE,
+                             query = list(type = "variable", params = list("OU" = cntry_iso)))
+  
+  df_cntry %>% glimpse()
+
+```
+
+The above query is also simplified through `datim_orgunits()`.
+
+```{r}
+  # Extract Organisation Units data for a specific country
+  datim_orgunits(cntry = "Malawi") %>% dplyr::glimpse()
+
+  # Extract Organisation Units data for a specific country - expand child / parent relationship from facility to OU
+  # Note some missing levels may be filled in or duplicated in for the the reshaping to work
+  datim_orgunits(cntry = "Malawi", reshape = TRUE) %>% dplyr::glimpse()
+
+```
+
+`Implementing Mechanisms` can also be extracted through `datim_mechs()` which go through `datim_sqlviews()`. 
+
+```{r}
+  # Extact Mechanisms information for specific OU
+  datim_mechs(cntry = cntry, agency = "USAID") %>% glimpse()
+```
+
