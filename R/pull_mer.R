@@ -196,6 +196,8 @@ pull_mer <- function(ou_name = NULL,
                      quarters_complete = NULL,
                      folderpath_output = NULL){
 
+  .Deprecated("datim_query")
+
   print(paste("Extracting data for", ou_name, format(Sys.time(), "%H:%M:%S")))
 
   #identify reporting levels
