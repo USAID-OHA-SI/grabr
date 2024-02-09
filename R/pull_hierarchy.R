@@ -22,9 +22,9 @@ hierarchy_extract <- function(ou_uid, username, password,
                               add_geom = FALSE,
                               baseurl = "https://final.datim.org/"){
 
-  package_check("curl")
-  package_check("httr")
-  package_check("jsonlite")
+  glamr::package_check("curl")
+  glamr::package_check("httr")
+  glamr::package_check("jsonlite")
 
   stopifnot(curl::has_internet())
 
@@ -149,9 +149,9 @@ hierarchy_clean <- function(df){
 hierarchy_rename <- function(df, country, username, password,
                              baseurl = "https://final.datim.org/"){
 
-  package_check("curl")
-  package_check("httr")
-  package_check("jsonlite")
+  glamr::package_check("curl")
+  glamr::package_check("httr")
+  glamr::package_check("jsonlite")
 
   stopifnot(curl::has_internet())
 
