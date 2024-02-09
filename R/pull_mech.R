@@ -17,7 +17,7 @@ pull_mech <- function(usaid_only = TRUE,
 
   .Deprecated("datim_mechs")
 
-  package_check("curl")
+  glamr::package_check("curl")
 
   stopifnot(curl::has_internet())
 

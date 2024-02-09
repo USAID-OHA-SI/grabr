@@ -49,8 +49,8 @@ get_datim_targets <- function(url, username, password) {
 
 get_datim_data <- function(url, username, password) {
 
-  package_check("httr")
-  package_check("jsonlite")
+  glamr::package_check("httr")
+  glamr::package_check("jsonlite")
 
   json <- url %>%
     httr::GET(httr::authenticate(username,password)) %>%
