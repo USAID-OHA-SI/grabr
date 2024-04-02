@@ -37,7 +37,9 @@ Generate a API URL
  #get OU UID
   ouuid <- identify_ouuids() \%>\% dplyr::filter(ou == "Ghana")
  #get facility level
-  faclvl <- identify_levels("Ghana", "facility", username = myuser, password = mypwd())
+  faclvl <- identify_levels("facility",
+                            username = myuser, password = mypwd()) \%>\%
+                            dplyr::filter(ou == "Ghana")
  #gen url
   myurl <- gen_url(ouuid, faclvl, org_type = facility) }
 }

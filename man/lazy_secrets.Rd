@@ -4,10 +4,10 @@
 \alias{lazy_secrets}
 \title{Lazy checking/loading of credentials}
 \usage{
-lazy_secrets(service = c("datim", "pano", "s3"), username, password)
+lazy_secrets(service = c("datim", "pano", "pdap", "s3"), username, password)
 }
 \arguments{
-\item{service}{account, either datim", "pano", or "s3"}
+\item{service}{account, either datim", "pano", "pdap", or "s3"}
 
 \item{username}{account username or s3 access key}
 
@@ -28,4 +28,3 @@ prompt.
   datim_dimensions(accnt$username, accnt$password)
 }
 }
-\keyword{internal}

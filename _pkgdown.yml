@@ -2,3 +2,93 @@ url: https://usaid-oha-si.github.io/grabr/
 template:
   bootstrap: 5
 
+navbar:
+  structure:
+    left:
+    - home
+    - intro
+    - reference
+    - articles
+    - tutorials
+    - news
+    right: github
+  components:
+    home:
+      icon: fas fa-home fa-lg
+      href: index.html
+    reference:
+      text: Reference
+      href: reference/index.html
+    news:
+      text: Changelog
+      href: news/index.html
+    github:
+      icon: fab fa-github fa-lg
+      href: https://github.com/USAID-OHA-SI/glamr/
+    articles:
+      text: Articles
+      menu:
+      - text: Data Extraction from Panorama
+        href: articles/data-extraction-from-panorama.html
+      - text: Look up and extract organization hierarchy
+        href: articles/data-lookup-and-extraction-from-datim.html
+
+reference:
+- title: DATIM
+  contents:
+  - datim_dim_item
+  - datim_dim_items
+  - datim_dim_url
+  - datim_dimension
+  - datim_dimensions
+  - datim_execute_query
+  - datim_mechs
+  - datim_orgunits
+  - datim_pops
+  - datim_process_query
+  - datim_pull_hierarchy
+  - datim_query
+  - datim_sqlviews
+  - get_baseurl
+  - get_datim_data
+  - get_datim_targets
+  - get_levels
+  - get_orguids
+  - get_ouorglabel
+  - get_ouorglevel
+  - get_ouorgs
+  - get_ouorguids
+  - get_outable
+  - get_ouuid
+  - get_ouuids
+  - gen_url
+  - identify_levels
+  - identify_ouuids
+  - pull_mech
+  - pull_mer
+
+- title: Panorama
+  contents:
+  - pano_download
+  - pano_extract
+  - pano_extract_msd
+  - pano_extract_msds
+  - pano_items
+  - pano_session
+
+- title: s3
+  contents:
+  - s3_buckets
+  - s3_download
+  - s3_excel_sheets
+  - s3_object_type
+  - s3_objects
+  - s3_read_object
+  - s3_remove
+  - s3_unpack_keys
+  - s3_upload
+
+- title: Utilities
+  contents:
+  - lazy_secrets
+  - var_exists

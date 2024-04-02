@@ -104,12 +104,16 @@ get_datim_data <- function(url, username, password) {
 #' @param is_hts is the API for HTS indicators (HTS_TST or HTS_TST_POS), default = FALSE
 #' @param baseurl API base url, default = https://final.datim.org/
 #'
+#' @export
+#'
 #' @examples
 #' \dontrun{
 #'  #get OU UID
 #'   ouuid <- identify_ouuids() %>% dplyr::filter(ou == "Ghana")
 #'  #get facility level
-#'   faclvl <- identify_levels("Ghana", "facility", username = myuser, password = mypwd())
+#'   faclvl <- identify_levels("facility",
+#'                             username = myuser, password = mypwd()) %>%
+#'                             dplyr::filter(ou == "Ghana")
 #'  #gen url
 #'   myurl <- gen_url(ouuid, faclvl, org_type = facility) }
 
@@ -201,9 +205,11 @@ pull_mer <- function(ou_name = NULL,
   print(paste("Extracting data for", ou_name, format(Sys.time(), "%H:%M:%S")))
 
   #identify reporting levels
-  ou_info <- identify_levels(ou_name, username = username, password = password, baseurl = baseurl) %>%
+  ou_info <- identify_levels(username = username, password = password, baseurl = baseurl) %>%
     dplyr::left_join(identify_ouuids(username = username, password = password, baseurl = baseurl),
-                     by = c("country_name" = "displayName"))
+                     by = c("country_name" = "displayName")) %>%
+    dplyr::filter(operatingunit == ou_name)
+
   ou_fac <- ou_info$facility
   ou_comm <- ou_info$community
   ou_psnu <- ou_info$prioritization

@@ -890,7 +890,7 @@ datim_pops <- function(ou, username, password,
 #' @param username DATIM Username, defaults to using glamr::datim_user()` if blank
 #' @param password DATIM password, defaults to using glamr::datim_pwd()` if blank
 #'
-# #@export
+#' @keywords internal
 #' @return  API pull of data from DATIM
 #' @examples
 #' \dontrun{
@@ -1196,6 +1196,8 @@ datim_orgunits <- function(cntry, username, password,
 #' @param .orgs        Raw country orgunits data from `datim_orgunits()`
 #' @param .org_levels  Expanded and Reshaped country orgunits levels
 #'
+#' @keywords internal
+#'
 #' @return Cleaned OU/Country Orgunits as a data frame
 #'
 clean_orgunits <- function(.orgs, .org_levels) {
@@ -1207,7 +1209,7 @@ clean_orgunits <- function(.orgs, .org_levels) {
     dplyr::mutate(level = as.character(level)) %>%
     dplyr::mutate(
       collevel = paste0("orgunit_", level),
-      colname = case_when(
+      colname = dplyr::case_when(
         label == "prioritization" ~ "psnu",
         TRUE ~ label
       )
@@ -1257,7 +1259,7 @@ clean_orgunits <- function(.orgs, .org_levels) {
   # Set levels reference
   .levels <- .orgs %>%
     dplyr::distinct(orgunit_level) %>%
-    dplyr::arrange(desc(orgunit_level)) %>%
+    dplyr::arrange(dplyr::desc(orgunit_level)) %>%
     dplyr::mutate(child_level = dplyr::lag(orgunit_level, 1)) %>%
     dplyr::rename(parent_level = orgunit_level)
 
@@ -1528,5 +1530,5 @@ datim_mechs <- function(cntry, username, password,
         paste0("^", rev(sep_chrs), collapse = "|")
       )
     ) %>%
-    dplyr::select(uid, mech_code, mech_name, award_number, mechanism, everything())
+    dplyr::select(uid, mech_code, mech_name, award_number, mechanism, dplyr::everything())
 }
