@@ -1,3 +1,8 @@
+# grabr 2.0
+* Update `lazy_secrets` to handle PDAP when working on PEPFAR Posit Workbench [2024-04-02]
+* Resolving missing explicit references [2024-04-02]
+* Add list of global variables [2024-04-02]
+
 # grabr 1.2.3
 * Adding new articles for data look up and extraction
 * Resolve bug with `pano_items` which still used `session` as a parameter affecting `pano_extract` upstread [2024-01-08]
