@@ -1,6 +1,6 @@
 #' PEPFAR Panorama Base URL
 #' @name PEPFAR Panorama base url
-#'
+#' @keywords internal
 pano_url = "https://pepfar-panorama.org"
 
 #' Check internet connection

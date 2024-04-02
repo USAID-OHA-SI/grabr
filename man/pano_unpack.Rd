@@ -33,3 +33,4 @@ Unpack Pano files directories
 }
 
 }
+\keyword{internal}

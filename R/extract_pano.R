@@ -69,6 +69,7 @@ pano_session <- function(username,
 #' @param session  Valid and active login session
 #'
 #' @return html content
+#' @keywords internal
 #'
 #' @examples
 #' \dontrun{
@@ -102,6 +103,7 @@ pano_content <- function(page_url, session) {
 #' @param page_url  Curretn html page url
 #'
 #' @return html element
+#' @keywords internal
 #'
 #' @examples
 #' \dontrun{
@@ -277,6 +279,7 @@ pano_download <- function(item_url,
 #' @param session  Valid and active login session
 #'
 #' @return unnested data frame containing output files
+#' @keywords internal
 #'
 #' @examples
 #' \dontrun{

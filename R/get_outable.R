@@ -508,7 +508,7 @@ get_levels <-
 #' @param .df_levels Org levels as data frame
 #' @return df
 #'
-#'
+#' @keywords internal
 #' @examples
 #' \dontrun{
 #'   library(gisr)

@@ -61,6 +61,7 @@ reference:
   - get_outable
   - get_ouuid
   - get_ouuids
+  - gen_url
   - identify_levels
   - identify_ouuids
   - pull_mech

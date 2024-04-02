@@ -890,7 +890,7 @@ datim_pops <- function(ou, username, password,
 #' @param username DATIM Username, defaults to using glamr::datim_user()` if blank
 #' @param password DATIM password, defaults to using glamr::datim_pwd()` if blank
 #'
-# #@export
+#' @keywords internal
 #' @return  API pull of data from DATIM
 #' @examples
 #' \dontrun{
@@ -1195,6 +1195,8 @@ datim_orgunits <- function(cntry, username, password,
 #'
 #' @param .orgs        Raw country orgunits data from `datim_orgunits()`
 #' @param .org_levels  Expanded and Reshaped country orgunits levels
+#'
+#' @keywords internal
 #'
 #' @return Cleaned OU/Country Orgunits as a data frame
 #'
