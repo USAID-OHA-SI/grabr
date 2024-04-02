@@ -165,7 +165,7 @@ identify_levels <- function(username, password,
                   operatingunit_iso = iso3,
                   country_iso = iso4,
                   psnu = prioritization) %>%
-    dplyr::rename_with(.cols= where(is.integer), ~ paste0(., "_lvl")) %>%
+    dplyr::rename_with(.cols= dplyr::where(is.integer), ~ paste0(., "_lvl")) %>%
     dplyr::select(dplyr::everything(), country_lvl, psnu_lvl,
                   community_lvl, facility_lvl) %>%
     dplyr::rename(country = name4)
