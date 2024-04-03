@@ -10,7 +10,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">grabr</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.2.3</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">2.0.0</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -18,7 +18,13 @@
     </button>
 
     <div id="navbar" class="collapse navbar-collapse ms-3">
-      <ul class="navbar-nav me-auto"><li class="active nav-item">
+      <ul class="navbar-nav me-auto"><li class="nav-item">
+  <a class="nav-link" href="../index.html">
+    <span class="fas fa fas fa-home fa-lg"></span>
+     
+  </a>
+</li>
+<li class="active nav-item">
   <a class="nav-link" href="../reference/index.html">Reference</a>
 </li>
 <li class="nav-item dropdown">
@@ -35,7 +41,7 @@
         <input type="search" class="form-control me-sm-2" aria-label="Toggle navigation" name="search-input" data-search-index="../search.json" id="search-input" placeholder="Search for" autocomplete="off"></form>
 
       <ul class="navbar-nav"><li class="nav-item">
-  <a class="external-link nav-link" href="https://github.com/USAID-OHA-SI/grabr/" aria-label="github">
+  <a class="external-link nav-link" href="https://github.com/USAID-OHA-SI/glamr/">
     <span class="fab fa fab fa-github fa-lg"></span>
      
   </a>
@@ -51,7 +57,7 @@
     </div>
 
     <div class="section level2">
-      <h2 id="all-functions">All functions<a class="anchor" aria-label="anchor" href="#all-functions"></a></h2>
+      <h2 id="datim">DATIM<a class="anchor" aria-label="anchor" href="#datim"></a></h2>
       
       
 
@@ -62,21 +68,6 @@
       
 
       <dl><dt>
-          
-          <code><a href="PEPFAR-Panorama-base-url.html">pano_url</a></code> 
-        </dt>
-        <dd>PEPFAR Panorama Base URL</dd>
-      </dl><dl><dt>
-          
-          <code><a href="clean_levels.html">clean_levels()</a></code> 
-        </dt>
-        <dd>Clean org hierarchy levels</dd>
-      </dl><dl><dt>
-          
-          <code><a href="clean_orgunits.html">clean_orgunits()</a></code> 
-        </dt>
-        <dd>Clean Orgunits SQLView</dd>
-      </dl><dl><dt>
           
           <code><a href="datim_dim_item.html">datim_dim_item()</a></code> 
         </dt>
@@ -143,16 +134,6 @@
         <dd>Query Datim SQLViews</dd>
       </dl><dl><dt>
           
-          <code><a href="extract_datim.html">extract_datim()</a></code> 
-        </dt>
-        <dd>DATIM Analytics API</dd>
-      </dl><dl><dt>
-          
-          <code><a href="gen_url.html">gen_url()</a></code> 
-        </dt>
-        <dd>Generate a API URL</dd>
-      </dl><dl><dt>
-          
           <code><a href="get_baseurl.html">get_baseurl()</a></code> 
         </dt>
         <dd>Get base url from a link</dd>
@@ -213,24 +194,9 @@
         <dd>Get OU Org UIDS</dd>
       </dl><dl><dt>
           
-          <code><a href="hierarchy_clean.html">hierarchy_clean()</a></code> 
+          <code><a href="gen_url.html">gen_url()</a></code> 
         </dt>
-        <dd>Clean up DATIM Hierarchy Path</dd>
-      </dl><dl><dt>
-          
-          <code><a href="hierarchy_extract.html">hierarchy_extract()</a></code> 
-        </dt>
-        <dd>Pull Hierarchy Data from DATIM</dd>
-      </dl><dl><dt>
-          
-          <code><a href="hierarchy_identify_ctry.html">hierarchy_identify_ctry()</a></code> 
-        </dt>
-        <dd>Extract country name from OU or country name</dd>
-      </dl><dl><dt>
-          
-          <code><a href="hierarchy_rename.html">hierarchy_rename()</a></code> 
-        </dt>
-        <dd>Rename Hierarchy</dd>
+        <dd>Generate a API URL</dd>
       </dl><dl><dt>
           
           <code><a href="identify_levels.html">identify_levels()</a></code> 
@@ -243,19 +209,30 @@
         <dd>Pull OU UIDS</dd>
       </dl><dl><dt>
           
-          <code><a href="pano_content.html">pano_content()</a></code> 
+          <code><a href="pull_mech.html">pull_mech()</a></code> 
         </dt>
-        <dd>Read html content from web page</dd>
+        <dd>Pull Partner/Mechanism Info from DATIM</dd>
       </dl><dl><dt>
+          
+          <code><a href="pull_mer.html">pull_mer()</a></code> 
+        </dt>
+        <dd>Extract DATIM Results and Targets (DATIM API Call)</dd>
+      </dl></div><div class="section level2">
+      <h2 id="panorama">Panorama<a class="anchor" aria-label="anchor" href="#panorama"></a></h2>
+      
+      
+
+      
+    </div><div id="" class="section level2">
+      
+      
+      
+
+      <dl><dt>
           
           <code><a href="pano_download.html">pano_download()</a></code> 
         </dt>
         <dd>Download file from PEPFAR Panorama</dd>
-      </dl><dl><dt>
-          
-          <code><a href="pano_elements.html">pano_elements()</a></code> 
-        </dt>
-        <dd>Extract data elements details from html content</dd>
       </dl><dl><dt>
           
           <code><a href="pano_extract.html">pano_extract()</a></code> 
@@ -281,22 +258,18 @@
           <code><a href="pano_session.html">pano_session()</a></code> 
         </dt>
         <dd>Create an active session for PEPFAR Panorama</dd>
-      </dl><dl><dt>
-          
-          <code><a href="pano_unpack.html">pano_unpack()</a></code> 
-        </dt>
-        <dd>Unpack Pano files directories</dd>
-      </dl><dl><dt>
-          
-          <code><a href="pull_mech.html">pull_mech()</a></code> 
-        </dt>
-        <dd>Pull Partner/Mechanism Info from DATIM</dd>
-      </dl><dl><dt>
-          
-          <code><a href="pull_mer.html">pull_mer()</a></code> 
-        </dt>
-        <dd>Extract DATIM Results and Targets (DATIM API Call)</dd>
-      </dl><dl><dt>
+      </dl></div><div class="section level2">
+      <h2 id="s-">s3<a class="anchor" aria-label="anchor" href="#s-"></a></h2>
+      
+      
+
+      
+    </div><div id="" class="section level2">
+      
+      
+      
+
+      <dl><dt>
           
           <code><a href="s3_buckets.html">s3_buckets()</a></code> 
         </dt>
@@ -341,13 +314,30 @@
           <code><a href="s3_upload.html">s3_upload()</a></code> 
         </dt>
         <dd>Upload file to S3 Bucket</dd>
+      </dl></div><div class="section level2">
+      <h2 id="utilities">Utilities<a class="anchor" aria-label="anchor" href="#utilities"></a></h2>
+      
+      
+
+      
+    </div><div id="" class="section level2">
+      
+      
+      
+
+      <dl><dt>
+          
+          <code><a href="lazy_secrets.html">lazy_secrets()</a></code> 
+        </dt>
+        <dd>Lazy checking/loading of credentials</dd>
       </dl><dl><dt>
           
           <code><a href="var_exists.html">var_exists()</a></code> 
         </dt>
         <dd>Check if variable exist</dd>
       </dl></div>
-  </main></div>
+  </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
+    </nav></aside></div>
 
 
     <footer><div class="pkgdown-footer-left">

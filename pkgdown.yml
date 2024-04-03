@@ -1,10 +1,10 @@
-pandoc: 2.19.2
+pandoc: 3.1.11
 pkgdown: 2.0.7
 pkgdown_sha: ~
 articles:
   data-extraction-from-panorama: data-extraction-from-panorama.html
   data-lookup-and-extraction-from-datim: data-lookup-and-extraction-from-datim.html
-last_built: 2024-02-09T19:53Z
+last_built: 2024-04-03T00:01Z
 urls:
   reference: https://usaid-oha-si.github.io/grabr/reference
   article: https://usaid-oha-si.github.io/grabr/articles

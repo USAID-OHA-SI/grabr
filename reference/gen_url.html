@@ -10,7 +10,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">grabr</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.2.3</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">2.0.0</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -18,7 +18,13 @@
     </button>
 
     <div id="navbar" class="collapse navbar-collapse ms-3">
-      <ul class="navbar-nav me-auto"><li class="active nav-item">
+      <ul class="navbar-nav me-auto"><li class="nav-item">
+  <a class="nav-link" href="../index.html">
+    <span class="fas fa fas fa-home fa-lg"></span>
+     
+  </a>
+</li>
+<li class="active nav-item">
   <a class="nav-link" href="../reference/index.html">Reference</a>
 </li>
 <li class="nav-item dropdown">
@@ -35,7 +41,7 @@
         <input type="search" class="form-control me-sm-2" aria-label="Toggle navigation" name="search-input" data-search-index="../search.json" id="search-input" placeholder="Search for" autocomplete="off"></form>
 
       <ul class="navbar-nav"><li class="nav-item">
-  <a class="external-link nav-link" href="https://github.com/USAID-OHA-SI/grabr/" aria-label="github">
+  <a class="external-link nav-link" href="https://github.com/USAID-OHA-SI/glamr/">
     <span class="fab fa fab fa-github fa-lg"></span>
      
   </a>
@@ -106,7 +112,9 @@
 <span class="r-in"><span> <span class="co">#get OU UID</span></span></span>
 <span class="r-in"><span>  <span class="va">ouuid</span> <span class="op">&lt;-</span> <span class="fu"><a href="identify_ouuids.html">identify_ouuids</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="pipe.html">%&gt;%</a></span> <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">ou</span> <span class="op">==</span> <span class="st">"Ghana"</span><span class="op">)</span></span></span>
 <span class="r-in"><span> <span class="co">#get facility level</span></span></span>
-<span class="r-in"><span>  <span class="va">faclvl</span> <span class="op">&lt;-</span> <span class="fu"><a href="identify_levels.html">identify_levels</a></span><span class="op">(</span><span class="st">"Ghana"</span>, <span class="st">"facility"</span>, username <span class="op">=</span> <span class="va">myuser</span>, password <span class="op">=</span> <span class="fu">mypwd</span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span>  <span class="va">faclvl</span> <span class="op">&lt;-</span> <span class="fu"><a href="identify_levels.html">identify_levels</a></span><span class="op">(</span><span class="st">"facility"</span>,</span></span>
+<span class="r-in"><span>                            username <span class="op">=</span> <span class="va">myuser</span>, password <span class="op">=</span> <span class="fu">mypwd</span><span class="op">(</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="pipe.html">%&gt;%</a></span></span></span>
+<span class="r-in"><span>                            <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">ou</span> <span class="op">==</span> <span class="st">"Ghana"</span><span class="op">)</span></span></span>
 <span class="r-in"><span> <span class="co">#gen url</span></span></span>
 <span class="r-in"><span>  <span class="va">myurl</span> <span class="op">&lt;-</span> <span class="fu">gen_url</span><span class="op">(</span><span class="va">ouuid</span>, <span class="va">faclvl</span>, org_type <span class="op">=</span> <span class="va">facility</span><span class="op">)</span> <span class="op">}</span></span></span>
 </code></pre></div>
