@@ -11,8 +11,6 @@ est_export_path(post_body, folderpath_dwnld, psd_type)
 
 \item{psd_type}{Type of PEPFAR Structured dataset: "psnu_im" (default),
 "ou_im", or "site_im"}
-
-\item{cntry_name}{country name}
 }
 \value{
 vector of the filename

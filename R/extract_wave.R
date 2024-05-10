@@ -146,7 +146,6 @@ est_session <- function(username,
 #' Establish Export Path
 #'
 #' @inheritParams wave_process_query
-#' @param cntry_name country name
 #'
 #' @return vector of the filename
 #' @keywords internal
