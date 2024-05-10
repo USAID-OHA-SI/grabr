@@ -76,6 +76,9 @@ reference:
   - pano_items
   - pano_session
 
+-title: PDAP Wave
+  - wave_process_query
+
 - title: s3
   contents:
   - s3_buckets
