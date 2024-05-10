@@ -79,7 +79,19 @@
     <loc>https://usaid-oha-si.github.io/grabr/reference/datim_sqlviews.html</loc>
   </url>
   <url>
+    <loc>https://usaid-oha-si.github.io/grabr/reference/est_export_path.html</loc>
+  </url>
+  <url>
+    <loc>https://usaid-oha-si.github.io/grabr/reference/est_session.html</loc>
+  </url>
+  <url>
+    <loc>https://usaid-oha-si.github.io/grabr/reference/extract_cntry.html</loc>
+  </url>
+  <url>
     <loc>https://usaid-oha-si.github.io/grabr/reference/extract_datim.html</loc>
+  </url>
+  <url>
+    <loc>https://usaid-oha-si.github.io/grabr/reference/flattenbody.html</loc>
   </url>
   <url>
     <loc>https://usaid-oha-si.github.io/grabr/reference/gen_url.html</loc>
@@ -212,5 +224,8 @@
   </url>
   <url>
     <loc>https://usaid-oha-si.github.io/grabr/reference/var_exists.html</loc>
+  </url>
+  <url>
+    <loc>https://usaid-oha-si.github.io/grabr/reference/wave_process_query.html</loc>
   </url>
 </urlset>
