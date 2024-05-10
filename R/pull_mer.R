@@ -139,7 +139,7 @@ gen_url <- function(ou_uid, org_lvl,
            "dimension=ou:LEVEL-", org_lvl, ";", ou_uid, "&", #level and ou
            "dimension=bw8KHXzxd9i:NLV6dy7BE2O&", #Funding Agency -> USAID
            "dimension=SH885jaRe0o&", #Funding Mechanism
-           "dimension=xRo1uG2KJHk&", #Age: <15/15+ (Coarse)
+           "dimension=xRo1uG2KJHk&", #Age Coarse
            "dimension=jyUTj5YC3OK&", #Cascade sex
            "dimension=IeMmjHyBUpi:",
              ifelse(value_type == "results", "Jh0jDM5yQ2E", "W8imnja2Owd"), "&")  #Targets / Results -># targets = W8imnja2Owd, results = Jh0jDM5yQ2E

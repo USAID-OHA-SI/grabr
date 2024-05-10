@@ -1,3 +1,6 @@
+# grabr 2.1
+* Add functionality to pull data from PDAP Wave (new Genie API), `wave_process_query` [2024-05-10]
+
 # grabr 2.0
 * Update `lazy_secrets` to handle PDAP when working on PEPFAR Posit Workbench [2024-04-02]
 * Resolving missing explicit references [2024-04-02]

@@ -67,6 +67,10 @@ reference:
   - pull_mech
   - pull_mer
 
+- title: PDAP Wave
+  contents:
+  - wave_process_query
+
 - title: Panorama
   contents:
   - pano_download
