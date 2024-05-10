@@ -13,7 +13,7 @@ if (getRversion() >= "2.15.1")
       "organisation_unit", "orgunit", "orgunituid", "parent", "path",
       "prioritization", "psnu_lvl", "regional", "size", "sym", "targets_results",
       "technical_area", "trendsfine", "type", "uid", "value", "Value",
-      ":=", "Age: <15/15+ (Coarse)", "Cascade sex",
+      ":=", "Age Coarse", "Cascade sex",
       "Disaggregation Type", "Funding Agency", "Funding Mechanism",
       "HIV Test Status (Specific)", "Organisation unit", "Period",
       "Targets / Results", "Technical Area", "agecoarse", "agency",
@@ -24,7 +24,8 @@ if (getRversion() >= "2.15.1")
       "orglvl_3", "orglvl_4", "orgunit_code", "orgunit_level", "orgunit_name",
       "orgunit_parent_name", "orgunit_parent_uid", "orgunit_uid", "ou",
       "parent_level", "partner", "period", "primeid", "psnu", "psnuuid", "sex",
-      "snu1", "Disaggregation Type"
+      "snu1", "Disaggregation Type", "post_body", "cntry_uid",
+      "api_login_result"
       )
   )
 
