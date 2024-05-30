@@ -77,24 +77,24 @@ wave_process_query <- function(request_body,
     cli::cli_abort("The provided {.code psd_type} is not one of the accepted inputs: {.code {psd_accepted}}")
 
   #export path
-  zip_path <- est_export_path(post_body, folderpath_dwnld, psd_type)
+  zip_path <- est_export_path(request_body, folderpath_dwnld, psd_type)
 
   #submit request & store data locally
   if(request_type == "POST"){
     #DATIM POST request
     httr::POST(
       stringr::str_glue('https://{api_host}/api/data/{psd_type}'),
-      httr::set_cookies(wave_session = api_login_result$cookies$value),
+      httr::set_cookies(wave_session = sess_token),
       encode='json',
-      body={post_body},
+      body={request_body},
       httr::write_disk(zip_path, overwrite=TRUE)
     )
   } else {
     #DATIM GET request
     httr::GET(
       stringr::str_glue('https://{api_host}/api/data/{psd_type}'),
-      httr::set_cookies(wave_session = api_login_result$cookies$value),
-      query=flattenbody({post_body}),
+      httr::set_cookies(wave_session = sess_token),
+      query=flattenbody({request_body}),
       httr::write_disk(zip_path, overwrite=TRUE)
     )
   }
@@ -151,16 +151,16 @@ est_session <- function(username,
 #' @return vector of the filename
 #' @keywords internal
 #'
-est_export_path <- function(post_body, folderpath_dwnld, psd_type){
+est_export_path <- function(request_body, folderpath_dwnld, psd_type){
 
   #string type
   psd_type_string <- stringr::str_extract(psd_type, "^.*(?=_)") %>% toupper()
 
   #country
-  cntry <- extract_cntry(post_body)
+  cntry <- extract_cntry(request_body)
 
   #string daily_frozen
-  daily_frozen <- stringr::str_to_sentence(post_body$daily_frozen)
+  daily_frozen <- stringr::str_to_sentence(request_body$daily_frozen)
 
   #output path
   zip_path <- file.path(folderpath_dwnld,
@@ -179,7 +179,7 @@ est_export_path <- function(post_body, folderpath_dwnld, psd_type){
 extract_cntry <- function(request_body){
 
   #country uid
-  uid <- stringr::str_sub(post_body$uid_hierarchy_list[[1]], start = -11)
+  uid <- stringr::str_sub(request_body$uid_hierarchy_list[[1]], start = -11)
 
   if(is.null(cntry_uid))
     cli::cli_abort("Missing country UID in {.field request_body}, which should be structured like {.code uid_hierarchy_list=list(stringr::str_glue('-|-|cntry_uid')}")
