@@ -23,7 +23,7 @@ This package provides a series of base functions useful to the OHA/SI team. Thes
 ## SETUP
 
  #install from rOpenSci
-    install.packages('grabr', repos = c('https://usaid-oha-si.r-universe.dev', 'https://cloud.r-project.org'))
+    install.packages('grabr', repos = c('https://usaid-oha-si.r-universe.dev', getOption("repos")))
     
   #alt: install from GitHub using pak
     #install.packages("pak")
