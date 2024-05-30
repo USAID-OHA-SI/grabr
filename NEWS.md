@@ -1,4 +1,5 @@
 # grabr 2.1
+* Address bug in `wave_process_query` relating to a missing and renamed objects [2024-05-30]
 * Add functionality to pull data from PDAP Wave (new Genie API), `wave_process_query` [2024-05-10]
 
 # grabr 2.0
