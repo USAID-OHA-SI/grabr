@@ -61,7 +61,8 @@ wave_process_query <- function(request_body,
                                password){
 
   #establish session
-  sess_token <- est_session(username, password)
+  api_host <- "wave.test.pdap.pepfar.net" #establish session and for url in API request
+  sess_token <- est_session(username, password, api_host = api_host)
 
   #ensure only one request_type
   request_type <- request_type[1]
