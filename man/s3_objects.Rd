@@ -6,7 +6,7 @@
 \usage{
 s3_objects(
   bucket,
-  prefix = "ddc/uat",
+  prefix = NULL,
   n = 1000,
   unpack_keys = FALSE,
   access_key,
@@ -17,11 +17,11 @@ s3_objects(
 \arguments{
 \item{bucket}{S3 Bucket name}
 
-\item{prefix}{Limit response by key}
+\item{prefix}{Limits response by key. Default set to NULL}
 
 \item{n}{Max number of record, default = 1000}
 
-\item{unpack_keys}{Separate key colunm, default is false}
+\item{unpack_keys}{Separate key column, default is false}
 
 \item{access_key}{S3 Access Key ID}
 

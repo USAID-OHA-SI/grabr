@@ -7,7 +7,7 @@
 s3_upload(
   filepath,
   bucket,
-  prefix = "",
+  prefix = NULL,
   object = NULL,
   access_key,
   secret_key,
@@ -19,7 +19,7 @@ s3_upload(
 
 \item{bucket}{S3 backet name}
 
-\item{prefix}{S3 Prefix (folder structure)}
+\item{prefix}{S3 Prefix (folder structure). Default set to NULL}
 
 \item{object}{Destination S3 object name (with file extention)}
 

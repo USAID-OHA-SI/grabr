@@ -4,9 +4,11 @@
 \alias{est_export_path}
 \title{Establish Export Path}
 \usage{
-est_export_path(post_body, folderpath_dwnld, psd_type)
+est_export_path(request_body, folderpath_dwnld, psd_type)
 }
 \arguments{
+\item{request_body}{elements to pass into the PDAP Wave POST API}
+
 \item{folderpath_dwnld}{where to download, default = "Data"}
 
 \item{psd_type}{Type of PEPFAR Structured dataset: "psnu_im" (default),

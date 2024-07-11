@@ -35,7 +35,7 @@ This function is migrated from Wavelength and is similar to datim_orgunits
 \examples{
 \dontrun{
 #get OU UID
-  ouuid <- identify_ouuids() \%>\% dplyr::filter(ou == "Kenya")
+  ouuid <- identify_ouuids() \%>\% dplyr::filter(country == "Kenya")
 #pull hierarchy (paths are all UIDs)
   df <- datim_pull_hierarchy(ouuid, username = myuser, password = mypwd(myuser)) }
 }
