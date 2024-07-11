@@ -1,231 +1,80 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url>
-    <loc>https://usaid-oha-si.github.io/grabr/404.html</loc>
-  </url>
-  <url>
-    <loc>https://usaid-oha-si.github.io/grabr/LICENSE-text.html</loc>
-  </url>
-  <url>
-    <loc>https://usaid-oha-si.github.io/grabr/LICENSE.html</loc>
-  </url>
-  <url>
-    <loc>https://usaid-oha-si.github.io/grabr/articles/data-extraction-from-panorama.html</loc>
-  </url>
-  <url>
-    <loc>https://usaid-oha-si.github.io/grabr/articles/data-lookup-and-extraction-from-datim.html</loc>
-  </url>
-  <url>
-    <loc>https://usaid-oha-si.github.io/grabr/articles/index.html</loc>
-  </url>
-  <url>
-    <loc>https://usaid-oha-si.github.io/grabr/authors.html</loc>
-  </url>
-  <url>
-    <loc>https://usaid-oha-si.github.io/grabr/index.html</loc>
-  </url>
-  <url>
-    <loc>https://usaid-oha-si.github.io/grabr/news/index.html</loc>
-  </url>
-  <url>
-    <loc>https://usaid-oha-si.github.io/grabr/reference/PEPFAR-Panorama-base-url.html</loc>
-  </url>
-  <url>
-    <loc>https://usaid-oha-si.github.io/grabr/reference/check_internet.html</loc>
-  </url>
-  <url>
-    <loc>https://usaid-oha-si.github.io/grabr/reference/clean_levels.html</loc>
-  </url>
-  <url>
-    <loc>https://usaid-oha-si.github.io/grabr/reference/clean_orgunits.html</loc>
-  </url>
-  <url>
-    <loc>https://usaid-oha-si.github.io/grabr/reference/datim_dim_item.html</loc>
-  </url>
-  <url>
-    <loc>https://usaid-oha-si.github.io/grabr/reference/datim_dim_items.html</loc>
-  </url>
-  <url>
-    <loc>https://usaid-oha-si.github.io/grabr/reference/datim_dim_url.html</loc>
-  </url>
-  <url>
-    <loc>https://usaid-oha-si.github.io/grabr/reference/datim_dimension.html</loc>
-  </url>
-  <url>
-    <loc>https://usaid-oha-si.github.io/grabr/reference/datim_dimensions.html</loc>
-  </url>
-  <url>
-    <loc>https://usaid-oha-si.github.io/grabr/reference/datim_execute_query.html</loc>
-  </url>
-  <url>
-    <loc>https://usaid-oha-si.github.io/grabr/reference/datim_mechs.html</loc>
-  </url>
-  <url>
-    <loc>https://usaid-oha-si.github.io/grabr/reference/datim_orgunits.html</loc>
-  </url>
-  <url>
-    <loc>https://usaid-oha-si.github.io/grabr/reference/datim_pops.html</loc>
-  </url>
-  <url>
-    <loc>https://usaid-oha-si.github.io/grabr/reference/datim_process_query.html</loc>
-  </url>
-  <url>
-    <loc>https://usaid-oha-si.github.io/grabr/reference/datim_pull_hierarchy.html</loc>
-  </url>
-  <url>
-    <loc>https://usaid-oha-si.github.io/grabr/reference/datim_query.html</loc>
-  </url>
-  <url>
-    <loc>https://usaid-oha-si.github.io/grabr/reference/datim_sqlviews.html</loc>
-  </url>
-  <url>
-    <loc>https://usaid-oha-si.github.io/grabr/reference/est_export_path.html</loc>
-  </url>
-  <url>
-    <loc>https://usaid-oha-si.github.io/grabr/reference/est_session.html</loc>
-  </url>
-  <url>
-    <loc>https://usaid-oha-si.github.io/grabr/reference/extract_cntry.html</loc>
-  </url>
-  <url>
-    <loc>https://usaid-oha-si.github.io/grabr/reference/extract_datim.html</loc>
-  </url>
-  <url>
-    <loc>https://usaid-oha-si.github.io/grabr/reference/flattenbody.html</loc>
-  </url>
-  <url>
-    <loc>https://usaid-oha-si.github.io/grabr/reference/gen_url.html</loc>
-  </url>
-  <url>
-    <loc>https://usaid-oha-si.github.io/grabr/reference/get_baseurl.html</loc>
-  </url>
-  <url>
-    <loc>https://usaid-oha-si.github.io/grabr/reference/get_datim_data.html</loc>
-  </url>
-  <url>
-    <loc>https://usaid-oha-si.github.io/grabr/reference/get_datim_targets.html</loc>
-  </url>
-  <url>
-    <loc>https://usaid-oha-si.github.io/grabr/reference/get_levels.html</loc>
-  </url>
-  <url>
-    <loc>https://usaid-oha-si.github.io/grabr/reference/get_orguids.html</loc>
-  </url>
-  <url>
-    <loc>https://usaid-oha-si.github.io/grabr/reference/get_ouorglabel.html</loc>
-  </url>
-  <url>
-    <loc>https://usaid-oha-si.github.io/grabr/reference/get_ouorglevel.html</loc>
-  </url>
-  <url>
-    <loc>https://usaid-oha-si.github.io/grabr/reference/get_ouorgs.html</loc>
-  </url>
-  <url>
-    <loc>https://usaid-oha-si.github.io/grabr/reference/get_ouorguids.html</loc>
-  </url>
-  <url>
-    <loc>https://usaid-oha-si.github.io/grabr/reference/get_outable.html</loc>
-  </url>
-  <url>
-    <loc>https://usaid-oha-si.github.io/grabr/reference/get_ouuid.html</loc>
-  </url>
-  <url>
-    <loc>https://usaid-oha-si.github.io/grabr/reference/get_ouuids.html</loc>
-  </url>
-  <url>
-    <loc>https://usaid-oha-si.github.io/grabr/reference/grabr-package.html</loc>
-  </url>
-  <url>
-    <loc>https://usaid-oha-si.github.io/grabr/reference/hierarchy_clean.html</loc>
-  </url>
-  <url>
-    <loc>https://usaid-oha-si.github.io/grabr/reference/hierarchy_extract.html</loc>
-  </url>
-  <url>
-    <loc>https://usaid-oha-si.github.io/grabr/reference/hierarchy_identify_ctry.html</loc>
-  </url>
-  <url>
-    <loc>https://usaid-oha-si.github.io/grabr/reference/hierarchy_rename.html</loc>
-  </url>
-  <url>
-    <loc>https://usaid-oha-si.github.io/grabr/reference/identify_levels.html</loc>
-  </url>
-  <url>
-    <loc>https://usaid-oha-si.github.io/grabr/reference/identify_ouuids.html</loc>
-  </url>
-  <url>
-    <loc>https://usaid-oha-si.github.io/grabr/reference/index.html</loc>
-  </url>
-  <url>
-    <loc>https://usaid-oha-si.github.io/grabr/reference/lazy_secrets.html</loc>
-  </url>
-  <url>
-    <loc>https://usaid-oha-si.github.io/grabr/reference/pano_content.html</loc>
-  </url>
-  <url>
-    <loc>https://usaid-oha-si.github.io/grabr/reference/pano_download.html</loc>
-  </url>
-  <url>
-    <loc>https://usaid-oha-si.github.io/grabr/reference/pano_elements.html</loc>
-  </url>
-  <url>
-    <loc>https://usaid-oha-si.github.io/grabr/reference/pano_extract.html</loc>
-  </url>
-  <url>
-    <loc>https://usaid-oha-si.github.io/grabr/reference/pano_extract_msd.html</loc>
-  </url>
-  <url>
-    <loc>https://usaid-oha-si.github.io/grabr/reference/pano_extract_msds.html</loc>
-  </url>
-  <url>
-    <loc>https://usaid-oha-si.github.io/grabr/reference/pano_items.html</loc>
-  </url>
-  <url>
-    <loc>https://usaid-oha-si.github.io/grabr/reference/pano_session.html</loc>
-  </url>
-  <url>
-    <loc>https://usaid-oha-si.github.io/grabr/reference/pano_unpack.html</loc>
-  </url>
-  <url>
-    <loc>https://usaid-oha-si.github.io/grabr/reference/pipe.html</loc>
-  </url>
-  <url>
-    <loc>https://usaid-oha-si.github.io/grabr/reference/pull_mech.html</loc>
-  </url>
-  <url>
-    <loc>https://usaid-oha-si.github.io/grabr/reference/pull_mer.html</loc>
-  </url>
-  <url>
-    <loc>https://usaid-oha-si.github.io/grabr/reference/s3_buckets.html</loc>
-  </url>
-  <url>
-    <loc>https://usaid-oha-si.github.io/grabr/reference/s3_download.html</loc>
-  </url>
-  <url>
-    <loc>https://usaid-oha-si.github.io/grabr/reference/s3_excel_sheets.html</loc>
-  </url>
-  <url>
-    <loc>https://usaid-oha-si.github.io/grabr/reference/s3_object_type.html</loc>
-  </url>
-  <url>
-    <loc>https://usaid-oha-si.github.io/grabr/reference/s3_objects.html</loc>
-  </url>
-  <url>
-    <loc>https://usaid-oha-si.github.io/grabr/reference/s3_read_object.html</loc>
-  </url>
-  <url>
-    <loc>https://usaid-oha-si.github.io/grabr/reference/s3_remove.html</loc>
-  </url>
-  <url>
-    <loc>https://usaid-oha-si.github.io/grabr/reference/s3_unpack_keys.html</loc>
-  </url>
-  <url>
-    <loc>https://usaid-oha-si.github.io/grabr/reference/s3_upload.html</loc>
-  </url>
-  <url>
-    <loc>https://usaid-oha-si.github.io/grabr/reference/var_exists.html</loc>
-  </url>
-  <url>
-    <loc>https://usaid-oha-si.github.io/grabr/reference/wave_process_query.html</loc>
-  </url>
+<urlset xmlns = 'http://www.sitemaps.org/schemas/sitemap/0.9'>
+<url><loc>https://usaid-oha-si.github.io/grabr/404.html</loc></url>
+<url><loc>https://usaid-oha-si.github.io/grabr/LICENSE-text.html</loc></url>
+<url><loc>https://usaid-oha-si.github.io/grabr/LICENSE.html</loc></url>
+<url><loc>https://usaid-oha-si.github.io/grabr/articles/data-extraction-from-panorama.html</loc></url>
+<url><loc>https://usaid-oha-si.github.io/grabr/articles/data-lookup-and-extraction-from-datim.html</loc></url>
+<url><loc>https://usaid-oha-si.github.io/grabr/articles/index.html</loc></url>
+<url><loc>https://usaid-oha-si.github.io/grabr/authors.html</loc></url>
+<url><loc>https://usaid-oha-si.github.io/grabr/index.html</loc></url>
+<url><loc>https://usaid-oha-si.github.io/grabr/news/index.html</loc></url>
+<url><loc>https://usaid-oha-si.github.io/grabr/reference/PEPFAR-Panorama-base-url.html</loc></url>
+<url><loc>https://usaid-oha-si.github.io/grabr/reference/check_internet.html</loc></url>
+<url><loc>https://usaid-oha-si.github.io/grabr/reference/clean_levels.html</loc></url>
+<url><loc>https://usaid-oha-si.github.io/grabr/reference/clean_orgunits.html</loc></url>
+<url><loc>https://usaid-oha-si.github.io/grabr/reference/datim_dim_item.html</loc></url>
+<url><loc>https://usaid-oha-si.github.io/grabr/reference/datim_dim_items.html</loc></url>
+<url><loc>https://usaid-oha-si.github.io/grabr/reference/datim_dim_url.html</loc></url>
+<url><loc>https://usaid-oha-si.github.io/grabr/reference/datim_dimension.html</loc></url>
+<url><loc>https://usaid-oha-si.github.io/grabr/reference/datim_dimensions.html</loc></url>
+<url><loc>https://usaid-oha-si.github.io/grabr/reference/datim_execute_query.html</loc></url>
+<url><loc>https://usaid-oha-si.github.io/grabr/reference/datim_mechs.html</loc></url>
+<url><loc>https://usaid-oha-si.github.io/grabr/reference/datim_orgunits.html</loc></url>
+<url><loc>https://usaid-oha-si.github.io/grabr/reference/datim_pops.html</loc></url>
+<url><loc>https://usaid-oha-si.github.io/grabr/reference/datim_process_query.html</loc></url>
+<url><loc>https://usaid-oha-si.github.io/grabr/reference/datim_pull_hierarchy.html</loc></url>
+<url><loc>https://usaid-oha-si.github.io/grabr/reference/datim_query.html</loc></url>
+<url><loc>https://usaid-oha-si.github.io/grabr/reference/datim_sqlviews.html</loc></url>
+<url><loc>https://usaid-oha-si.github.io/grabr/reference/est_export_path.html</loc></url>
+<url><loc>https://usaid-oha-si.github.io/grabr/reference/est_session.html</loc></url>
+<url><loc>https://usaid-oha-si.github.io/grabr/reference/extract_cntry.html</loc></url>
+<url><loc>https://usaid-oha-si.github.io/grabr/reference/extract_datim.html</loc></url>
+<url><loc>https://usaid-oha-si.github.io/grabr/reference/flattenbody.html</loc></url>
+<url><loc>https://usaid-oha-si.github.io/grabr/reference/gen_url.html</loc></url>
+<url><loc>https://usaid-oha-si.github.io/grabr/reference/get_baseurl.html</loc></url>
+<url><loc>https://usaid-oha-si.github.io/grabr/reference/get_datim_data.html</loc></url>
+<url><loc>https://usaid-oha-si.github.io/grabr/reference/get_datim_targets.html</loc></url>
+<url><loc>https://usaid-oha-si.github.io/grabr/reference/get_levels.html</loc></url>
+<url><loc>https://usaid-oha-si.github.io/grabr/reference/get_orguids.html</loc></url>
+<url><loc>https://usaid-oha-si.github.io/grabr/reference/get_ouorglabel.html</loc></url>
+<url><loc>https://usaid-oha-si.github.io/grabr/reference/get_ouorglevel.html</loc></url>
+<url><loc>https://usaid-oha-si.github.io/grabr/reference/get_ouorgs.html</loc></url>
+<url><loc>https://usaid-oha-si.github.io/grabr/reference/get_ouorguids.html</loc></url>
+<url><loc>https://usaid-oha-si.github.io/grabr/reference/get_outable.html</loc></url>
+<url><loc>https://usaid-oha-si.github.io/grabr/reference/get_ouuid.html</loc></url>
+<url><loc>https://usaid-oha-si.github.io/grabr/reference/get_ouuids.html</loc></url>
+<url><loc>https://usaid-oha-si.github.io/grabr/reference/grabr-package.html</loc></url>
+<url><loc>https://usaid-oha-si.github.io/grabr/reference/hierarchy_clean.html</loc></url>
+<url><loc>https://usaid-oha-si.github.io/grabr/reference/hierarchy_extract.html</loc></url>
+<url><loc>https://usaid-oha-si.github.io/grabr/reference/hierarchy_identify_ctry.html</loc></url>
+<url><loc>https://usaid-oha-si.github.io/grabr/reference/hierarchy_rename.html</loc></url>
+<url><loc>https://usaid-oha-si.github.io/grabr/reference/identify_levels.html</loc></url>
+<url><loc>https://usaid-oha-si.github.io/grabr/reference/identify_ouuids.html</loc></url>
+<url><loc>https://usaid-oha-si.github.io/grabr/reference/index.html</loc></url>
+<url><loc>https://usaid-oha-si.github.io/grabr/reference/lazy_secrets.html</loc></url>
+<url><loc>https://usaid-oha-si.github.io/grabr/reference/package_check.html</loc></url>
+<url><loc>https://usaid-oha-si.github.io/grabr/reference/pano_content.html</loc></url>
+<url><loc>https://usaid-oha-si.github.io/grabr/reference/pano_download.html</loc></url>
+<url><loc>https://usaid-oha-si.github.io/grabr/reference/pano_elements.html</loc></url>
+<url><loc>https://usaid-oha-si.github.io/grabr/reference/pano_extract.html</loc></url>
+<url><loc>https://usaid-oha-si.github.io/grabr/reference/pano_extract_msd.html</loc></url>
+<url><loc>https://usaid-oha-si.github.io/grabr/reference/pano_extract_msds.html</loc></url>
+<url><loc>https://usaid-oha-si.github.io/grabr/reference/pano_items.html</loc></url>
+<url><loc>https://usaid-oha-si.github.io/grabr/reference/pano_session.html</loc></url>
+<url><loc>https://usaid-oha-si.github.io/grabr/reference/pano_unpack.html</loc></url>
+<url><loc>https://usaid-oha-si.github.io/grabr/reference/pipe.html</loc></url>
+<url><loc>https://usaid-oha-si.github.io/grabr/reference/pull_mech.html</loc></url>
+<url><loc>https://usaid-oha-si.github.io/grabr/reference/pull_mer.html</loc></url>
+<url><loc>https://usaid-oha-si.github.io/grabr/reference/s3_buckets.html</loc></url>
+<url><loc>https://usaid-oha-si.github.io/grabr/reference/s3_download.html</loc></url>
+<url><loc>https://usaid-oha-si.github.io/grabr/reference/s3_excel_sheets.html</loc></url>
+<url><loc>https://usaid-oha-si.github.io/grabr/reference/s3_object_type.html</loc></url>
+<url><loc>https://usaid-oha-si.github.io/grabr/reference/s3_objects.html</loc></url>
+<url><loc>https://usaid-oha-si.github.io/grabr/reference/s3_read_object.html</loc></url>
+<url><loc>https://usaid-oha-si.github.io/grabr/reference/s3_remove.html</loc></url>
+<url><loc>https://usaid-oha-si.github.io/grabr/reference/s3_unpack_keys.html</loc></url>
+<url><loc>https://usaid-oha-si.github.io/grabr/reference/s3_upload.html</loc></url>
+<url><loc>https://usaid-oha-si.github.io/grabr/reference/var_exists.html</loc></url>
+<url><loc>https://usaid-oha-si.github.io/grabr/reference/wave_process_query.html</loc></url>
 </urlset>
+
