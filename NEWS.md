@@ -1,3 +1,12 @@
+# grabr 2.1
+* Address bug in `wave_process_query` relating to a missing and renamed objects [2024-05-30]
+* Add functionality to pull data from PDAP Wave (new Genie API), `wave_process_query` [2024-05-10]
+
+# grabr 2.0
+* Update `lazy_secrets` to handle PDAP when working on PEPFAR Posit Workbench [2024-04-02]
+* Resolving missing explicit references [2024-04-02]
+* Add list of global variables [2024-04-02]
+
 # grabr 1.2.3
 * Adding new articles for data look up and extraction
 * Resolve bug with `pano_items` which still used `session` as a parameter affecting `pano_extract` upstread [2024-01-08]

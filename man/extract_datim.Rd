@@ -35,3 +35,4 @@ Consider using glamr::datim_process_query()` and/or glamr::datim_execute_query()
  }
 
 }
+\keyword{internal}

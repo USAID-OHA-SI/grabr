@@ -32,3 +32,19 @@ file content as binary
 \description{
 Download file from PEPFAR Panorama
 }
+\examples{
+\dontrun{
+  library(tidyverse)
+  library(grabr)
+  library(glamr)
+
+  url <- "https://pepfar-panorama.org/forms/downloads"
+
+  elts <- pano_items(page_html = url,
+                     username = pano_user(), password = pano_pwd())
+
+  f_url <- elts \%>\% filter(type == "file zipfile") \%>\% pull(path) \%>\% first()
+
+  pano_download(item_url = url, session = s, dest = "Data") }
+
+}

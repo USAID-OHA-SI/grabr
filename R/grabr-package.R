@@ -12,7 +12,21 @@ if (getRversion() >= "2.15.1")
       "object_key", "operatingunit", "operatingunit_iso", "operatingunit_uid",
       "organisation_unit", "orgunit", "orgunituid", "parent", "path",
       "prioritization", "psnu_lvl", "regional", "size", "sym", "targets_results",
-      "technical_area", "trendsfine", "type", "uid", "value", "Value", "where")
+      "technical_area", "trendsfine", "type", "uid", "value", "Value",
+      ":=", "Age Coarse", "Cascade sex",
+      "Disaggregation Type", "Funding Agency", "Funding Mechanism",
+      "HIV Test Status (Specific)", "Organisation unit", "Period",
+      "Targets / Results", "Technical Area", "agecoarse", "agency",
+      "award_number", "code", "collevel", "colname", "column", "community",
+      "coordinates", "curr_fy", "df", "fy", "geom_type", "geometry",
+      "hfr_export", "latitude", "longitude", "mech_code", "mech_name",
+      "mechanism", "mer_targets", "moh_id", "name", "orglvl_1", "orglvl_2",
+      "orglvl_3", "orglvl_4", "orgunit_code", "orgunit_level", "orgunit_name",
+      "orgunit_parent_name", "orgunit_parent_uid", "orgunit_uid", "ou",
+      "parent_level", "partner", "period", "primeid", "psnu", "psnuuid", "sex",
+      "snu1", "Disaggregation Type", "post_body", "cntry_uid",
+      "api_login_result"
+      )
   )
 
 # The following block is used by usethis to automatically manage

@@ -15,3 +15,4 @@ Internal function to Clean Hierarchy
 \note{
 Migratated from Wavelength
 }
+\keyword{internal}

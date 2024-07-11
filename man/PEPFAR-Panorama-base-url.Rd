@@ -14,4 +14,4 @@ pano_url
 \description{
 PEPFAR Panorama Base URL
 }
-\keyword{datasets}
+\keyword{internal}

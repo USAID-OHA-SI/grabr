@@ -9,7 +9,7 @@
 #' @param password DATIM password, recommend using datim_pwd
 #' @param add_geom Add geometry column to the output, default is false
 #' @param baseurl API base url, default = https://final.datim.org/
-#'
+#' @keywords internal
 #' @examples
 #' \dontrun{
 #' #get OU UID
@@ -64,6 +64,7 @@ hierarchy_extract <- function(ou_uid, username, password,
 #' @description Internal function to Clean Hierarchy
 #'
 #' @note  Migratated from Wavelength
+#' @keywords internal
 #'
 #' @param df data frame created by hierarchy_extract()
 #'
@@ -144,7 +145,7 @@ hierarchy_clean <- function(df){
 #' @param baseurl   API base url, default = https://final.datim.org/
 #'
 #' @return Cleaned/Renamed data
-#'
+#' @keywords internal
 
 hierarchy_rename <- function(df, country, username, password,
                              baseurl = "https://final.datim.org/"){
@@ -260,7 +261,7 @@ hierarchy_rename <- function(df, country, username, password,
 #' @param df data frame
 #'
 #' @return Unique country names
-#'
+#' @keywords internal
 
 hierarchy_identify_ctry <- function(df){
 
@@ -292,7 +293,7 @@ hierarchy_identify_ctry <- function(df){
 #' @examples
 #' \dontrun{
 #' #get OU UID
-#'   ouuid <- identify_ouuids() %>% dplyr::filter(ou == "Kenya")
+#'   ouuid <- identify_ouuids() %>% dplyr::filter(country == "Kenya")
 #' #pull hierarchy (paths are all UIDs)
 #'   df <- datim_pull_hierarchy(ouuid, username = myuser, password = mypwd(myuser)) }
 

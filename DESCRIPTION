@@ -1,7 +1,7 @@
 Package: grabr
 Type: Package
 Title: OHA/SI APIs Package
-Version: 1.2.3
+Version: 2.1.1
 Authors@R: c(
     person("Aaron", "Chafetz", ,"achafetz@usaid.gov", c("aut", "cre")),
     person("Tim", "Essam", ,"tessam@usaid.gov", c("aut")),
@@ -16,7 +16,11 @@ URL: https://github.com/USAID-OHA-SI/grabr,
 BugReports: https://github.com/USAID-OHA-SI/grabr/issues
 Encoding: UTF-8
 LazyData: true
+<<<<<<< HEAD
 RoxygenNote: 7.3.2
+=======
+RoxygenNote: 7.3.1
+>>>>>>> dev_bk
 Imports: 
     aws.s3,
     crayon,
@@ -37,7 +41,8 @@ Imports:
     tidyselect,
     usethis,
     urltools,
-    stats
+    stats,
+    cli
 Suggests: 
     fs,
     zip,

@@ -37,3 +37,4 @@ Migratated from Wavelength
   df <- hierarchy_extract(ouuid, username = myuser, password = datim_pwd(myuser))
   }
 }
+\keyword{internal}
