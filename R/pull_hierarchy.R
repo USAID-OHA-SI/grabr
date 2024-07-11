@@ -293,7 +293,7 @@ hierarchy_identify_ctry <- function(df){
 #' @examples
 #' \dontrun{
 #' #get OU UID
-#'   ouuid <- identify_ouuids() %>% dplyr::filter(ou == "Kenya")
+#'   ouuid <- identify_ouuids() %>% dplyr::filter(country == "Kenya")
 #' #pull hierarchy (paths are all UIDs)
 #'   df <- datim_pull_hierarchy(ouuid, username = myuser, password = mypwd(myuser)) }
 

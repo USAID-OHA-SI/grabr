@@ -33,9 +33,9 @@ s3_buckets <- function(access_key,
 #' @title Get S3 Bucket objects list
 #'
 #' @param bucket      S3 Bucket name
-#' @param prefix      Limit response by key
+#' @param prefix      Limits response by key. Default set to NULL
 #' @param n           Max number of record, default = 1000
-#' @param unpack_keys Separate key colunm, default is false
+#' @param unpack_keys Separate key column, default is false
 #' @param access_key  S3 Access Key ID
 #' @param secret_key  S3 Secret Access Key
 #' @param ...         Additional aws.s3::get_bucket_df() options
@@ -48,7 +48,7 @@ s3_buckets <- function(access_key,
 #' s3_objects("sample-bucket") }
 #'
 s3_objects <- function(bucket,
-                       prefix = "ddc/uat",
+                       prefix = NULL,
                        n = 1000,
                        unpack_keys = FALSE,
                        access_key,
@@ -68,7 +68,7 @@ s3_objects <- function(bucket,
       ...
     ) %>%
     dplyr::as_tibble() %>%
-    janitor::clean_names() %>% #glimpse()
+    janitor::clean_names() %>%
     dplyr::rename(etag = e_tag) %>%
     dplyr::mutate(
       etag = stringr::str_remove_all(etag, '\"'),
@@ -435,7 +435,7 @@ s3_download <-
 #' @title            Upload file to S3 Bucket
 #' @param filepath   Source file path
 #' @param bucket     S3 backet name
-#' @param prefix     S3 Prefix (folder structure)
+#' @param prefix     S3 Prefix (folder structure). Default set to NULL
 #' @param object     Destination S3 object name (with file extention)
 #' @param access_key S3 Access Key
 #' @param secret_key S3 Secret Key
@@ -449,7 +449,7 @@ s3_download <-
 #' filepath %>% s3_upload(bucket = "test-bkt")}
 #'
 s3_upload <- function(filepath, bucket,
-                      prefix = "",
+                      prefix = NULL,
                       object = NULL,
                       access_key,
                       secret_key,
@@ -459,9 +459,11 @@ s3_upload <- function(filepath, bucket,
   accnt <- lazy_secrets("s3", access_key, secret_key)
 
   # s3 object: append prefix to file basename
-  s3_object <- ifelse(is.null(object),
-                      base::file.path(prefix, base::basename(filepath)),
-                      object)
+  s3_object <- ifelse(
+    is.null(object),
+    base::file.path(
+      ifelse(is.null(prefix, "", prefix),
+             base::basename(filepath)), object))
 
   # put object
   aws.s3::put_object(
@@ -473,7 +475,6 @@ s3_upload <- function(filepath, bucket,
     secret = accnt$secret_key,
     ...
   )
-
 }
 
 

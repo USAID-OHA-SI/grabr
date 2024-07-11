@@ -24,7 +24,7 @@ navbar:
       href: news/index.html
     github:
       icon: fab fa-github fa-lg
-      href: https://github.com/USAID-OHA-SI/glamr/
+      href: https://github.com/USAID-OHA-SI/grabr/
     articles:
       text: Articles
       menu:
