@@ -73,7 +73,7 @@ s3_objects <- function(bucket,
     dplyr::mutate(
       etag = stringr::str_remove_all(etag, '\"'),
       last_modified = lubridate::ymd_hms(last_modified),
-      size = base::as.integer(size)
+      size = base::as.numeric(size)
     ) %>%
     dplyr::relocate(bucket, .before = 1)
 
