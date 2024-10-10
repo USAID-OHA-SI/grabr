@@ -4,7 +4,7 @@ pkgdown_sha: ~
 articles:
   data-extraction-from-panorama: data-extraction-from-panorama.html
   data-lookup-and-extraction-from-datim: data-lookup-and-extraction-from-datim.html
-last_built: 2024-09-30T12:57Z
+last_built: 2024-10-10T16:49Z
 urls:
   reference: https://usaid-oha-si.github.io/grabr/reference
   article: https://usaid-oha-si.github.io/grabr/articles
