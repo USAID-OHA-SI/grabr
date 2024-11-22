@@ -19,29 +19,30 @@ LazyData: true
 RoxygenNote: 7.3.2
 Imports: 
     aws.s3,
+    cli,
     crayon,
     curl,
     dplyr,
-    getPass,
     glue,
     httr,
     jsonlite,
+    lifecycle,
     lubridate,
     magrittr,
     purrr,
     readxl,
     rvest,
     stringr,
+    rstudioapi,
     tools,
     tidyr,
     tidyselect,
-    usethis,
     urltools,
     stats,
-    cli
+    utils
 Suggests: 
+    countrycode,
     fs,
-    zip,
     googlesheets4,
     janitor,
     keyring,
@@ -50,9 +51,9 @@ Suggests:
     rmarkdown,
     testthat (>= 3.0.0),
     tibble,
-    utils,
+    usethis,
     vroom,
-    countrycode
+    zip
 Remotes:
     USAID-OHA-SI/glamr,
     USAID-OHA-SI/gagglr
