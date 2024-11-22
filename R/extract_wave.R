@@ -18,10 +18,11 @@
 #' @param psd_type Type of PEPFAR Structured dataset: "psnu_im" (default),
 #'   "ou_im", or "site_im"
 #' @param request_type API request type: "POST" (default) or "GET
-#' @param username DATIM username, if blank looks for stored credentials
+#' @param username DEPRECATED - DATIM username, if blank looks for stored credentials
 #'   (\code{glamr::set_datim()}) and then prompts for credentials if not found
-#' @param password DATIM password, if blank looks for stored credentials
+#' @param password DEPRECATED -DATIM password, if blank looks for stored credentials
 #'   (\code{glamr::set_datim()}) and then prompts for credentials if not found
+#' @param token session token
 #'
 #' @return list of request and stored data in zip
 #' @export
@@ -57,12 +58,13 @@ wave_process_query <- function(request_body,
                                folderpath_dwnld = "Data",
                                psd_type = c("psnu_im", "ou_im", "site_im"),
                                request_type = c("POST", "GET"),
-                               username,
-                               password){
+                               username = deprecated(),
+                               password= deprecated(),
+                               token){
 
   #establish session
   api_host <- "https://wave.pdap.pepfar.net" #establish session and for url in API request
-  sess_token <- est_session(username, password, api_host = api_host)
+  sess_token <- wave_est_session(username, password, api_host = api_host)
 
   #ensure only one request_type
   request_type <- request_type[1]
@@ -117,7 +119,7 @@ wave_process_query <- function(request_body,
 #' @return session token
 #' @keywords internal
 
-est_session <- function(username,
+wave_est_session <- function(username,
                         password,
                         datim_hostname = 'genie.testing.datim.org',
                         api_host = 'wave.test.pdap.pepfar.net'){

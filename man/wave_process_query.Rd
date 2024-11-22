@@ -9,8 +9,9 @@ wave_process_query(
   folderpath_dwnld = "Data",
   psd_type = c("psnu_im", "ou_im", "site_im"),
   request_type = c("POST", "GET"),
-  username,
-  password
+  username = deprecated(),
+  password = deprecated(),
+  token
 )
 }
 \arguments{
@@ -23,11 +24,13 @@ wave_process_query(
 
 \item{request_type}{API request type: "POST" (default) or "GET}
 
-\item{username}{DATIM username, if blank looks for stored credentials
+\item{username}{DEPRECATED - DATIM username, if blank looks for stored credentials
 (\code{glamr::set_datim()}) and then prompts for credentials if not found}
 
-\item{password}{DATIM password, if blank looks for stored credentials
+\item{password}{DEPRECATED -DATIM password, if blank looks for stored credentials
 (\code{glamr::set_datim()}) and then prompts for credentials if not found}
+
+\item{token}{session token}
 }
 \value{
 list of request and stored data in zip
