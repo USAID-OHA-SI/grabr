@@ -1,3 +1,6 @@
+#' grabr environment for storing token
+.my_package_env <- new.env(parent = emptyenv())
+
 #' PEPFAR Panorama Base URL
 #' @name PEPFAR Panorama base url
 #' @keywords internal
