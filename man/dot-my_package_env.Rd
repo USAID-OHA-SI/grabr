@@ -13,4 +13,4 @@ An object of class \code{environment} of length 0.
 \description{
 grabr environment for storing token
 }
-\keyword{datasets}
+\keyword{internal}
