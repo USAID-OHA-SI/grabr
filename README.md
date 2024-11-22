@@ -32,7 +32,7 @@ This package provides a series of base functions useful to the OHA/SI team. Thes
   #load the package
     library(grabr)
 
-## LIST TYPES OF STYLES INCLUDED WITH PACKAGE
+## LIST OF FUNCTIONS INCLUDED WITH PACKAGE
   ls("package:grabr")
 ```
 
