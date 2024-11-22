@@ -4,21 +4,10 @@
 \alias{wave_est_session}
 \title{Establish PDAP Wave Session}
 \usage{
-wave_est_session(
-  username,
-  password,
-  datim_hostname = "genie.testing.datim.org",
-  api_host = "wave.test.pdap.pepfar.net"
-)
+wave_est_session(timeout = 20, api_host = "https://wave.pdap.pepfar.net")
 }
 \arguments{
-\item{username}{DEPRECATED - DATIM username, if blank looks for stored credentials
-(\code{glamr::set_datim()}) and then prompts for credentials if not found}
-
-\item{password}{DEPRECATED -DATIM password, if blank looks for stored credentials
-(\code{glamr::set_datim()}) and then prompts for credentials if not found}
-
-\item{datim_hostname}{DATIM URL: 'genie.testing.datim.org'}
+\item{timeout}{time session is valid for, default = 20}
 
 \item{api_host}{API address: 'wave.test.pdap.pepfar.net'}
 }
@@ -28,4 +17,38 @@ session token
 \description{
 Establish PDAP Wave Session
 }
-\keyword{internal}
+\examples{
+\dontrun{
+ library(tidyverse)
+ library(glamr)
+
+ #get country uid for API
+cntry_uid <- pepfar_country_list \%>\%
+ filter(country == "Tanzania") \%>\%
+ pull(country_uid)
+
+ #establish parameters to pass into POST API
+ post_body <- list(
+   daily_frozen='daily',
+   fiscal_year=list(2023, 2024),
+   funding_agency = list("USAID"),
+   indicator=list("TX_CURR","TX_ML","TX_CURR_LAG2", "TX_NET_NEW","TX_NEW",
+                  "TX_RTT","PMTCT_STAT", "PMTCT_STAT_POS", "PMTCT_ART"),
+   uid_hierarchy_list=list(str_glue('-|-|{cntry_uid}')))
+
+ #get a session token
+ sess_token <- wave_est_session()
+
+ #run POST API
+ wave_process_query(post_body)
+
+ #load data
+ df_wave <- return_latest("Data") \%>\%
+    read_psd()
+}
+}
+\seealso{
+Other wave: 
+\code{\link{wave_process_query}()}
+}
+\concept{wave}

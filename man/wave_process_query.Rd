@@ -11,7 +11,8 @@ wave_process_query(
   request_type = c("POST", "GET"),
   username = deprecated(),
   password = deprecated(),
-  token
+  token,
+  api_host = "https://wave.pdap.pepfar.net"
 )
 }
 \arguments{
@@ -30,7 +31,11 @@ wave_process_query(
 \item{password}{DEPRECATED -DATIM password, if blank looks for stored credentials
 (\code{glamr::set_datim()}) and then prompts for credentials if not found}
 
-\item{token}{session token}
+\item{token}{session token; by default this is left blank and will provide
+prompts to guide you through the process of establishing a session token,
+via \code{wave_est_session}}
+
+\item{api_host}{API address: 'wave.test.pdap.pepfar.net'}
 }
 \value{
 list of request and stored data in zip
@@ -77,3 +82,8 @@ cntry_uid <- pepfar_country_list \%>\%
     read_psd()
     }
 }
+\seealso{
+Other wave: 
+\code{\link{wave_est_session}()}
+}
+\concept{wave}

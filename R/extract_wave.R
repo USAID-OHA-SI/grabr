@@ -22,10 +22,15 @@
 #'   (\code{glamr::set_datim()}) and then prompts for credentials if not found
 #' @param password DEPRECATED -DATIM password, if blank looks for stored credentials
 #'   (\code{glamr::set_datim()}) and then prompts for credentials if not found
-#' @param token session token
+#' @param token session token; by default this is left blank and will provide
+#'   prompts to guide you through the process of establishing a session token,
+#'   via \code{wave_est_session}
+#' @param api_host API address: 'wave.test.pdap.pepfar.net'
 #'
 #' @return list of request and stored data in zip
 #' @export
+#' @family wave
+#' @importFrom lifecycle deprecated
 #'
 #' @examples
 #' \dontrun{
@@ -59,12 +64,13 @@ wave_process_query <- function(request_body,
                                psd_type = c("psnu_im", "ou_im", "site_im"),
                                request_type = c("POST", "GET"),
                                username = deprecated(),
-                               password= deprecated(),
-                               token){
+                               password = deprecated(),
+                               token,
+                               api_host = "https://wave.pdap.pepfar.net"){
 
   #establish session
-  api_host <- "https://wave.pdap.pepfar.net" #establish session and for url in API request
-  sess_token <- wave_est_session(username, password, api_host = api_host)
+  if(missing(token))
+    session_token <- wave_est_session()
 
   #ensure only one request_type
   request_type <- request_type[1]
@@ -81,29 +87,32 @@ wave_process_query <- function(request_body,
   #export path
   zip_path <- est_export_path(request_body, folderpath_dwnld, psd_type)
 
+  cli::cli_inform("Executing request...")
+
   #submit request & store data locally
   if(request_type == "POST"){
     #DATIM POST request
     httr::POST(
-      stringr::str_glue('https://{api_host}/api/data/{psd_type}'),
-      httr::set_cookies(wave_session = sess_token),
-      encode='json',
-      body={request_body},
+      stringr::str_glue('{api_host}/api/data/{psd_type}'),
+      httr::set_cookies(wave_session = session_token),
+      encode = 'json',
+      body = request_body,
       httr::write_disk(zip_path, overwrite=TRUE)
     )
   } else {
     #DATIM GET request
     httr::GET(
-      stringr::str_glue('https://{api_host}/api/data/{psd_type}'),
-      httr::set_cookies(wave_session = sess_token),
-      query=flattenbody({request_body}),
+      stringr::str_glue('{api_host}/api/data/{psd_type}'),
+      httr::set_cookies(wave_session = session_token),
+      query = flattenbody({request_body}),
       httr::write_disk(zip_path, overwrite=TRUE)
     )
   }
 
 
   #notification
-  cli::cli_alert_info("The PDAP Wave successfully executed and the output is saved as {.file {zip_path}}")
+  cli::cli_alert_success("The PDAP Wave successfully executed!")
+  cli::cli_alert_info("The output saved to {.file {zip_path}}")
 
   invisible()
 
@@ -113,34 +122,146 @@ wave_process_query <- function(request_body,
 #' Establish PDAP Wave Session
 #'
 #' @inheritParams wave_process_query
-#' @param datim_hostname DATIM URL: 'genie.testing.datim.org'
-#' @param api_host API address: 'wave.test.pdap.pepfar.net'
+#' @param timeout time session is valid for, default = 20
 #'
 #' @return session token
+#' @family wave
+#'
+#' @examples
+#' \dontrun{
+#'  library(tidyverse)
+#'  library(glamr)
+#'
+#'  #get country uid for API
+#' cntry_uid <- pepfar_country_list %>%
+#'  filter(country == "Tanzania") %>%
+#'  pull(country_uid)
+#'
+#'  #establish parameters to pass into POST API
+#'  post_body <- list(
+#'    daily_frozen='daily',
+#'    fiscal_year=list(2023, 2024),
+#'    funding_agency = list("USAID"),
+#'    indicator=list("TX_CURR","TX_ML","TX_CURR_LAG2", "TX_NET_NEW","TX_NEW",
+#'                   "TX_RTT","PMTCT_STAT", "PMTCT_STAT_POS", "PMTCT_ART"),
+#'    uid_hierarchy_list=list(str_glue('-|-|{cntry_uid}')))
+#'
+#'  #get a session token
+#'  sess_token <- wave_est_session()
+#'
+#'  #run POST API
+#'  wave_process_query(post_body)
+#'
+#'  #load data
+#'  df_wave <- return_latest("Data") %>%
+#'     read_psd()
+#' }
+wave_est_session <- function(timeout = 20,
+                             api_host = "https://wave.pdap.pepfar.net"){
+
+  #check if token exists/is value before continuing
+  session_token <- wave_check_token()
+
+  #EXIT if credentials are already stored
+  if(!is.null(session_token))
+    return(session_token)
+
+  #State Okta Url
+  okta_url <- 'https://state.okta.com/login/default'
+
+  #provide manual instruction to user
+  cli::cli_inform("Instructions:")
+  cli::cli_li(c("Log into Dept of State Okta {.url {okta_url}}",
+                "Launch the GHSD DATIM App"))
+
+  utils::browseURL(okta_url)
+
+  cli::cli_alert_info("Press [Enter] to continue to the next step.")
+  invisible(readline())
+
+  cli::cli_li(c("Navigate to the following PDAP Wave Session Info url {.url https://www.datim.org/pdapsession}",
+                "Copy the text from the session info page into the pop up box"))
+
+  utils::browseURL('https://www.datim.org/pdapsession')
+
+  #prompt user for token from url
+  session_info <- rstudioapi::askForPassword('Paste PDAP Wave Session text\n https://www.datim.org/pdapsession')
+
+  #FAIL if input was no provided
+  if(is.null(session_info))
+    cli::cli_abort("No PDAP Wave Session input provided.")
+
+  #response to establish a session token
+  auth_result <- httr::POST(glue::glue("{api_host}/api/Authenticate/session"),
+                            encode = 'json',
+                            body = list(session_buster_token = session_info)
+  )
+
+  #catch and return an error
+  if (auth_result$status_code != 200) {
+    cli::cli_alert_danger("PDAP Wave login failed. {cli::col_red('status_code')} = {auth_result$status_code}")
+    cli::cli_alert_info("PDAP Wave message: {httr::content(auth_result, 'text')}")
+    cli::cli_abort("Authentication failed.")
+  }
+
+  #parse json
+  jsonRespParsed <- httr::content(auth_result, as = "parsed")
+
+  #grab session token
+  session_token <- jsonRespParsed$token
+
+  #store token in package environment for us
+  wave_store_token(session_token)
+  cli::cli_par()
+  cli::cli_end()
+  cli::cli_par()
+  cli::cli_alert_success("Success! PDAP Wave Session initiated.")
+  cli::cli_end()
+  cli::cli_alert_info("Note: PDAP Wave Session token is valid for {timeout} minutes (~ {format(get('wave_token_time', envir = .my_package_env) + timeout * 60, '%I:%M%P')})")
+
+
+  return(session_token)
+}
+
+#' Store token and time to package environment
+#'
+#' @param token PDAP Wave token
+#' @return store token and time to to package environment
 #' @keywords internal
+#'
+wave_store_token <- function(token) {
+  assign("wave_token", token, envir = .my_package_env)
+  assign("wave_token_time", Sys.time(), envir = .my_package_env)
+}
 
-wave_est_session <- function(username,
-                        password,
-                        datim_hostname = 'genie.testing.datim.org',
-                        api_host = 'wave.test.pdap.pepfar.net'){
 
-  #store/prompt for credentials
-  accnt <- grabr::lazy_secrets("datim", username, password)
+#' Check if PDAP Wave token is already established
+#'
+#' @inheritParams wave_est_session
+#'
+#' @return token (if it exists and is valid)
+#' @keywords internal
+#'
+wave_check_token <- function(timeout = 20){
 
-  #establish DATIM session
-  datim_results <- httr::GET(
-    stringr::str_glue('https://{datim_hostname}/api/me'),
-    httr::authenticate(accnt$username, accnt$password, type = "basic")
-  )
+  #EXIT if token is not stored yet
+  if (!exists("wave_token", envir = .my_package_env))
+    return(NULL)
 
-  #establish DATIM API session
-  api_login_result <- httr::GET(
-    stringr::str_glue('https://{api_host}/api/Authenticate/datim'),
-    httr::set_cookies(JSESSIONID = datim_results$cookies$value),
-    query=list(datim_hostname=datim_hostname)
-  )
+  #determine session start time
+  elapsed_time <- difftime(Sys.time(),
+                           get("wave_token_time", envir = .my_package_env),
+                           units = "mins")
 
-  session_token <- api_login_result$cookies$value
+  if (elapsed_time > timeout) {
+      cli::cli_alert_warning("Your PDAP Wave session has expired.
+                          Follow the instructions below to reestablish your session.")
+      rm(list = c("wave_token", "wave_token_time"), envir = .my_package_env)
+      return(NULL)
+    }
+
+  #get token if it exists and isn't expired
+  session_token <- get("wave_token", envir = .my_package_env)
 
   return(session_token)
 }
@@ -181,9 +302,9 @@ est_export_path <- function(request_body, folderpath_dwnld, psd_type){
 extract_cntry <- function(request_body){
 
   #country uid
-  uid <- stringr::str_sub(request_body$uid_hierarchy_list[[1]], start = -11)
+  uid <- stringr::str_extract(request_body$uid_hierarchy_list[[1]], "(?<=\\{).*(?=\\})")
 
-  if(is.null(cntry_uid))
+  if(is.null(uid))
     cli::cli_abort("Missing country UID in {.field request_body}, which should be structured like {.code uid_hierarchy_list=list(stringr::str_glue('-|-|cntry_uid')}")
 
   #country name

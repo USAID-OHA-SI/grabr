@@ -69,6 +69,7 @@ reference:
 
 - title: PDAP Wave
   contents:
+  - wave_est_session
   - wave_process_query
 
 - title: Panorama
