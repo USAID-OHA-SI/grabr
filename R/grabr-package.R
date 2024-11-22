@@ -25,7 +25,7 @@ if (getRversion() >= "2.15.1")
       "orgunit_parent_name", "orgunit_parent_uid", "orgunit_uid", "ou",
       "parent_level", "partner", "period", "primeid", "psnu", "psnuuid", "sex",
       "snu1", "Disaggregation Type", "post_body", "cntry_uid",
-      "api_login_result"
+      "api_login_result", "deprecated", "Age: <15/15+ (Coarse)"
       )
   )
 
