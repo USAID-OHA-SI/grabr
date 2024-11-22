@@ -1,4 +1,6 @@
 # grabr 2.1
+* Update `wave_process_query` to use a token to handle Okta authentication [2024-11-22]
+* Create a `wave_token_check` prompt user to generate a new token is missing or expired [2024-11-22]
 * Resolve warning message that arose with `s3_objects` as a result of convering the file size using `as.integer` instead of `as.numeric` [2024-09-30]
 * Address bug in `wave_process_query` relating to a missing and renamed objects [2024-05-30]
 * Add functionality to pull data from PDAP Wave (new Genie API), `wave_process_query` [2024-05-10]
